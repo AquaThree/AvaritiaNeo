@@ -1,3 +1,3 @@
-# AvaritiaNeoForge
+# AvaritiaNeo
 A minecraft mod.
 
