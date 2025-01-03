@@ -45,8 +45,10 @@ public class Avaritia {
 	}
 
 	private void clientSetup(final FMLClientSetupEvent event) {
-		AvaritiaItems.initItemProperties();
-		AvaritiaMenus.registerScreens();
+		event.enqueueWork(() -> {
+			AvaritiaItems.initItemProperties();
+			AvaritiaMenus.registerScreens();
+	        });
 	}
 
 	private void serverSetup(final FMLDedicatedServerSetupEvent event) {
