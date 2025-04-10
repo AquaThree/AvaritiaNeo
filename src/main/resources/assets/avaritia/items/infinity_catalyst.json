@@ -1,0 +1,9 @@
+{
+	"model": {
+		"type": "avaritia:special",
+		"base": "avaritia:item/infinity_catalyst",
+		"model": {
+			"type": "avaritia:halo"
+		}
+	}
+}

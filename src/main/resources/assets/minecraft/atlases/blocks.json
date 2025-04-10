@@ -1,0 +1,24 @@
+{
+	"sources": [
+		{
+			"type": "directory",
+			"source": "shader",
+			"prefix": "shader/"
+		},
+		{
+			"type": "directory",
+			"source": "entity/equipment/infinity",
+			"prefix": "entity/equipment/infinity/"
+		},
+		{
+			"type": "directory",
+			"source": "entity/void",
+			"prefix": "entity/void/"
+		},
+		{
+			"type": "directory",
+			"source": "entity/chest",
+			"prefix": "entity/chest/"
+		}
+	]
+}

@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "result": {
+    "id": "avaritia:crystal_matrix_ingot"
+  },
+  "pattern": [
+    "DSD",
+    "DSD"
+  ],
+  "key": {
+    "D": "avaritia:diamond_lattice",
+    "S": "#c:nether_stars"
+  }
+}

@@ -1,0 +1,9 @@
+{
+	"model": {
+		"type": "avaritia:special",
+		"base": "avaritia:item/infinity_ingot",
+		"model": {
+			"type": "avaritia:halo"
+		}
+	}
+}

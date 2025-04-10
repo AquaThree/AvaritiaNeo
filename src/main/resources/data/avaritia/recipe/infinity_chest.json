@@ -1,0 +1,24 @@
+{
+	"type": "avaritia:extreme_shaped",
+	"result": {
+		"id": "avaritia:infinity_chest"
+	},
+	"pattern": [
+		"IIIXQXIII",
+		"IQX   XQI",
+		"I X   X I",
+		"X X D X X",
+		"IQXDCDXQI",
+		"X X D X X",
+		"I X   X I",
+		"IQX   XQI",
+		"IIIXIXIII"
+	],
+	"key": {
+		"C": "minecraft:chest",
+		"D": "avaritia:endest_pearl",
+		"I": "avaritia:infinity_ingot",
+		"X": "avaritia:neutronium_ingot",
+		"Q": "avaritia:infinity_catalyst"
+	}
+}

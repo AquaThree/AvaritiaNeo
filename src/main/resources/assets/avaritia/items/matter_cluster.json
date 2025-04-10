@@ -1,0 +1,22 @@
+{
+	"model": {
+		"type": "minecraft:condition",
+		"on_false": {
+			"type": "avaritia:special",
+			"base": "avaritia:item/matter_cluster",
+			"model": {
+				"type": "avaritia:matter_cluster",
+				"full": false
+			}
+		},
+		"on_true": {
+			"type": "avaritia:special",
+			"base": "avaritia:item/matter_cluster_full",
+			"model": {
+				"type": "avaritia:matter_cluster",
+				"full": true
+			}
+		},
+		"property": "avaritia:full"
+	}
+}

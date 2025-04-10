@@ -1,0 +1,22 @@
+{
+	"type": "avaritia:extreme_shaped",
+	"result": {
+		"id": "avaritia:infinity_pickaxe"
+	},
+	"pattern": [
+		" IIIIIII ",
+		"IIIICIIII",
+		"II  N  II",
+		"    N    ",
+		"    N    ",
+		"    N    ",
+		"    N    ",
+		"    N    ",
+		"    N    "
+	],
+	"key": {
+		"N": "avaritia:neutronium_ingot",
+		"I": "avaritia:infinity_ingot",
+		"C": "avaritia:crystal_matrix_block"
+	}
+}

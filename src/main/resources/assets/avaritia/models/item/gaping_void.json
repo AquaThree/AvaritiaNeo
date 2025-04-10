@@ -1,0 +1,9 @@
+{
+    "loader": "neoforge:obj",
+    "model": "avaritia:model/model.obj",
+    "mtl_override": "avaritia:model/model.mtl",
+    "automatic_culling": false,
+    "shade_quads": false,
+    "flip_v": true,
+    "emissive_ambient": false
+}

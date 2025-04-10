@@ -1,0 +1,14 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"result": {
+		"id": "avaritia:neutronium_ingot"
+	},
+	"pattern": [
+		"NNN",
+		"NNN",
+		"NNN"
+	],
+	"key": {
+		"N": "avaritia:neutron_nugget"
+	}
+}

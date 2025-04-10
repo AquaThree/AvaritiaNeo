@@ -1,0 +1,60 @@
+{
+  "parent": "avaritia:recipes/infinity_ingot",
+  "criteria": {
+    "avaritia:infinity_armor": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "equipment": {
+                "head": {
+                  "items": [
+                     "avaritia:infinity_helmet"
+                  ]
+                },
+                "chest": {
+                  "items": [
+                     "avaritia:infinity_chestplate"
+                  ]
+                },
+                "legs": {
+                  "items": [
+                     "avaritia:infinity_leggings"
+                  ]
+                },
+                "feet": {
+                  "items": [
+                     "avaritia:infinity_boots"
+                  ]
+                }
+              }
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "show_toast": true,
+    "announce_to_chat": true,
+    "icon": {
+      "id": "avaritia:infinity_chestplate"
+    },
+    "frame": "challenge",
+    "title": {
+      "translate": "advancements.avaritia.infinity_armor.title"
+    },
+    "description": {
+      "translate": "advancements.avaritia.infinity_armor.description"
+    }
+  },
+  "requirements": [
+    [
+      "avaritia:infinity_armor"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

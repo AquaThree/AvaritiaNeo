@@ -1,0 +1,22 @@
+{
+	"type": "avaritia:extreme_shaped",
+	"result": {
+		"id": "avaritia:infinity_ingot"
+	},
+	"pattern": [
+		"NNNNNNNNN",
+		"NCXXCXXCN",
+		"NXCCXCCXN",
+		"NCXXCXXCN",
+		"NNNNNNNNN",
+		"         ",
+		"         ",
+		"         ",
+		"         "
+	],
+	"key": {
+		"N": "avaritia:neutronium_ingot",
+		"C": "avaritia:crystal_matrix_ingot",
+		"X": "avaritia:infinity_catalyst"
+	}
+}

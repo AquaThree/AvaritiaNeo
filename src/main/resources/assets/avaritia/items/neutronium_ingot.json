@@ -1,0 +1,9 @@
+{
+	"model": {
+		"type": "avaritia:special",
+		"base": "avaritia:item/neutronium_ingot",
+		"model": {
+			"type": "avaritia:halo"
+		}
+	}
+}

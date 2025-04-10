@@ -1,0 +1,23 @@
+{
+	"type": "avaritia:extreme_shaped",
+	"result": {
+		"id": "avaritia:endest_pearl"
+	},
+	"pattern": [
+		"   EEE   ",
+		" EEPPPEE ",
+		" EPPPPPE ",
+		"EPPPNPPPE",
+		"EPPNSNPPE",
+		"EPPPNPPPE",
+		" EPPPPPE ",
+		" EEPPPEE ",
+		"   EEE   "
+	],
+	"key": {
+		"N": "avaritia:neutronium_ingot",
+		"E": "#c:end_stones",
+		"S": "#c:nether_stars",
+		"P": "#c:ender_pearls"
+	}
+}

@@ -1,0 +1,9 @@
+{
+	"model": {
+		"type": "avaritia:special",
+		"base": "avaritia:item/neutron_nugget",
+		"model": {
+			"type": "avaritia:halo"
+		}
+	}
+}

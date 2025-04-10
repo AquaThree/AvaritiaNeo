@@ -1,0 +1,22 @@
+{
+	"type": "avaritia:extreme_shaped",
+	"result": {
+		"id": "avaritia:infinity_chestplate"
+	},
+	"pattern": [
+		" NN   NN ",
+		"NNN   NNN",
+		"NNN   NNN",
+		" NIIIIIN ",
+		" NIIXIIN ",
+		" NIIIIIN ",
+		" NIIIIIN ",
+		" NIIIIIN ",
+		"  NNNNN  "
+	],
+	"key": {
+		"N": "avaritia:neutronium_ingot",
+		"I": "avaritia:infinity_ingot",
+		"X": "avaritia:crystal_matrix_block"
+	}
+}

@@ -1,0 +1,30 @@
+{
+  "type": "avaritia:extreme_shapeless",
+  "result": {
+    "id": "avaritia:ultimate_stew",
+    "count": 4
+  },
+  "ingredients": [
+    "#c:crops/wheat",
+    "#c:crops/wheat",
+    "#c:crops/carrot",
+    "#c:crops/carrot",
+    "#c:crops/potato",
+    "#c:crops/potato",
+    "#c:crops/beetroot",
+    "#c:crops/beetroot",
+    "minecraft:apple",
+    "minecraft:apple",
+    "minecraft:melon",
+    "minecraft:melon",
+    "minecraft:pumpkin",
+    "minecraft:pumpkin",
+    "minecraft:cactus",
+    "minecraft:cactus",
+    "minecraft:red_mushroom",
+    "minecraft:red_mushroom",
+    "minecraft:brown_mushroom",
+    "minecraft:brown_mushroom",
+    "avaritia:neutron_pile"
+  ]
+}

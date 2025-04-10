@@ -1,0 +1,23 @@
+{
+	"type": "avaritia:extreme_shaped",
+	"result": {
+		"id": "avaritia:infinity_leggings"
+	},
+	"pattern": [
+		"NNNNNNNNN",
+		"NIIIXIIIN",
+		"NINNXNNIN",
+		"NIN   NIN",
+		"NCN   NCN",
+		"NIN   NIN",
+		"NIN   NIN",
+		"NIN   NIN",
+		"NNN   NNN"
+	],
+	"key": {
+		"N": "avaritia:neutronium_ingot",
+		"I": "avaritia:infinity_ingot",
+		"C": "avaritia:crystal_matrix_block",
+		"X": "avaritia:infinity_catalyst"
+	}
+}

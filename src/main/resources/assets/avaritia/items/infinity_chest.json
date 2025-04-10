@@ -1,0 +1,10 @@
+{
+	"model": {
+		"type": "minecraft:special",
+		"base": "avaritia:item/infinity_chest",
+		"model": {
+			"type": "avaritia:infinity_chest",
+			"texture": "avaritia:infinity_chest"
+		}
+	}
+}

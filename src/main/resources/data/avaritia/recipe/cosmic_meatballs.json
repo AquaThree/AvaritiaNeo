@@ -1,0 +1,24 @@
+{
+	"type": "avaritia:extreme_shapeless",
+	"result": {
+		"id": "avaritia:cosmic_meatballs",
+		"count": 2
+	},
+	"ingredients": [
+		"minecraft:cod",
+		"minecraft:cod",
+		"minecraft:porkchop",
+		"minecraft:porkchop",
+		"minecraft:rabbit",
+		"minecraft:rabbit",
+		"minecraft:salmon",
+		"minecraft:salmon",
+		"minecraft:chicken",
+		"minecraft:chicken",
+		"minecraft:beef",
+		"minecraft:beef",
+		"minecraft:mutton",
+		"minecraft:mutton",
+		"avaritia:neutron_pile"
+	]
+}

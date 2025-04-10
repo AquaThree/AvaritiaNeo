@@ -1,0 +1,10 @@
+{
+	"model": {
+		"type": "avaritia:special",
+		"base": "avaritia:item/infinity_chestplate",
+		"model": {
+			"type": "avaritia:cosmic",
+			"mark": "avaritia:item/armor/infinity_chestplate_mask"
+		}
+	}
+}

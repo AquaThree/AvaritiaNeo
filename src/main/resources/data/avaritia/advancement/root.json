@@ -1,0 +1,27 @@
+{
+  "criteria": {
+    "avaritia:root": {
+      "trigger": "avaritia:root"
+    }
+  },
+  "display": {
+    "show_toast": false,
+    "announce_to_chat": false,
+    "background": "avaritia:textures/gui/advancements/backgrounds/infinity_block.png",
+    "icon": {
+      "id": "avaritia:infinity_catalyst"
+    },
+    "title": {
+      "translate": "advancements.avaritia.root.title"
+    },
+    "description": {
+      "translate": "advancements.avaritia.root.description"
+    }
+  },
+  "requirements": [
+    [
+      "avaritia:root"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

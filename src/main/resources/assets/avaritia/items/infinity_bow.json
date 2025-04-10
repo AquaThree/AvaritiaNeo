@@ -1,0 +1,53 @@
+{
+	"model": {
+		"type": "minecraft:condition",
+		"on_false": {
+			"type": "avaritia:special",
+			"base": "avaritia:item/infinity_bow",
+			"model": {
+				"type": "avaritia:cosmic",
+				"mark": "avaritia:item/tools/bow/idle_mask"
+			}
+		},
+		"on_true": {
+			"type": "minecraft:range_dispatch",
+			"entries": [
+				{
+					"model": {
+						"type": "avaritia:special",
+						"base": "avaritia:item/infinity_bow_pull_0",
+						"model": {
+							"type": "avaritia:cosmic",
+							"mark": "avaritia:item/tools/bow/pull_0_mask"
+						}
+					},
+					"threshold": 0.0
+				},
+				{
+					"model": {
+						"type": "avaritia:special",
+						"base": "avaritia:item/infinity_bow_pull_1",
+						"model": {
+							"type": "avaritia:cosmic",
+							"mark": "avaritia:item/tools/bow/pull_1_mask"
+						}
+					},
+					"threshold": 0.65
+				},
+				{
+					"model": {
+						"type": "avaritia:special",
+						"base": "avaritia:item/infinity_bow_pull_2",
+						"model": {
+							"type": "avaritia:cosmic",
+							"mark": "avaritia:item/tools/bow/pull_2_mask"
+						}
+					},
+					"threshold": 0.9
+				}
+			],
+			"property": "avaritia:pull"
+		},
+		"property": "avaritia:pulling"
+	}
+}

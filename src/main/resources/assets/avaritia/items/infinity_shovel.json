@@ -1,0 +1,14 @@
+{
+	"model": {
+		"type": "minecraft:condition",
+		"on_false": {
+			"type": "minecraft:model",
+			"model": "avaritia:item/infinity_shovel"
+		},
+		"on_true": {
+			"type": "minecraft:model",
+			"model": "avaritia:item/infinity_shovel_destroyer"
+		},
+		"property": "avaritia:destroyer"
+	}
+}

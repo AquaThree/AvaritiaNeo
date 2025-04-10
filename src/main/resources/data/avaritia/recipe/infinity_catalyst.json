@@ -1,0 +1,18 @@
+{
+	"type": "avaritia:extreme_shapeless",
+	"result": {
+		"id": "avaritia:infinity_catalyst"
+	},
+	"ingredients": [
+		"avaritia:diamond_lattice",
+		"avaritia:crystal_matrix_ingot",
+		"avaritia:neutron_pile",
+		"avaritia:neutron_nugget",
+		"avaritia:neutronium_ingot",
+		"avaritia:record_fragment",
+		"avaritia:ultimate_stew",
+		"avaritia:cosmic_meatballs",
+		"avaritia:endest_pearl"
+	],
+	"singularities": true
+}

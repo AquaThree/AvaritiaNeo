@@ -1,0 +1,9 @@
+{
+	"model": {
+		"type": "avaritia:special",
+		"base": "avaritia:item/amethyst_singularity",
+		"model": {
+			"type": "avaritia:halo"
+		}
+	}
+}

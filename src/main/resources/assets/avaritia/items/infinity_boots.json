@@ -1,0 +1,10 @@
+{
+	"model": {
+		"type": "avaritia:special",
+		"base": "avaritia:item/infinity_boots",
+		"model": {
+			"type": "avaritia:cosmic",
+			"mark": "avaritia:item/armor/infinity_boots_mask"
+		}
+	}
+}

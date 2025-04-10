@@ -1,0 +1,10 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"result": {
+		"id": "minecraft:crafting_table",
+		"count": 9
+	},
+	"ingredients": [
+		"avaritia:compressed_crafting_table"
+	]
+}

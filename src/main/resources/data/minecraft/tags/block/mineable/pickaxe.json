@@ -1,0 +1,12 @@
+{
+  "replace": false,
+  "values": [
+    "avaritia:neutronium_block",
+    "avaritia:infinity_block",
+    "avaritia:crystal_matrix_block",
+    "avaritia:extreme_crafting_table",
+    "avaritia:compressor",
+    "avaritia:neutron_collector",
+    "avaritia:infinity_chest"
+  ]
+}

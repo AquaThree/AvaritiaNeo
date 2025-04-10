@@ -1,0 +1,9 @@
+{
+	"model": {
+		"type": "avaritia:special",
+		"base": "avaritia:item/emerald_singularity",
+		"model": {
+			"type": "avaritia:halo"
+		}
+	}
+}

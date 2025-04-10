@@ -1,0 +1,14 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"result": {
+		"id": "avaritia:compressed_crafting_table"
+	},
+	"pattern": [
+		"CCC",
+		"CCC",
+		"CCC"
+	],
+	"key": {
+		"C": "minecraft:crafting_table"
+	}
+}

@@ -1,0 +1,23 @@
+{
+	"type": "avaritia:extreme_shaped",
+	"result": {
+		"id": "avaritia:infinity_sword"
+	},
+	"pattern": [
+		"       II",
+		"      III",
+		"     III ",
+		"    III  ",
+		" C III   ",
+		"  CII    ",
+		"  NC     ",
+		" N  C    ",
+		"X        "
+	],
+	"key": {
+		"N": "avaritia:neutronium_ingot",
+		"I": "avaritia:infinity_ingot",
+		"C": "avaritia:crystal_matrix_ingot",
+		"X": "avaritia:infinity_catalyst"
+	}
+}

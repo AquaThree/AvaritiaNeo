@@ -1,0 +1,22 @@
+{
+	"type": "avaritia:extreme_shaped",
+	"result": {
+		"id": "avaritia:infinity_helmet"
+	},
+	"pattern": [
+		"  NNNNN  ",
+		" NIIIIIN ",
+		" N XIX N ",
+		" NIIIIIN ",
+		" NIIIIIN ",
+		" NI I IN ",
+		"         ",
+		"         ",
+		"         "
+	],
+	"key": {
+		"N": "avaritia:neutronium_ingot",
+		"I": "avaritia:infinity_ingot",
+		"X": "avaritia:infinity_catalyst"
+	}
+}

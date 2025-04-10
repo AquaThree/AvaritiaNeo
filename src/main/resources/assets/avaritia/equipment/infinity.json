@@ -1,0 +1,14 @@
+{
+	"layers": {
+		"humanoid": [
+			{
+				"texture": "avaritia:infinity_layer_1"
+			}
+		],
+		"humanoid_leggings": [
+			{
+				"texture": "avaritia:infinity_layer_2"
+			}
+		]
+	}
+}
