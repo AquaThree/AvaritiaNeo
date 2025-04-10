@@ -1,7 +1,0 @@
-{
-  "parent": "minecraft:block/cube_top",
-  "textures": {
-    "side": "avaritia:block/extreme_crafting_table_side",
-    "top": "avaritia:block/extreme_crafting_table_top"
-  }
-}
