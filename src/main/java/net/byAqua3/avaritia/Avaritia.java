@@ -28,7 +28,7 @@ public class Avaritia {
 
 	public static final String MODID = "avaritia";
 	public static final String NAME = "Avaritia";
-	public static final String VERSION = "1.0.3";
+	public static final String VERSION = "1.0.4";
 	public static final String[] AUTHORS = new String[] { "Aqua3" };
 
 	public static final Logger LOGGER = LogUtils.getLogger();
@@ -57,14 +57,8 @@ public class Avaritia {
 
 	private void clientSetup(final FMLClientSetupEvent event) {
 		event.enqueueWork(() -> {
-<<<<<<< HEAD
 			AvaritiaConfigs.registerConfigScreen();
 		});
-=======
-			AvaritiaItems.initItemProperties();
-			AvaritiaMenus.registerScreens();
-	        });
->>>>>>> d4d1cb6c05ca8fdefe75682952d4a2a39f983c43
 	}
 
 	private void serverSetup(final FMLDedicatedServerSetupEvent event) {

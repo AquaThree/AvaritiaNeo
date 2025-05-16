@@ -46,4 +46,5 @@ public class EntityEndestPearl extends ThrowableItemProjectile {
 			this.remove(RemovalReason.KILLED);
 		}
 	}
+
 }

@@ -14,6 +14,7 @@ import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.Level;
@@ -23,9 +24,11 @@ public class AvaritiaRecipeUtils {
 	public static List<RecipeExtremeCrafting> getExtremeCraftingRecipes(RecipeManager recipeManager) {
 		Collection<RecipeHolder<?>> recipes = recipeManager.getRecipes();
 		List<RecipeExtremeCrafting> recipeList = new ArrayList<>();
-		for (RecipeHolder<?> recipe : recipes) {
-			if (recipe.value() instanceof RecipeExtremeShaped || recipe.value() instanceof RecipeExtremeShapeless) {
-				recipeList.add((RecipeExtremeCrafting) recipe.value());
+		for (RecipeHolder<?> recipeHolder : recipes) {
+			Recipe<?> recipe = recipeHolder.value();
+			if (recipe instanceof RecipeExtremeShaped || recipe instanceof RecipeExtremeShapeless) {
+				RecipeExtremeCrafting recipeExtremeCrafting = (RecipeExtremeCrafting) recipe;
+				recipeList.add(recipeExtremeCrafting);
 			}
 		}
 		recipeList.sort(new Comparator<RecipeExtremeCrafting>() {
@@ -49,9 +52,10 @@ public class AvaritiaRecipeUtils {
 	public static List<RecipeCompressor> getCompressorRecipes(RecipeManager recipeManager) {
 		Collection<RecipeHolder<?>> recipes = recipeManager.getRecipes();
 		List<RecipeCompressor> recipeList = new ArrayList<>();
-		for (RecipeHolder<?> recipe : recipes) {
-			if (recipe.value() instanceof RecipeCompressor) {
-				RecipeCompressor recipeCompressor = (RecipeCompressor) recipe.value();
+		for (RecipeHolder<?> recipeHolder : recipes) {
+			Recipe<?> recipe = recipeHolder.value();
+			if (recipe instanceof RecipeCompressor) {
+				RecipeCompressor recipeCompressor = (RecipeCompressor) recipe;
 				if (!recipeCompressor.ingredients.isEmpty()) {
 					recipeList.add(recipeCompressor);
 				}
@@ -80,9 +84,10 @@ public class AvaritiaRecipeUtils {
 		SimpleContainer matrix = new SimpleContainer(1);
 		matrix.addItem(input);
 		ContainerExtremeCrafting crafting = new ContainerExtremeCrafting(null, 1, 1, matrix);
-		for (RecipeHolder<?> recipe : recipes) {
-			if (recipe.value() instanceof RecipeCompressor) {
-				RecipeCompressor recipeCompressor = (RecipeCompressor) recipe.value();
+		for (RecipeHolder<?> recipeHolder : recipes) {
+			Recipe<?> recipe = recipeHolder.value();
+			if (recipe instanceof RecipeCompressor) {
+				RecipeCompressor recipeCompressor = (RecipeCompressor) recipe;
 				if (recipeCompressor.matches(crafting.asCraftInput(), null)) {
 					return recipeCompressor;
 				}
@@ -100,9 +105,10 @@ public class AvaritiaRecipeUtils {
 	
 	public static RecipeCompressor getCompressorRecipeFromResult(RecipeManager recipeManager, ItemStack result) {
 			Collection<RecipeHolder<?>> recipes = recipeManager.getRecipes();
-			for (RecipeHolder<?> recipe : recipes) {
-				if (recipe.value() instanceof RecipeCompressor) {
-					RecipeCompressor recipeCompressor = (RecipeCompressor) recipe.value();
+			for (RecipeHolder<?> recipeHolder : recipes) {
+				Recipe<?> recipe = recipeHolder.value();
+				if (recipe instanceof RecipeCompressor) {
+					RecipeCompressor recipeCompressor = (RecipeCompressor) recipe;
 					if (ItemStack.isSameItemSameComponents(recipeCompressor.getResultItem(RegistryAccess.EMPTY), result)) {
 						return recipeCompressor;
 					}

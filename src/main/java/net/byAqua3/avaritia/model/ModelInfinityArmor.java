@@ -7,10 +7,10 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.byAqua3.avaritia.Avaritia;
 import net.byAqua3.avaritia.event.AvaritiaClientEvent;
 import net.byAqua3.avaritia.loader.AvaritiaAtlas;
+import net.byAqua3.avaritia.loader.AvaritiaShaders;
 import net.byAqua3.avaritia.loader.AvaritiaDataComponents;
 import net.byAqua3.avaritia.loader.AvaritiaItems;
-import net.byAqua3.avaritia.shader.AvaritiaCosmicShaders;
-import net.byAqua3.avaritia.shader.AvaritiaRenderType;
+import net.byAqua3.avaritia.loader.AvaritiaRenderTypes;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.AnimationUtils;
 import net.minecraft.client.model.HumanoidModel;
@@ -36,21 +36,12 @@ import net.minecraft.world.item.ItemStack;
 
 public class ModelInfinityArmor extends HumanoidModel<HumanoidRenderState> {
 
-	public static final ResourceLocation EYE = ResourceLocation.tryBuild(Avaritia.MODID,
-			"textures/entity/equipment/infinity/infinity_armor_eyes.png");
-	public static final ResourceLocation WING = ResourceLocation.tryBuild(Avaritia.MODID,
-			"textures/entity/equipment/infinity/infinity_armor_wing.png");
-	public static final ResourceLocation WING_GLOW = ResourceLocation.tryBuild(Avaritia.MODID,
-			"textures/entity/equipment/infinity/infinity_armor_wingglow.png");
-	public static final TextureAtlasSprite MASK = Minecraft.getInstance().getModelManager()
-			.getAtlas(AvaritiaAtlas.BLOCK_ATLAS)
-			.getSprite(ResourceLocation.tryBuild(Avaritia.MODID, "entity/equipment/infinity/infinity_armor_mask"));
-	public static final TextureAtlasSprite MASK_INV = Minecraft.getInstance().getModelManager()
-			.getAtlas(AvaritiaAtlas.BLOCK_ATLAS)
-			.getSprite(ResourceLocation.tryBuild(Avaritia.MODID, "entity/equipment/infinity/infinity_armor_mask_inv"));
-	public static final TextureAtlasSprite WING_MASK = Minecraft.getInstance().getModelManager()
-			.getAtlas(AvaritiaAtlas.BLOCK_ATLAS).getSprite(
-					ResourceLocation.tryBuild(Avaritia.MODID, "entity/equipment/infinity/infinity_armor_mask_wings"));
+	public static final ResourceLocation EYE = ResourceLocation.tryBuild(Avaritia.MODID, "textures/entity/equipment/infinity/infinity_armor_eyes.png");
+	public static final ResourceLocation WING = ResourceLocation.tryBuild(Avaritia.MODID, "textures/entity/equipment/infinity/infinity_armor_wing.png");
+	public static final ResourceLocation WING_GLOW = ResourceLocation.tryBuild(Avaritia.MODID, "textures/entity/equipment/infinity/infinity_armor_wingglow.png");
+	public static final TextureAtlasSprite MASK = Minecraft.getInstance().getModelManager().getAtlas(AvaritiaAtlas.BLOCK_ATLAS).getSprite(ResourceLocation.tryBuild(Avaritia.MODID, "entity/equipment/infinity/infinity_armor_mask"));
+	public static final TextureAtlasSprite MASK_INV = Minecraft.getInstance().getModelManager().getAtlas(AvaritiaAtlas.BLOCK_ATLAS).getSprite(ResourceLocation.tryBuild(Avaritia.MODID, "entity/equipment/infinity/infinity_armor_mask_inv"));
+	public static final TextureAtlasSprite WING_MASK = Minecraft.getInstance().getModelManager().getAtlas(AvaritiaAtlas.BLOCK_ATLAS).getSprite(ResourceLocation.tryBuild(Avaritia.MODID, "entity/equipment/infinity/infinity_armor_mask_wings"));
 
 	public final ModelPart root = createLayer().bakeRoot();
 	public final ModelPart bodyRoot = createBodyLayer(new CubeDeformation(1.0F)).bakeRoot();
@@ -66,13 +57,8 @@ public class ModelInfinityArmor extends HumanoidModel<HumanoidRenderState> {
 		MeshDefinition meshDefinition = new MeshDefinition();
 		PartDefinition partDefinition = meshDefinition.getRoot();
 		CubeDeformation cubeDeformation = new CubeDeformation(0.0F);
-		partDefinition.addOrReplaceChild("left_wing",
-				CubeListBuilder.create().texOffs(0, 0).addBox(0.0F, -11.6F, 0.0F, 0.0F, 32.0F, 32.0F, cubeDeformation),
-				PartPose.offsetAndRotation(-1.5F, 0.0F, 2.0F, 0.0F, (float) (Math.PI * 0.4), 0.0F));
-		partDefinition.addOrReplaceChild("right_wing",
-				CubeListBuilder.create().texOffs(0, 0).mirror().addBox(0.0F, -11.6F, 0.0F, 0.0F, 32.0F, 32.0F,
-						cubeDeformation),
-				PartPose.offsetAndRotation(1.5F, 0.0F, 2.0F, 0.0F, (float) (-Math.PI * 0.4), 0.0F));
+		partDefinition.addOrReplaceChild("left_wing", CubeListBuilder.create().texOffs(0, 0).addBox(0.0F, -11.6F, 0.0F, 0.0F, 32.0F, 32.0F, cubeDeformation), PartPose.offsetAndRotation(-1.5F, 0.0F, 2.0F, 0.0F, (float) (Math.PI * 0.4), 0.0F));
+		partDefinition.addOrReplaceChild("right_wing", CubeListBuilder.create().texOffs(0, 0).mirror().addBox(0.0F, -11.6F, 0.0F, 0.0F, 32.0F, 32.0F, cubeDeformation), PartPose.offsetAndRotation(1.5F, 0.0F, 2.0F, 0.0F, (float) (-Math.PI * 0.4), 0.0F));
 		return LayerDefinition.create(meshDefinition, 64, 64);
 	}
 
@@ -80,18 +66,13 @@ public class ModelInfinityArmor extends HumanoidModel<HumanoidRenderState> {
 		MeshDefinition meshDefinition = HumanoidModel.createMesh(cubDeformation, 0.0F);
 		PartDefinition partDefinition = meshDefinition.getRoot();
 
-		partDefinition.addOrReplaceChild("hat", CubeListBuilder.create().texOffs(32, 0).addBox(-4.0F, -8.0F, -4.0F,
-				8.0F, 8.0F, 8.0F, cubDeformation.extend(-0.1F)), PartPose.offset(0.0F, 0.0F, 0.0F));
+		partDefinition.addOrReplaceChild("hat", CubeListBuilder.create().texOffs(32, 0).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, cubDeformation.extend(-0.1F)), PartPose.offset(0.0F, 0.0F, 0.0F));
 
-		partDefinition.addOrReplaceChild("left_leg", CubeListBuilder.create().texOffs(0, 48).mirror().addBox(-2.0F,
-				0.0F, -2.0F, 4.0F, 12.0F, 4.0F, cubDeformation.extend(-0.6F)), PartPose.offset(1.9F, 12.0F, 0.0F));
-		partDefinition.addOrReplaceChild("right_leg", CubeListBuilder.create().texOffs(0, 48).addBox(-2.0F, 0.0F, -2.0F,
-				4.0F, 12.0F, 4.0F, cubDeformation.extend(-0.6F)), PartPose.offset(-1.9F, 12.0F, 0.0F));
+		partDefinition.addOrReplaceChild("left_leg", CubeListBuilder.create().texOffs(0, 48).mirror().addBox(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, cubDeformation.extend(-0.6F)), PartPose.offset(1.9F, 12.0F, 0.0F));
+		partDefinition.addOrReplaceChild("right_leg", CubeListBuilder.create().texOffs(0, 48).addBox(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, cubDeformation.extend(-0.6F)), PartPose.offset(-1.9F, 12.0F, 0.0F));
 
-		partDefinition.addOrReplaceChild("left_boot", CubeListBuilder.create().texOffs(0, 16).mirror().addBox(-2.0F,
-				0.0F, -2.0F, 4.0F, 12.0F, 4.0F, cubDeformation.extend(-0.1F)), PartPose.offset(1.9F, 12.0F, 0.0F));
-		partDefinition.addOrReplaceChild("right_boot", CubeListBuilder.create().texOffs(0, 16).addBox(-2.0F, 0.0F,
-				-2.0F, 4.0F, 12.0F, 4.0F, cubDeformation.extend(-0.1F)), PartPose.offset(-1.9F, 12.0F, 0.0F));
+		partDefinition.addOrReplaceChild("left_boot", CubeListBuilder.create().texOffs(0, 16).mirror().addBox(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, cubDeformation.extend(-0.1F)), PartPose.offset(1.9F, 12.0F, 0.0F));
+		partDefinition.addOrReplaceChild("right_boot", CubeListBuilder.create().texOffs(0, 16).addBox(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, cubDeformation.extend(-0.1F)), PartPose.offset(-1.9F, 12.0F, 0.0F));
 		return LayerDefinition.create(meshDefinition, 64, 64);
 	}
 
@@ -145,8 +126,7 @@ public class ModelInfinityArmor extends HumanoidModel<HumanoidRenderState> {
 
 		if (humanoidRenderState instanceof ZombieRenderState) {
 			ZombieRenderState zombieRenderState = (ZombieRenderState) humanoidRenderState;
-			AnimationUtils.animateZombieArms(this.leftArm, this.rightArm, zombieRenderState.isAggressive,
-					zombieRenderState.attackTime, zombieRenderState.ageInTicks);
+			AnimationUtils.animateZombieArms(this.leftArm, this.rightArm, zombieRenderState.isAggressive, zombieRenderState.attackTime, zombieRenderState.ageInTicks);
 		}
 
 		ModelPart leftArm = this.bodyRoot.getChild("left_arm");
@@ -181,11 +161,9 @@ public class ModelInfinityArmor extends HumanoidModel<HumanoidRenderState> {
 
 	}
 
-	public void render(HumanoidRenderState humanoidRenderState, PoseStack poseStack,
-			MultiBufferSource multiBufferSource, VertexConsumer vertexConsumer, int packedLight, int packedOverlay,
-			float red, float green, float blue, float alpha) {
+	public void render(HumanoidRenderState humanoidRenderState, PoseStack poseStack, MultiBufferSource multiBufferSource, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
 
-		RenderType COSMIC_ARMOR_RENDER_TYPE = AvaritiaRenderType.COSMIC_ARMOR_RENDER_TYPE;
+		RenderType COSMIC_ARMOR_RENDER_TYPE = AvaritiaRenderTypes.COSMIC_ARMOR_RENDER_TYPE;
 
 		Minecraft mc = Minecraft.getInstance();
 
@@ -203,7 +181,7 @@ public class ModelInfinityArmor extends HumanoidModel<HumanoidRenderState> {
 		float pitch = 0.0F;
 		float scale = 1.0F;
 
-		if (AvaritiaCosmicShaders.cosmicInventoryRender) {
+		if (AvaritiaShaders.cosmicInventoryRender) {
 			scale = 100.0F;
 		} else {
 			yaw = (float) ((humanoidRenderState.yRot * 2.0F) * Math.PI / 360.0D);
@@ -211,37 +189,30 @@ public class ModelInfinityArmor extends HumanoidModel<HumanoidRenderState> {
 		}
 
 		ShaderManager shaderManager = Minecraft.getInstance().getShaderManager();
-		CompiledShaderProgram compiledShaderProgram = shaderManager.getProgram(AvaritiaCosmicShaders.cosmicArmorShader);
+		CompiledShaderProgram compiledShaderProgram = shaderManager.getProgram(AvaritiaShaders.cosmicArmorShader);
 		compiledShaderProgram.getUniform("time").set(mc.level.getGameTime() % Integer.MAX_VALUE);
 		compiledShaderProgram.getUniform("yaw").set(yaw);
 		compiledShaderProgram.getUniform("pitch").set(pitch);
 		compiledShaderProgram.getUniform("externalScale").set(scale);
 		compiledShaderProgram.getUniform("opacity").set(1.0F);
-		compiledShaderProgram.getUniform("cosmicuvs").set(AvaritiaCosmicShaders.COSMIC_UVS);
+		compiledShaderProgram.getUniform("cosmicuvs").set(AvaritiaShaders.COSMIC_UVS);
 
 		if (humanoidRenderState instanceof PlayerRenderState) {
 			PlayerRenderState playerRenderState = (PlayerRenderState) humanoidRenderState;
 			ItemStack itemStack = playerRenderState.chestEquipment;
 
-			if (chestItem == AvaritiaItems.INFINITY_CHESTPLATE.get() && (itemStack.has(AvaritiaDataComponents.FLY.get())
-					&& itemStack.getOrDefault(AvaritiaDataComponents.FLY.get(), false))) {
+			if (chestItem == AvaritiaItems.INFINITY_CHESTPLATE.get() && (itemStack.has(AvaritiaDataComponents.FLY.get()) && itemStack.getOrDefault(AvaritiaDataComponents.FLY.get(), false))) {
 				poseStack.pushPose();
 				ModelPart leftWing = root.getChild("left_wing");
 				ModelPart rightWing = root.getChild("right_wing");
 				leftWing.render(poseStack, vertexConsumer, packedLight, packedOverlay);
 				rightWing.render(poseStack, vertexConsumer, packedLight, packedOverlay);
 
-				leftWing.render(poseStack, WING_MASK.wrap(multiBufferSource.getBuffer(COSMIC_ARMOR_RENDER_TYPE)),
-						packedLight, packedOverlay, new Color(red, green, blue, alpha).getRGB());
-				rightWing.render(poseStack, WING_MASK.wrap(multiBufferSource.getBuffer(COSMIC_ARMOR_RENDER_TYPE)),
-						packedLight, packedOverlay, new Color(red, green, blue, alpha).getRGB());
+				leftWing.render(poseStack, WING_MASK.wrap(multiBufferSource.getBuffer(COSMIC_ARMOR_RENDER_TYPE)), packedLight, packedOverlay, new Color(red, green, blue, alpha).getRGB());
+				rightWing.render(poseStack, WING_MASK.wrap(multiBufferSource.getBuffer(COSMIC_ARMOR_RENDER_TYPE)), packedLight, packedOverlay, new Color(red, green, blue, alpha).getRGB());
 
-				leftWing.render(poseStack, multiBufferSource.getBuffer(AvaritiaRenderType.WingGlow(WING_GLOW)),
-						packedLight, packedOverlay,
-						new Color(0.84F, 1.0F, 0.95F, (float) (pulse_mag_sqr * 0.5D)).getRGB());
-				rightWing.render(poseStack, multiBufferSource.getBuffer(AvaritiaRenderType.WingGlow(WING_GLOW)),
-						packedLight, packedOverlay,
-						new Color(0.84F, 1.0F, 0.95F, (float) (pulse_mag_sqr * 0.5D)).getRGB());
+				leftWing.render(poseStack, multiBufferSource.getBuffer(AvaritiaRenderTypes.WingGlow(WING_GLOW)), packedLight, packedOverlay, new Color(0.84F, 1.0F, 0.95F, (float) (pulse_mag_sqr * 0.5D)).getRGB());
+				rightWing.render(poseStack, multiBufferSource.getBuffer(AvaritiaRenderTypes.WingGlow(WING_GLOW)), packedLight, packedOverlay, new Color(0.84F, 1.0F, 0.95F, (float) (pulse_mag_sqr * 0.5D)).getRGB());
 				poseStack.popPose();
 			}
 		}
@@ -250,11 +221,9 @@ public class ModelInfinityArmor extends HumanoidModel<HumanoidRenderState> {
 			poseStack.pushPose();
 
 			ModelPart head = this.bodyRoot.getChild("head");
-			head.render(poseStack, MASK.wrap(multiBufferSource.getBuffer(COSMIC_ARMOR_RENDER_TYPE)), packedLight,
-					packedOverlay, new Color(red, green, blue, alpha).getRGB());
+			head.render(poseStack, MASK.wrap(multiBufferSource.getBuffer(COSMIC_ARMOR_RENDER_TYPE)), packedLight, packedOverlay, new Color(red, green, blue, alpha).getRGB());
 			ModelPart hat = this.bodyRoot.getChild("hat");
-			hat.render(poseStack, MASK.wrap(multiBufferSource.getBuffer(COSMIC_ARMOR_RENDER_TYPE)), packedLight,
-					packedOverlay, new Color(red, green, blue, alpha).getRGB());
+			hat.render(poseStack, MASK.wrap(multiBufferSource.getBuffer(COSMIC_ARMOR_RENDER_TYPE)), packedLight, packedOverlay, new Color(red, green, blue, alpha).getRGB());
 
 			poseStack.popPose();
 		}
@@ -263,20 +232,14 @@ public class ModelInfinityArmor extends HumanoidModel<HumanoidRenderState> {
 			poseStack.pushPose();
 
 			ModelPart body = this.bodyRoot.getChild("body");
-			body.render(poseStack, MASK.wrap(multiBufferSource.getBuffer(COSMIC_ARMOR_RENDER_TYPE)), packedLight,
-					packedOverlay, new Color(red, green, blue, alpha).getRGB());
-			body.render(poseStack, multiBufferSource.getBuffer(AvaritiaRenderType.WingGlow(EYE)), packedLight,
-					packedOverlay, new Color(0.84F, 1.0F, 0.95F, (float) (pulse_mag_sqr * 0.5D)).getRGB());
+			body.render(poseStack, MASK.wrap(multiBufferSource.getBuffer(COSMIC_ARMOR_RENDER_TYPE)), packedLight, packedOverlay, new Color(red, green, blue, alpha).getRGB());
+			body.render(poseStack, multiBufferSource.getBuffer(AvaritiaRenderTypes.WingGlow(EYE)), packedLight, packedOverlay, new Color(0.84F, 1.0F, 0.95F, (float) (pulse_mag_sqr * 0.5D)).getRGB());
 			ModelPart leftArm = this.bodyRoot.getChild("left_arm");
-			leftArm.render(poseStack, MASK.wrap(multiBufferSource.getBuffer(COSMIC_ARMOR_RENDER_TYPE)), packedLight,
-					packedOverlay, new Color(red, green, blue, alpha).getRGB());
-			leftArm.render(poseStack, multiBufferSource.getBuffer(AvaritiaRenderType.WingGlow(EYE)), packedLight,
-					packedOverlay, new Color(0.84F, 1.0F, 0.95F, (float) (pulse_mag_sqr * 0.5D)).getRGB());
+			leftArm.render(poseStack, MASK.wrap(multiBufferSource.getBuffer(COSMIC_ARMOR_RENDER_TYPE)), packedLight, packedOverlay, new Color(red, green, blue, alpha).getRGB());
+			leftArm.render(poseStack, multiBufferSource.getBuffer(AvaritiaRenderTypes.WingGlow(EYE)), packedLight, packedOverlay, new Color(0.84F, 1.0F, 0.95F, (float) (pulse_mag_sqr * 0.5D)).getRGB());
 			ModelPart rightArm = this.bodyRoot.getChild("right_arm");
-			rightArm.render(poseStack, MASK.wrap(multiBufferSource.getBuffer(COSMIC_ARMOR_RENDER_TYPE)), packedLight,
-					packedOverlay, new Color(red, green, blue, alpha).getRGB());
-			rightArm.render(poseStack, multiBufferSource.getBuffer(AvaritiaRenderType.WingGlow(EYE)), packedLight,
-					packedOverlay, new Color(0.84F, 1.0F, 0.95F, (float) (pulse_mag_sqr * 0.5D)).getRGB());
+			rightArm.render(poseStack, MASK.wrap(multiBufferSource.getBuffer(COSMIC_ARMOR_RENDER_TYPE)), packedLight, packedOverlay, new Color(red, green, blue, alpha).getRGB());
+			rightArm.render(poseStack, multiBufferSource.getBuffer(AvaritiaRenderTypes.WingGlow(EYE)), packedLight, packedOverlay, new Color(0.84F, 1.0F, 0.95F, (float) (pulse_mag_sqr * 0.5D)).getRGB());
 
 			poseStack.popPose();
 
@@ -285,15 +248,11 @@ public class ModelInfinityArmor extends HumanoidModel<HumanoidRenderState> {
 			poseStack.pushPose();
 
 			ModelPart leftLeg = this.bodyRoot.getChild("left_leg");
-			leftLeg.render(poseStack, MASK.wrap(multiBufferSource.getBuffer(COSMIC_ARMOR_RENDER_TYPE)), packedLight,
-					packedOverlay, new Color(red, green, blue, alpha).getRGB());
-			leftLeg.render(poseStack, multiBufferSource.getBuffer(AvaritiaRenderType.WingGlow(EYE)), packedLight,
-					packedOverlay, new Color(0.84F, 1.0F, 0.95F, (float) (pulse_mag_sqr * 0.5D)).getRGB());
+			leftLeg.render(poseStack, MASK.wrap(multiBufferSource.getBuffer(COSMIC_ARMOR_RENDER_TYPE)), packedLight, packedOverlay, new Color(red, green, blue, alpha).getRGB());
+			leftLeg.render(poseStack, multiBufferSource.getBuffer(AvaritiaRenderTypes.WingGlow(EYE)), packedLight, packedOverlay, new Color(0.84F, 1.0F, 0.95F, (float) (pulse_mag_sqr * 0.5D)).getRGB());
 			ModelPart rightLeg = this.bodyRoot.getChild("right_leg");
-			rightLeg.render(poseStack, MASK.wrap(multiBufferSource.getBuffer(COSMIC_ARMOR_RENDER_TYPE)), packedLight,
-					packedOverlay, new Color(red, green, blue, alpha).getRGB());
-			rightLeg.render(poseStack, multiBufferSource.getBuffer(AvaritiaRenderType.WingGlow(EYE)), packedLight,
-					packedOverlay, new Color(0.84F, 1.0F, 0.95F, (float) (pulse_mag_sqr * 0.5D)).getRGB());
+			rightLeg.render(poseStack, MASK.wrap(multiBufferSource.getBuffer(COSMIC_ARMOR_RENDER_TYPE)), packedLight, packedOverlay, new Color(red, green, blue, alpha).getRGB());
+			rightLeg.render(poseStack, multiBufferSource.getBuffer(AvaritiaRenderTypes.WingGlow(EYE)), packedLight, packedOverlay, new Color(0.84F, 1.0F, 0.95F, (float) (pulse_mag_sqr * 0.5D)).getRGB());
 
 			poseStack.popPose();
 		}
@@ -302,18 +261,14 @@ public class ModelInfinityArmor extends HumanoidModel<HumanoidRenderState> {
 			poseStack.pushPose();
 
 			ModelPart leftBoot = this.bodyRoot.getChild("left_boot");
-			leftBoot.render(poseStack, MASK.wrap(multiBufferSource.getBuffer(COSMIC_ARMOR_RENDER_TYPE)), packedLight,
-					packedOverlay, new Color(red, green, blue, alpha).getRGB());
+			leftBoot.render(poseStack, MASK.wrap(multiBufferSource.getBuffer(COSMIC_ARMOR_RENDER_TYPE)), packedLight, packedOverlay, new Color(red, green, blue, alpha).getRGB());
 			ModelPart rightBoot = this.bodyRoot.getChild("right_boot");
-			rightBoot.render(poseStack, MASK.wrap(multiBufferSource.getBuffer(COSMIC_ARMOR_RENDER_TYPE)), packedLight,
-					packedOverlay, new Color(red, green, blue, alpha).getRGB());
+			rightBoot.render(poseStack, MASK.wrap(multiBufferSource.getBuffer(COSMIC_ARMOR_RENDER_TYPE)), packedLight, packedOverlay, new Color(red, green, blue, alpha).getRGB());
 
 			poseStack.popPose();
 		}
 
-		if (headItem == AvaritiaItems.INFINITY_HELMET.get() && chestItem == AvaritiaItems.INFINITY_CHESTPLATE.get()
-				&& legsItem == AvaritiaItems.INFINITY_LEGGINGS.get()
-				&& feetItem == AvaritiaItems.INFINITY_BOOTS.get()) {
+		if (headItem == AvaritiaItems.INFINITY_HELMET.get() && chestItem == AvaritiaItems.INFINITY_CHESTPLATE.get() && legsItem == AvaritiaItems.INFINITY_LEGGINGS.get() && feetItem == AvaritiaItems.INFINITY_BOOTS.get()) {
 
 			poseStack.pushPose();
 
@@ -331,8 +286,7 @@ public class ModelInfinityArmor extends HumanoidModel<HumanoidRenderState> {
 			float g = ((rgb >> 8) & 0xFF) / 255.0F;
 			float b = ((rgb >> 0) & 0xFF) / 255.0F;
 
-			hat.render(poseStack, multiBufferSource.getBuffer(AvaritiaRenderType.Glow(EYE)), packedLight, packedOverlay,
-					new Color(r, g, b, alpha).getRGB());
+			hat.render(poseStack, multiBufferSource.getBuffer(AvaritiaRenderTypes.Glow(EYE)), packedLight, packedOverlay, new Color(r, g, b, alpha).getRGB());
 
 			// List<ModelPart> parts = List.of(this.head, this.body, this.rightArm,
 			// this.leftArm, this.rightLeg, this.leftLeg);
@@ -343,8 +297,7 @@ public class ModelInfinityArmor extends HumanoidModel<HumanoidRenderState> {
 			// packedLight, packedOverlay, new Color(red, green, blue, alpha).getRGB());
 			// }
 
-			super.renderToBuffer(poseStack, MASK_INV.wrap(multiBufferSource.getBuffer(COSMIC_ARMOR_RENDER_TYPE)),
-					packedLight, packedOverlay, new Color(red, green, blue, alpha).getRGB());
+			super.renderToBuffer(poseStack, MASK_INV.wrap(multiBufferSource.getBuffer(COSMIC_ARMOR_RENDER_TYPE)), packedLight, packedOverlay, new Color(red, green, blue, alpha).getRGB());
 
 			poseStack.popPose();
 		}

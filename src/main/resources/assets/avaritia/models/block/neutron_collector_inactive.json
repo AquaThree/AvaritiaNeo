@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "down": "avaritia:block/neutron_collector_side",
+    "up": "avaritia:block/neutron_collector_top",
+    "north": "avaritia:block/neutron_collector_inactive",
+    "south": "avaritia:block/neutron_collector_side",
+    "east": "avaritia:block/neutron_collector_side",
+    "west": "avaritia:block/neutron_collector_side",
+    "particle": "avaritia:block/neutron_collector_inactive"
+  }
+}

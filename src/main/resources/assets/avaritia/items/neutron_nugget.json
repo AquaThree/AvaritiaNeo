@@ -3,7 +3,9 @@
 		"type": "avaritia:special",
 		"base": "avaritia:item/neutron_nugget",
 		"model": {
-			"type": "avaritia:halo"
+			"type": "avaritia:halo",
+			"haloType": 1,
+			"alpha": 0.4
 		}
 	}
 }

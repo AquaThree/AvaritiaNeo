@@ -29,8 +29,7 @@ public class SpecialModelWrapper<T> implements ItemModel {
 	}
 
 	@Override
-	public void update(ItemStackRenderState renderState, ItemStack stack, ItemModelResolver resolver,
-			ItemDisplayContext context, @Nullable ClientLevel level, @Nullable LivingEntity entity, int seed) {
+	public void update(ItemStackRenderState renderState, ItemStack stack, ItemModelResolver resolver, ItemDisplayContext context, @Nullable ClientLevel level, @Nullable LivingEntity entity, int seed) {
 		ItemStackRenderState.LayerRenderState layerRenderState = renderState.newLayer();
 		if (stack.hasFoil()) {
 			layerRenderState.setFoilType(ItemStackRenderState.FoilType.STANDARD);
@@ -42,14 +41,8 @@ public class SpecialModelWrapper<T> implements ItemModel {
 	}
 
 	@OnlyIn(Dist.CLIENT)
-	public static record Unbaked(ResourceLocation base, SpecialModelRenderer.Unbaked specialModel)
-			implements ItemModel.Unbaked {
-		public static final MapCodec<SpecialModelWrapper.Unbaked> MAP_CODEC = RecordCodecBuilder
-				.mapCodec(instance -> instance
-						.group(ResourceLocation.CODEC.fieldOf("base").forGetter(SpecialModelWrapper.Unbaked::base),
-								SpecialModelRenderers.CODEC.fieldOf("model")
-										.forGetter(SpecialModelWrapper.Unbaked::specialModel))
-						.apply(instance, SpecialModelWrapper.Unbaked::new));
+	public static record Unbaked(ResourceLocation base, SpecialModelRenderer.Unbaked specialModel) implements ItemModel.Unbaked {
+		public static final MapCodec<SpecialModelWrapper.Unbaked> MAP_CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(ResourceLocation.CODEC.fieldOf("base").forGetter(SpecialModelWrapper.Unbaked::base), SpecialModelRenderers.CODEC.fieldOf("model").forGetter(SpecialModelWrapper.Unbaked::specialModel)).apply(instance, SpecialModelWrapper.Unbaked::new));
 
 		@Override
 		public void resolveDependencies(ResolvableModel.Resolver resolver) {

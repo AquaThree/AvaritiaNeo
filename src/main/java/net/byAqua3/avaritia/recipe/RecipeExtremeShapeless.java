@@ -42,14 +42,13 @@ public class RecipeExtremeShapeless implements RecipeExtremeCrafting {
 	private PlacementInfo placementInfo;
 	private final boolean isSimple;
 
-	public RecipeExtremeShapeless(String group, ItemStack result, List<Ingredient> ingredients,
-			boolean hasSingularities) {
+	public RecipeExtremeShapeless(String group, ItemStack result, List<Ingredient> ingredients, boolean hasSingularities) {
 		this.group = group;
 		this.result = result;
 		this.ingredients = NonNullList.copyOf(ingredients);
 		this.hasSingularities = hasSingularities;
 		this.isSimple = hasSingularities ? false : this.getIngredients().stream().allMatch(Ingredient::isSimple);
-		
+
 	}
 
 	@Override
@@ -61,12 +60,9 @@ public class RecipeExtremeShapeless implements RecipeExtremeCrafting {
 			for (var item : container.items())
 				if (!item.isEmpty())
 					nonEmptyItems.add(item);
-			return net.neoforged.neoforge.common.util.RecipeMatcher.findMatches(nonEmptyItems,
-					this.getIngredients()) != null;
+			return net.neoforged.neoforge.common.util.RecipeMatcher.findMatches(nonEmptyItems, this.getIngredients()) != null;
 		} else {
-			return container.size() == 1 && this.getIngredients().size() == 1
-					? this.getIngredients().getFirst().test(container.getItem(0))
-					: container.stackedContents().canCraft(this, null);
+			return container.size() == 1 && this.getIngredients().size() == 1 ? this.getIngredients().getFirst().test(container.getItem(0)) : container.stackedContents().canCraft(this, null);
 		}
 	}
 
@@ -95,7 +91,7 @@ public class RecipeExtremeShapeless implements RecipeExtremeCrafting {
 					if (!(item instanceof ItemJsonSingularity)) {
 						ingredients.add(DataComponentIngredient.of(false, new ItemStack(item)));
 					} else {
-						for(Singularity singularity : AvaritiaSingularities.getInstance().getSingularities()) {
+						for (Singularity singularity : AvaritiaSingularities.getInstance().getSingularities()) {
 							ingredients.add(DataComponentIngredient.of(true, AvaritiaDataComponents.SINGULARITY_ID.get(), singularity.getId(), item));
 						}
 					}
@@ -125,18 +121,9 @@ public class RecipeExtremeShapeless implements RecipeExtremeCrafting {
 	}
 
 	public static class Serializer implements RecipeSerializer<RecipeExtremeShapeless> {
-		public static final MapCodec<RecipeExtremeShapeless> CODEC = RecordCodecBuilder.mapCodec(instance -> instance
-				.group(Codec.STRING.optionalFieldOf("group", "").forGetter(recipe -> recipe.group),
-						ItemStack.STRICT_CODEC.fieldOf("result").forGetter(recipe -> recipe.result),
-						Ingredient.CODEC.listOf().fieldOf("ingredients").forGetter(recipe -> recipe.ingredients),
-						Codec.BOOL.optionalFieldOf("singularities", false).forGetter(recipe -> recipe.hasSingularities))
-				.apply(instance, RecipeExtremeShapeless::new));
+		public static final MapCodec<RecipeExtremeShapeless> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(Codec.STRING.optionalFieldOf("group", "").forGetter(recipe -> recipe.group), ItemStack.STRICT_CODEC.fieldOf("result").forGetter(recipe -> recipe.result), Ingredient.CODEC.listOf().fieldOf("ingredients").forGetter(recipe -> recipe.ingredients), Codec.BOOL.optionalFieldOf("singularities", false).forGetter(recipe -> recipe.hasSingularities)).apply(instance, RecipeExtremeShapeless::new));
 
-		public static final StreamCodec<RegistryFriendlyByteBuf, RecipeExtremeShapeless> STREAM_CODEC = StreamCodec
-				.composite(ByteBufCodecs.STRING_UTF8, recipe -> recipe.group, ItemStack.STREAM_CODEC,
-						recipe -> recipe.result, Ingredient.CONTENTS_STREAM_CODEC.apply(ByteBufCodecs.list()),
-						recipe -> recipe.ingredients, ByteBufCodecs.BOOL, recipe -> recipe.hasSingularities,
-						RecipeExtremeShapeless::new);
+		public static final StreamCodec<RegistryFriendlyByteBuf, RecipeExtremeShapeless> STREAM_CODEC = StreamCodec.composite(ByteBufCodecs.STRING_UTF8, recipe -> recipe.group, ItemStack.STREAM_CODEC, recipe -> recipe.result, Ingredient.CONTENTS_STREAM_CODEC.apply(ByteBufCodecs.list()), recipe -> recipe.ingredients, ByteBufCodecs.BOOL, recipe -> recipe.hasSingularities, RecipeExtremeShapeless::new);
 
 		@Override
 		public MapCodec<RecipeExtremeShapeless> codec() {

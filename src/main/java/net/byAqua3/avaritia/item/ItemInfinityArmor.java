@@ -33,24 +33,18 @@ public class ItemInfinityArmor extends ArmorItem {
 	}
 
 	@Override
-	public boolean hasCustomEntity(ItemStack stack) {
-		return true;
-	}
-
-	@Override
 	public boolean onEntityItemUpdate(ItemStack stack, ItemEntity itemEntity) {
 		itemEntity.setInvulnerable(true);
 		return super.onEntityItemUpdate(stack, itemEntity);
 	}
-	
+
 	@Override
 	public int getDamage(ItemStack stack) {
 		return 0;
 	}
 
 	@Override
-	public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltip,
-			TooltipFlag flag) {
+	public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
 		if (this.getEquipmentSlot(stack) == EquipmentSlot.FEET) {
 			tooltip.add(TextComponent.getText(""));
 			tooltip.add(TextComponent.getText(ChatFormatting.BLUE.toString() + "+" + AvaritiaClientEvent.makeSANIC("SANIC").getString() + ChatFormatting.BLUE.toString() + "% Speed"));
@@ -67,18 +61,22 @@ public class ItemInfinityArmor extends ArmorItem {
 				player.setAirSupply(300);
 				player.getFoodData().setFoodLevel(20);
 				player.getFoodData().setSaturation(20.0F);
-				if (AvaritiaConfigs.nightVision.get()) {
-					player.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, 300, 0, false, false));
+				if (!level.isClientSide()) {
+					if (AvaritiaConfigs.nightVision.get()) {
+						player.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, 300, 0, false, false));
+					}
 				}
 			} else if (this.getEquipmentSlot(stack) == EquipmentSlot.CHEST && slotId == 38) {
 				player.setArrowCount(0);
 				player.getAbilities().mayfly = true;
 				player.getAbilities().setFlyingSpeed(0.05F * 2);
-				if (AvaritiaConfigs.clearBadEffect.get()) {
-					List<MobEffectInstance> mobEffects = Lists.newArrayList(player.getActiveEffects());
-					for (MobEffectInstance mobEffect : mobEffects) {
-						if (!mobEffect.getEffect().value().isBeneficial()) {
-							player.removeEffect(mobEffect.getEffect());
+				if (!level.isClientSide()) {
+					if (AvaritiaConfigs.clearBadEffect.get()) {
+						List<MobEffectInstance> mobEffects = Lists.newArrayList(player.getActiveEffects());
+						for (MobEffectInstance mobEffect : mobEffects) {
+							if (!mobEffect.getEffect().value().isBeneficial()) {
+								player.removeEffect(mobEffect.getEffect());
+							}
 						}
 					}
 				}
@@ -90,18 +88,19 @@ public class ItemInfinityArmor extends ArmorItem {
 			}
 		}
 	}
+
 	@Override
 	public EquipmentSlot getEquipmentSlot(ItemStack stack) {
-		if(stack.getItem() == AvaritiaItems.INFINITY_HELMET.get()) {
+		if (stack.getItem() == AvaritiaItems.INFINITY_HELMET.get()) {
 			return EquipmentSlot.HEAD;
-		} else if(stack.getItem() == AvaritiaItems.INFINITY_CHESTPLATE.get()) {
+		} else if (stack.getItem() == AvaritiaItems.INFINITY_CHESTPLATE.get()) {
 			return EquipmentSlot.CHEST;
-		} else if(stack.getItem() == AvaritiaItems.INFINITY_LEGGINGS.get()) {
+		} else if (stack.getItem() == AvaritiaItems.INFINITY_LEGGINGS.get()) {
 			return EquipmentSlot.LEGS;
-		} else if(stack.getItem() == AvaritiaItems.INFINITY_BOOTS.get()) {
+		} else if (stack.getItem() == AvaritiaItems.INFINITY_BOOTS.get()) {
 			return EquipmentSlot.FEET;
 		}
-        return null;
-    }
+		return null;
+	}
 
 }

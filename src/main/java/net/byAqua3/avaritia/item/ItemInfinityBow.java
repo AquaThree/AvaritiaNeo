@@ -26,11 +26,6 @@ public class ItemInfinityBow extends BowItem {
 	}
 
 	@Override
-	public boolean hasCustomEntity(ItemStack stack) {
-		return true;
-	}
-
-	@Override
 	public boolean onEntityItemUpdate(ItemStack stack, ItemEntity itemEntity) {
 		itemEntity.setInvulnerable(true);
 		return super.onEntityItemUpdate(stack, itemEntity);
@@ -130,18 +125,9 @@ public class ItemInfinityBow extends BowItem {
 	}
 
 	@Override
-<<<<<<< HEAD
 	public AbstractArrow customArrow(AbstractArrow arrow, ItemStack projectileStack, ItemStack weaponStack) {
 		return super.customArrow(arrow, projectileStack, weaponStack);
 		//return new EntityInfinityArrow(arrow.level(), false);
-=======
-        public void releaseUsing(ItemStack stack, Level level, LivingEntity livingEntity, int time) {
-	}
-
-	@Override
-	public AbstractArrow customArrow(AbstractArrow arrow, ItemStack stack) {
-		return new EntityInfinityArrow(arrow.level(), false);
->>>>>>> d4d1cb6c05ca8fdefe75682952d4a2a39f983c43
 	}
 
 }

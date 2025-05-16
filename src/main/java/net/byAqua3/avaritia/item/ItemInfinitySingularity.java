@@ -15,7 +15,7 @@ public class ItemInfinitySingularity extends ItemSingularity {
 	private float hue;
 
 	public ItemInfinitySingularity(Properties properties) {
-		super(properties, 0, 0, 0);
+		super(properties, 0, 0);
 	}
 	
 	@Override

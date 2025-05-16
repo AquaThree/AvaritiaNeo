@@ -3,7 +3,8 @@
 		"type": "avaritia:special",
 		"base": "avaritia:item/emerald_singularity",
 		"model": {
-			"type": "avaritia:halo"
+			"type": "avaritia:halo",
+			"haloType": 2
 		}
 	}
 }

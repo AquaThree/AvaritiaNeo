@@ -13,8 +13,8 @@ import com.mojang.math.Axis;
 import net.byAqua3.avaritia.Avaritia;
 import net.byAqua3.avaritia.entity.EntityGapingVoid;
 import net.byAqua3.avaritia.loader.AvaritiaItems;
+import net.byAqua3.avaritia.loader.AvaritiaRenderTypes;
 import net.byAqua3.avaritia.render.state.RenderStateGapingVoid;
-import net.byAqua3.avaritia.shader.AvaritiaRenderType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.CoreShaders;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -129,7 +129,7 @@ public class RenderGapingVoid extends EntityRenderer<EntityGapingVoid, RenderSta
 			List<BakedQuad> quads = bakedModel.getQuads(null, null, randomSource);
 
 			for (BakedQuad quad : quads) {
-				multiBufferSource.getBuffer(AvaritiaRenderType.VOID).putBulkData(posestack$pose, quad, r, g, b, a, packedLight, OverlayTexture.NO_OVERLAY, true);
+				multiBufferSource.getBuffer(AvaritiaRenderTypes.VOID).putBulkData(posestack$pose, quad, r, g, b, a, packedLight, OverlayTexture.NO_OVERLAY, true);
 			}
 		}
 		

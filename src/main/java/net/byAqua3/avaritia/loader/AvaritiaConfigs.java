@@ -15,8 +15,6 @@ public class AvaritiaConfigs {
 	public static ModConfigSpec.BooleanValue nightVision;
 	public static ModConfigSpec.BooleanValue clearBadEffect;
 	
-	public static ModConfigSpec.BooleanValue breakAllBlocks;
-	
 	public static void registerConfigs() {
 		ModConfigSpec.Builder builder = new ModConfigSpec.Builder();
 		builder.comment("General settings").push("general");
@@ -26,9 +24,6 @@ public class AvaritiaConfigs {
 		builder.push("infinityArmor");
 		nightVision = builder.comment("NightVision").define("nightVision", true);
 		clearBadEffect = builder.comment("ClearBadEffect").define("clearBadEffect", true);
-		builder.pop();
-		builder.push("Gaping Void");
-		breakAllBlocks = builder.comment("BreakAllBlocks").define("breakAllBlocks", true);
 		builder.pop();
 		builder.pop();
 		modConfigSpec = builder.build();

@@ -7,6 +7,6 @@ import net.neoforged.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public interface SpecialModelEntity {
 
-    void extractArgument(LivingEntity entity);
-    
+	void extractArgument(LivingEntity entity);
+
 }

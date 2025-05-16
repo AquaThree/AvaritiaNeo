@@ -4,7 +4,7 @@
 		"base": "avaritia:item/dark_matter_singularity",
 		"model": {
 			"type": "avaritia:halo",
-			"texture": "avaritia:halo"
+			"haloType": 2
 		}
 	}
 }

@@ -49,12 +49,9 @@ public class RecipeCompressor implements RecipeExtremeCrafting {
 			for (var item : container.items())
 				if (!item.isEmpty())
 					nonEmptyItems.add(item);
-			return net.neoforged.neoforge.common.util.RecipeMatcher.findMatches(nonEmptyItems,
-					this.ingredients) != null;
+			return net.neoforged.neoforge.common.util.RecipeMatcher.findMatches(nonEmptyItems, this.ingredients) != null;
 		} else {
-			return container.size() == 1 && this.ingredients.size() == 1
-					? this.ingredients.getFirst().test(container.getItem(0))
-					: container.stackedContents().canCraft(this, null);
+			return container.size() == 1 && this.ingredients.size() == 1 ? this.ingredients.getFirst().test(container.getItem(0)) : container.stackedContents().canCraft(this, null);
 		}
 	}
 
@@ -101,18 +98,8 @@ public class RecipeCompressor implements RecipeExtremeCrafting {
 	}
 
 	public static class Serializer implements RecipeSerializer<RecipeCompressor> {
-		public static final MapCodec<RecipeCompressor> CODEC = RecordCodecBuilder
-				.mapCodec(instance -> instance
-						.group(Codec.STRING.optionalFieldOf("group", "").forGetter(recipe -> recipe.group),
-								ItemStack.STRICT_CODEC.fieldOf("result").forGetter(recipe -> recipe.result),
-								Codec.INT.optionalFieldOf("cost", 0).forGetter(recipe -> recipe.cost),
-								Ingredient.CODEC.listOf().fieldOf("ingredients")
-										.forGetter(recipe -> recipe.ingredients))
-						.apply(instance, RecipeCompressor::new));
-		public static final StreamCodec<RegistryFriendlyByteBuf, RecipeCompressor> STREAM_CODEC = StreamCodec.composite(
-				ByteBufCodecs.STRING_UTF8, recipe -> recipe.group, ItemStack.STREAM_CODEC, recipe -> recipe.result,
-				ByteBufCodecs.INT, recipe -> recipe.cost, Ingredient.CONTENTS_STREAM_CODEC.apply(ByteBufCodecs.list()),
-				recipe -> recipe.ingredients, RecipeCompressor::new);
+		public static final MapCodec<RecipeCompressor> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(Codec.STRING.optionalFieldOf("group", "").forGetter(recipe -> recipe.group), ItemStack.STRICT_CODEC.fieldOf("result").forGetter(recipe -> recipe.result), Codec.INT.optionalFieldOf("cost", 0).forGetter(recipe -> recipe.cost), Ingredient.CODEC.listOf().fieldOf("ingredients").forGetter(recipe -> recipe.ingredients)).apply(instance, RecipeCompressor::new));
+		public static final StreamCodec<RegistryFriendlyByteBuf, RecipeCompressor> STREAM_CODEC = StreamCodec.composite(ByteBufCodecs.STRING_UTF8, recipe -> recipe.group, ItemStack.STREAM_CODEC, recipe -> recipe.result, ByteBufCodecs.INT, recipe -> recipe.cost, Ingredient.CONTENTS_STREAM_CODEC.apply(ByteBufCodecs.list()), recipe -> recipe.ingredients, RecipeCompressor::new);
 
 		@Override
 		public MapCodec<RecipeCompressor> codec() {

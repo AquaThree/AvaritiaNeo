@@ -33,11 +33,6 @@ public class ItemMatterCluster extends Item {
 		AvaritiaTabs.BLACK_ITEMS.add(this);
 	}
 
-	@Override
-	public boolean hasCustomEntity(ItemStack stack) {
-		return true;
-	}
-
 	public static ItemStack makeCluster(List<ItemStack> itemStacks) {
 		SimpleContainer clusterInventory = new SimpleContainer(INTERNAL_INV_SIZE);
 		int count = 0;

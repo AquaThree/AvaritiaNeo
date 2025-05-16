@@ -30,7 +30,6 @@ import net.byAqua3.avaritia.property.ItemPropertyPulling;
 import net.byAqua3.avaritia.render.special.SpecialModelWrapper;
 import net.byAqua3.avaritia.render.special.SpecialRenderCosmic;
 import net.byAqua3.avaritia.render.special.SpecialRenderHalo;
-import net.byAqua3.avaritia.render.special.SpecialRenderMatterCluster;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
@@ -69,11 +68,11 @@ public class AvaritiaItems {
 	public static final DeferredHolder<Item, Item> RECORD_FRAGMENT = ITEMS.register("record_fragment", id -> new ItemRecordFragment(new Item.Properties().rarity(COSMIC_RARITY).setId(ResourceKey.create(Registries.ITEM, id))));
 	public static final DeferredHolder<Item, Item> DIAMOND_LATTICE = ITEMS.register("diamond_lattice", id -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON).setId(ResourceKey.create(Registries.ITEM, id))));
 	public static final DeferredHolder<Item, Item> CRYSTAL_MATRIX_INGOT = ITEMS.register("crystal_matrix_ingot", id -> new ItemCrystalMatrixIngot(new Item.Properties().rarity(Rarity.RARE).setId(ResourceKey.create(Registries.ITEM, id))));
-	public static final DeferredHolder<Item, Item> NEUTRON_PILE = ITEMS.register("neutron_pile", id -> new ItemNeutronPile(new Item.Properties().rarity(Rarity.UNCOMMON).setId(ResourceKey.create(Registries.ITEM, id)), 1));
-	public static final DeferredHolder<Item, Item> NEUTRON_NUGGET = ITEMS.register("neutron_nugget", id -> new ItemNeutronNugget(new Item.Properties().rarity(Rarity.UNCOMMON).setId(ResourceKey.create(Registries.ITEM, id)), 1));
-	public static final DeferredHolder<Item, Item> NETRONIUM_INGOT = ITEMS.register("neutronium_ingot", id -> new ItemNeutroniumIngot(new Item.Properties().rarity(Rarity.RARE).setId(ResourceKey.create(Registries.ITEM, id)), 1));
-	public static final DeferredHolder<Item, Item> INFINITY_CATALYST = ITEMS.register("infinity_catalyst", id -> new ItemInfinityCatalyst(new Item.Properties().rarity(Rarity.EPIC).setId(ResourceKey.create(Registries.ITEM, id)), 0));
-	public static final DeferredHolder<Item, Item> INFINITY_INGOT = ITEMS.register("infinity_ingot", id -> new ItemInfinityIngot(new Item.Properties().rarity(COSMIC_RARITY).setId(ResourceKey.create(Registries.ITEM, id)), 0));
+	public static final DeferredHolder<Item, Item> NEUTRON_PILE = ITEMS.register("neutron_pile", id -> new ItemNeutronPile(new Item.Properties().rarity(Rarity.UNCOMMON).setId(ResourceKey.create(Registries.ITEM, id))));
+	public static final DeferredHolder<Item, Item> NEUTRON_NUGGET = ITEMS.register("neutron_nugget", id -> new ItemNeutronNugget(new Item.Properties().rarity(Rarity.UNCOMMON).setId(ResourceKey.create(Registries.ITEM, id))));
+	public static final DeferredHolder<Item, Item> NETRONIUM_INGOT = ITEMS.register("neutronium_ingot", id -> new ItemNeutroniumIngot(new Item.Properties().rarity(Rarity.RARE).setId(ResourceKey.create(Registries.ITEM, id))));
+	public static final DeferredHolder<Item, Item> INFINITY_CATALYST = ITEMS.register("infinity_catalyst", id -> new ItemInfinityCatalyst(new Item.Properties().rarity(Rarity.EPIC).setId(ResourceKey.create(Registries.ITEM, id))));
+	public static final DeferredHolder<Item, Item> INFINITY_INGOT = ITEMS.register("infinity_ingot", id -> new ItemInfinityIngot(new Item.Properties().rarity(COSMIC_RARITY).setId(ResourceKey.create(Registries.ITEM, id))));
 	
 	public static final DeferredHolder<Item, Item> ENDEST_PEARL = ITEMS.register("endest_pearl", id -> new ItemEndestPearl(new Item.Properties().setId(ResourceKey.create(Registries.ITEM, id))));
 	public static final DeferredHolder<Item, Item> GAPING_VOID = ITEMS.register("gaping_void", id -> new ItemGapingVoid(new Item.Properties().setId(ResourceKey.create(Registries.ITEM, id))));
@@ -123,9 +122,8 @@ public class AvaritiaItems {
 	
 	@SubscribeEvent
 	public static void onRegisterSpecialModelRenderer(RegisterSpecialModelRendererEvent event) {
+		event.register(ResourceLocation.tryBuild(Avaritia.MODID, "cosmic"), SpecialRenderCosmic.Unbaked.MAP_CODEC);
 	    event.register(ResourceLocation.tryBuild(Avaritia.MODID, "halo"), SpecialRenderHalo.Unbaked.MAP_CODEC);
-	    event.register(ResourceLocation.tryBuild(Avaritia.MODID, "cosmic"), SpecialRenderCosmic.Unbaked.MAP_CODEC);
-	    event.register(ResourceLocation.tryBuild(Avaritia.MODID, "matter_cluster"), SpecialRenderMatterCluster.Unbaked.MAP_CODEC);
 	}
 
 }

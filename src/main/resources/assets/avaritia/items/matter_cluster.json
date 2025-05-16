@@ -5,16 +5,18 @@
 			"type": "avaritia:special",
 			"base": "avaritia:item/matter_cluster",
 			"model": {
-				"type": "avaritia:matter_cluster",
-				"full": false
+				"type": "avaritia:cosmic",
+				"mark": "avaritia:item/matter_cluster_empty_mask",
+				"isMatterCluster": true
 			}
 		},
 		"on_true": {
 			"type": "avaritia:special",
 			"base": "avaritia:item/matter_cluster_full",
 			"model": {
-				"type": "avaritia:matter_cluster",
-				"full": true
+				"type": "avaritia:cosmic",
+				"mark": "avaritia:item/matter_cluster_full_mask",
+				"isMatterCluster": true
 			}
 		},
 		"property": "avaritia:full"

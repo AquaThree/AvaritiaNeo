@@ -4,7 +4,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.byAqua3.avaritia.item.ItemInfinitySword;
-import net.byAqua3.avaritia.shader.AvaritiaCosmicShaders;
+import net.byAqua3.avaritia.loader.AvaritiaShaders;
 import net.byAqua3.avaritia.util.TextComponent;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -83,12 +83,12 @@ public class AvaritiaClientEvent {
 	@OnlyIn(Dist.CLIENT)
 	@SubscribeEvent
 	public void drawScreenPre(ScreenEvent.Render.Pre event) {
-		AvaritiaCosmicShaders.cosmicInventoryRender = true;
+		AvaritiaShaders.cosmicInventoryRender = true;
 	}
 
 	@OnlyIn(Dist.CLIENT)
 	@SubscribeEvent
 	public void drawScreenPost(ScreenEvent.Render.Post event) {
-		AvaritiaCosmicShaders.cosmicInventoryRender = false;
+		AvaritiaShaders.cosmicInventoryRender = false;
 	}
 }

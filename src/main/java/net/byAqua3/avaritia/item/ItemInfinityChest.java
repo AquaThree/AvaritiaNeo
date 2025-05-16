@@ -18,11 +18,6 @@ public class ItemInfinityChest extends BlockItem {
 	}
 
 	@Override
-	public boolean hasCustomEntity(ItemStack stack) {
-		return true;
-	}
-
-	@Override
 	public boolean onEntityItemUpdate(ItemStack stack, ItemEntity itemEntity) {
 		itemEntity.setInvulnerable(true);
 		return super.onEntityItemUpdate(stack, itemEntity);

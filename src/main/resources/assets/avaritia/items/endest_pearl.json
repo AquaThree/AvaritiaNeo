@@ -3,7 +3,9 @@
 		"type": "avaritia:special",
 		"base": "avaritia:item/endest_pearl",
 		"model": {
-			"type": "avaritia:halo"
+			"type": "avaritia:halo",
+			"haloType": 2,
+			"pulse": true
 		}
 	}
 }

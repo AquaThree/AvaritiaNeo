@@ -20,13 +20,13 @@ import net.minecraft.world.item.crafting.ShapedRecipePattern;
 import net.minecraft.world.level.Level;
 
 public class RecipeExtremeShaped implements RecipeExtremeCrafting {
-	
+
 	public final String group;
 	public final ShapedRecipePattern pattern;
 	public final ItemStack result;
-	
+
 	@Nullable
-    private PlacementInfo placementInfo;
+	private PlacementInfo placementInfo;
 
 	public RecipeExtremeShaped(String group, ShapedRecipePattern pattern, ItemStack result) {
 		this.group = group;
@@ -48,7 +48,7 @@ public class RecipeExtremeShaped implements RecipeExtremeCrafting {
 	public ItemStack assemble(CraftingInput container, HolderLookup.Provider registryAccess) {
 		return this.getResultItem(registryAccess).copy();
 	}
-	
+
 	@Override
 	public ItemStack getResultItem(HolderLookup.Provider registryAccess) {
 		return this.result;
@@ -61,19 +61,19 @@ public class RecipeExtremeShaped implements RecipeExtremeCrafting {
 	public int getHeight() {
 		return this.pattern.height();
 	}
-	
+
 	@Override
 	public RecipeBookCategory recipeBookCategory() {
 		return null;
 	}
 
 	@Override
-    public PlacementInfo placementInfo() {
-        if (this.placementInfo == null) {
-            this.placementInfo = PlacementInfo.createFromOptionals(this.pattern.ingredients());
-        }
-        return this.placementInfo;
-    }
+	public PlacementInfo placementInfo() {
+		if (this.placementInfo == null) {
+			this.placementInfo = PlacementInfo.createFromOptionals(this.pattern.ingredients());
+		}
+		return this.placementInfo;
+	}
 
 	@Override
 	public RecipeSerializer<? extends Recipe<CraftingInput>> getSerializer() {
@@ -82,13 +82,8 @@ public class RecipeExtremeShaped implements RecipeExtremeCrafting {
 
 	public static class Serializer implements RecipeSerializer<RecipeExtremeShaped> {
 
-		public static final MapCodec<RecipeExtremeShaped> CODEC = RecordCodecBuilder.mapCodec(instance -> instance
-				.group(Codec.STRING.optionalFieldOf("group", "").forGetter(recipe -> recipe.group),
-						ShapedRecipePattern.MAP_CODEC.forGetter(recipe -> recipe.pattern),
-						ItemStack.STRICT_CODEC.fieldOf("result").forGetter(recipe -> recipe.result))
-				.apply(instance, RecipeExtremeShaped::new));
-		public static final StreamCodec<RegistryFriendlyByteBuf, RecipeExtremeShaped> STREAM_CODEC = StreamCodec
-				.of(RecipeExtremeShaped.Serializer::toNetwork, RecipeExtremeShaped.Serializer::fromNetwork);
+		public static final MapCodec<RecipeExtremeShaped> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(Codec.STRING.optionalFieldOf("group", "").forGetter(recipe -> recipe.group), ShapedRecipePattern.MAP_CODEC.forGetter(recipe -> recipe.pattern), ItemStack.STRICT_CODEC.fieldOf("result").forGetter(recipe -> recipe.result)).apply(instance, RecipeExtremeShaped::new));
+		public static final StreamCodec<RegistryFriendlyByteBuf, RecipeExtremeShaped> STREAM_CODEC = StreamCodec.of(RecipeExtremeShaped.Serializer::toNetwork, RecipeExtremeShaped.Serializer::fromNetwork);
 
 		@Override
 		public MapCodec<RecipeExtremeShaped> codec() {

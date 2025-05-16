@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "avaritia:item/singularity/singularity_layer_0",
+    "layer1": "avaritia:item/singularity/singularity_layer_1"
+  }
+}
