@@ -1,6 +1,5 @@
 package net.byAqua3.avaritia.mixin;
 
-import java.util.Objects;
 import java.util.Optional;
 
 import org.spongepowered.asm.mixin.Final;
@@ -10,9 +9,13 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+
 import net.byAqua3.avaritia.loader.AvaritiaDataComponents;
 import net.byAqua3.avaritia.tile.TileInfinityChest;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.PatchedDataComponentMap;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.Tag;
 import net.minecraft.world.item.Item;
@@ -35,22 +38,25 @@ public class MixinItemStack {
 			}
 		}
 	}
-
-	@Inject(method = { "isSameItemSameComponents" }, at = { @At("HEAD") }, cancellable = true)
-	private static void isSameItemSameComponents(ItemStack stack, ItemStack other, CallbackInfoReturnable<Boolean> callbackInfo) {
-		if (stack.has(AvaritiaDataComponents.MAX_STACK_SIZE.get()) || other.has(AvaritiaDataComponents.MAX_STACK_SIZE.get())) {
-			ItemStack copy1 = stack.copy();
-			ItemStack copy2 = other.copy();
-
-			if (copy1.has(AvaritiaDataComponents.MAX_STACK_SIZE.get())) {
-				copy1.remove(AvaritiaDataComponents.MAX_STACK_SIZE.get());
+	
+	@WrapOperation(method = { "isSameItemSameComponents" }, at = { @At(value = "INVOKE", target = "Ljava/util/Objects;equals(Ljava/lang/Object;Ljava/lang/Object;)Z") })
+	private static boolean isSameItemSameComponentsEquals(Object a, Object b, Operation<Boolean> original) {
+		if (a instanceof PatchedDataComponentMap && b instanceof PatchedDataComponentMap) {
+			PatchedDataComponentMap components1 = (PatchedDataComponentMap) a;
+			PatchedDataComponentMap components2 = (PatchedDataComponentMap) b;
+			if (components1.has(AvaritiaDataComponents.MAX_STACK_SIZE.get()) || components2.has(AvaritiaDataComponents.MAX_STACK_SIZE.get())) {
+				PatchedDataComponentMap copy1 = components1.copy();
+				PatchedDataComponentMap copy2 = components2.copy();
+				if (copy1.has(AvaritiaDataComponents.MAX_STACK_SIZE.get())) {
+					copy1.remove(AvaritiaDataComponents.MAX_STACK_SIZE.get());
+				}
+				if (copy2.has(AvaritiaDataComponents.MAX_STACK_SIZE.get())) {
+					copy2.remove(AvaritiaDataComponents.MAX_STACK_SIZE.get());
+				}
+				return original.call(new Object[] { copy1, copy2 });
 			}
-			if (copy2.has(AvaritiaDataComponents.MAX_STACK_SIZE.get())) {
-				copy2.remove(AvaritiaDataComponents.MAX_STACK_SIZE.get());
-			}
-			callbackInfo.setReturnValue(Objects.equals(copy1.getComponents(), copy2.getComponents()));
-			callbackInfo.cancel();
 		}
+		return original.call(new Object[] { a, b });
 	}
 
 	@Inject(method = { "parse" }, at = { @At("HEAD") }, cancellable = true)
