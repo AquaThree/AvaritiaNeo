@@ -21,7 +21,6 @@ import net.byAqua3.avaritia.gui.GuiExtremeCraftingTable;
 import net.byAqua3.avaritia.loader.AvaritiaBlocks;
 import net.byAqua3.avaritia.recipe.RecipeExtremeCrafting;
 import net.byAqua3.avaritia.recipe.RecipeExtremeShaped;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 
 public class CategoryExtremeRecipe implements DisplayCategory<DisplayExtremeRecipe> {
@@ -63,20 +62,19 @@ public class CategoryExtremeRecipe implements DisplayCategory<DisplayExtremeReci
 		List<Widget> widgets = new ArrayList<>();
 		widgets.add(Widgets.createRecipeBase(rectangle));
 		widgets.add(Widgets.withTranslate(Widgets.createDrawableWidget((guiGraphics, mouseX, mouseY, partialTicks) -> {
-			guiGraphics.blit(RenderType::guiTextured, REIRuntime.getInstance().isDarkThemeEnabled() ? GuiExtremeCraftingTable.COMPAT_DARK_BACKGROUND_LOCATION : GuiExtremeCraftingTable.COMPAT_BACKGROUND_LOCATION, 0, 0, 0, 0, 189, 163, 256, 256);
+			guiGraphics.blit(REIRuntime.getInstance().isDarkThemeEnabled() ? GuiExtremeCraftingTable.COMPAT_DARK_BACKGROUND_LOCATION : GuiExtremeCraftingTable.COMPAT_BACKGROUND_LOCATION, 0, 0, 0, 0, 189, 163, 256, 256);
 		}), startPoint.getX() + 2, startPoint.getY() + 2, 0));
 		RecipeExtremeCrafting recipe = display.getRecipe();
 		List<EntryIngredient> ingredients = display.getInputEntries();
 		List<Slot> inputSlots = new ArrayList<>();
 		for (int y = 0; y < 9; y++) {
-			for (int x = 0; x < 9; x++) {
+			for (int x = 0; x < 9; x++)
 				inputSlots.add(Widgets.createSlot(new Point(startPoint.getX() + x * 18 + 4, startPoint.getY() + y * 18 + 4))
 						.disableBackground().markInput());
-			}
 		}
 		if (!display.isShapeless()) {
-			for (int x = 0; x < 9; x++) {
-				for (int y = 0; y < 9; y++) {
+			for (int y = 0; y < 9; y++) {
+				for (int x = 0; x < 9; x++) {
 					int slotIndex = x + y * 9;
 			        int inputIndex = x + y * ((RecipeExtremeShaped) recipe).getWidth();
 			        if(inputIndex >= ingredients.size() || x >= ((RecipeExtremeShaped) recipe).getWidth()) {

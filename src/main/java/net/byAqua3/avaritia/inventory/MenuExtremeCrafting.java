@@ -3,7 +3,6 @@ package net.byAqua3.avaritia.inventory;
 import net.byAqua3.avaritia.loader.AvaritiaBlocks;
 import net.byAqua3.avaritia.loader.AvaritiaMenus;
 import net.byAqua3.avaritia.loader.AvaritiaRecipes;
-import net.byAqua3.avaritia.recipe.RecipeExtremeCrafting;
 import net.byAqua3.avaritia.tile.TileExtremeCraftingTable;
 
 import java.util.Optional;
@@ -18,7 +17,10 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ResultContainer;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.CraftingInput;
+import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 
 public class MenuExtremeCrafting extends AbstractContainerMenu {
@@ -62,6 +64,7 @@ public class MenuExtremeCrafting extends AbstractContainerMenu {
 		this.slotsChanged(this.craftSlots);
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public void slotsChanged(Container container) {
 		Level level = this.tile.getLevel();
@@ -70,8 +73,8 @@ public class MenuExtremeCrafting extends AbstractContainerMenu {
 		}
 		ItemStack itemStack = ItemStack.EMPTY;
 
-		Optional<RecipeHolder<RecipeExtremeCrafting>> recipe = level.getServer().getRecipeManager().getRecipeFor(
-				AvaritiaRecipes.EXTREME_CRAFTING.get(),
+		Optional<? extends RecipeHolder<Recipe<CraftingInput>>> recipe = level.getRecipeManager().getRecipeFor(
+				(RecipeType) AvaritiaRecipes.EXTREME_CRAFTING.get(),
 				((ContainerExtremeCrafting) container).asCraftInput(), level);
 
 		if (recipe.isPresent()) {

@@ -1,6 +1,6 @@
 package net.byAqua3.avaritia.item;
 
-import net.byAqua3.avaritia.loader.AvaritiaToolMaterials;
+import net.byAqua3.avaritia.loader.AvaritiaTiers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -26,7 +26,12 @@ import net.neoforged.neoforge.common.ItemAbilities;
 public class ItemInfinityHoe extends HoeItem {
 
 	public ItemInfinityHoe(Properties properties) {
-		super(AvaritiaToolMaterials.INFINITY, 29, 0.0F, properties);
+		super(AvaritiaTiers.INFINITY, properties.attributes(HoeItem.createAttributes(AvaritiaTiers.INFINITY, 29, 0.0F)));
+	}
+
+	@Override
+	public boolean hasCustomEntity(ItemStack stack) {
+		return true;
 	}
 
 	@Override
@@ -119,7 +124,7 @@ public class ItemInfinityHoe extends HoeItem {
 				}
 			}
 		}
-		return InteractionResult.SUCCESS;
+		return InteractionResult.sidedSuccess(level.isClientSide);
 	}
 
 }

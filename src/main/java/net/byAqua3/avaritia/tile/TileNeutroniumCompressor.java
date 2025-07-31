@@ -1,14 +1,12 @@
 package net.byAqua3.avaritia.tile;
 
-import java.util.List;
-
 import net.byAqua3.avaritia.item.ItemJsonSingularity;
 import net.byAqua3.avaritia.loader.AvaritiaBlocks;
 import net.byAqua3.avaritia.loader.AvaritiaDataComponents;
 import net.byAqua3.avaritia.loader.AvaritiaSingularities;
 import net.byAqua3.avaritia.recipe.RecipeCompressor;
 import net.byAqua3.avaritia.singularity.Singularity;
-import net.byAqua3.avaritia.util.AvaritiaRecipeUtils;
+import net.byAqua3.avaritia.util.RecipeUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
@@ -21,7 +19,6 @@ import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class TileNeutroniumCompressor extends TileMachine implements WorldlyContainer {
@@ -71,15 +68,6 @@ public class TileNeutroniumCompressor extends TileMachine implements WorldlyCont
 				   }
 				}
 				return -1;
-			case 5:
-				RecipeCompressor recipe = AvaritiaRecipeUtils.getCompressorRecipeFromResult(TileNeutroniumCompressor.this.level, TileNeutroniumCompressor.this.targetStack);
-				
-				if (recipe != null && !TileNeutroniumCompressor.this.targetStack.isEmpty()) {
-					List<Ingredient> ingredients = recipe.placementInfo().ingredients();
-					for (Ingredient ingredient : ingredients) {
-						return BuiltInRegistries.ITEM.getId((ingredient.getValues().get(0).value()));
-					}
-				}
 			default:
 				return 0;
 			}
@@ -102,7 +90,7 @@ public class TileNeutroniumCompressor extends TileMachine implements WorldlyCont
 
 		@Override
 		public int getCount() {
-			return 6;
+			return 5;
 		}
 	};
 
@@ -119,7 +107,7 @@ public class TileNeutroniumCompressor extends TileMachine implements WorldlyCont
 		super.onLoad();
 
 		if (this.compressionTarget == -1) {
-			RecipeCompressor recipe = AvaritiaRecipeUtils.getCompressorRecipeFromResult(this.level, this.targetStack);
+			RecipeCompressor recipe = RecipeUtils.getCompressorRecipeFromResult(this.level, this.targetStack);
 			if (recipe == null) {
 				this.targetStack = ItemStack.EMPTY;
 				this.compressionTarget = 0;
@@ -137,7 +125,7 @@ public class TileNeutroniumCompressor extends TileMachine implements WorldlyCont
 		if (matrixItem.isEmpty()) {
 			return false;
 		}
-		RecipeCompressor recipe = AvaritiaRecipeUtils.getCompressorRecipe(this.level, matrixItem);
+		RecipeCompressor recipe = RecipeUtils.getCompressorRecipe(this.level, matrixItem);
 
 		if (recipe == null) {
 			return false;
@@ -159,7 +147,7 @@ public class TileNeutroniumCompressor extends TileMachine implements WorldlyCont
 	protected void doWork() {
 		if (this.targetStack.isEmpty()) {
 			ItemStack matrixItem = this.matrix.getItem(0);
-			RecipeCompressor recipe = AvaritiaRecipeUtils.getCompressorRecipe(this.level, matrixItem);
+			RecipeCompressor recipe = RecipeUtils.getCompressorRecipe(this.level, matrixItem);
 			
 			if (recipe != null) {
 				this.targetStack = recipe.getResultItem(this.level.registryAccess());
@@ -270,7 +258,7 @@ public class TileNeutroniumCompressor extends TileMachine implements WorldlyCont
 				return true;
 			}
 
-			RecipeCompressor recipe = AvaritiaRecipeUtils.getCompressorRecipe(this.level, stack);
+			RecipeCompressor recipe = RecipeUtils.getCompressorRecipe(this.level, stack);
 
 			if (recipe == null) {
 				return false;

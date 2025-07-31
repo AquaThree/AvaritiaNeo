@@ -22,9 +22,9 @@ public class AvaritiaDataComponents {
 	public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> DESTROYER = DATA_COMPONENTS.register("destroyer", () -> DataComponentType.<Boolean>builder().persistent(Codec.BOOL).networkSynchronized(ByteBufCodecs.BOOL).cacheEncoding().build());
 	
 	public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> FLY = DATA_COMPONENTS.register("fly", () -> DataComponentType.<Boolean>builder().persistent(Codec.BOOL).networkSynchronized(ByteBufCodecs.BOOL).cacheEncoding().build());
-	
-	public static final DeferredHolder<DataComponentType<?>, DataComponentType<String>> SINGULARITY_ID = DATA_COMPONENTS.register("singularity_id", () -> DataComponentType.<String>builder().persistent(Codec.STRING).networkSynchronized(ByteBufCodecs.STRING_UTF8).cacheEncoding().build());
 
+	public static final DeferredHolder<DataComponentType<?>, DataComponentType<String>> SINGULARITY_ID = DATA_COMPONENTS.register("singularity_id", () -> DataComponentType.<String>builder().persistent(Codec.STRING).networkSynchronized(ByteBufCodecs.STRING_UTF8).cacheEncoding().build());
+	
 	public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> MAX_STACK_SIZE = DATA_COMPONENTS.register("max_stack_size", () -> DataComponentType.<Integer>builder().persistent(Codec.INT).networkSynchronized(ByteBufCodecs.INT).cacheEncoding().build());
 	
 	public static void registerDataComponents(IEventBus modEventBus) {

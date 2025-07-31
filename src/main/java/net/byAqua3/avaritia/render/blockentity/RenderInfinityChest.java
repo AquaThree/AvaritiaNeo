@@ -7,7 +7,6 @@ import com.mojang.math.Axis;
 import net.byAqua3.avaritia.Avaritia;
 import net.byAqua3.avaritia.block.BlockInfinityChest;
 import net.byAqua3.avaritia.event.AvaritiaClientEvent;
-import net.byAqua3.avaritia.loader.AvaritiaAtlas;
 import net.byAqua3.avaritia.loader.AvaritiaBlocks;
 import net.byAqua3.avaritia.tile.TileInfinityChest;
 import net.minecraft.client.model.geom.ModelLayers;
@@ -24,10 +23,12 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.ChestBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.ChestType;
 
 public class RenderInfinityChest<T extends TileInfinityChest> implements BlockEntityRenderer<T> {
 	private final ModelPart lid;
@@ -61,6 +62,7 @@ public class RenderInfinityChest<T extends TileInfinityChest> implements BlockEn
 		Level level = blockEntity.getLevel();
 		boolean flag = level != null;
 		BlockState blockState = flag ? blockEntity.getBlockState() : AvaritiaBlocks.INFINITY_CHEST.get().defaultBlockState().setValue(ChestBlock.FACING, Direction.SOUTH);
+        ChestType chestType = ChestType.SINGLE;
 		Block block = blockState.getBlock();
 		if (block instanceof BlockInfinityChest) {
 			poseStack.pushPose();
@@ -72,7 +74,7 @@ public class RenderInfinityChest<T extends TileInfinityChest> implements BlockEn
 			float f1 = blockEntity.lidAngle;
 			f1 = 1.0F - f1;
 			f1 = 1.0F - f1 * f1 * f1;
-			Material material = RenderInfinityChest.getMaterial();
+			Material material = this.getMaterial(blockEntity, chestType);
 			VertexConsumer vertexconsumer = material.buffer(multiBufferSource, RenderType::entityCutout);
 			this.render(poseStack, vertexconsumer, this.lid, this.lock, this.bottom, f1, packedLight, packedOverlay);
 
@@ -89,10 +91,10 @@ public class RenderInfinityChest<T extends TileInfinityChest> implements BlockEn
 		pBottomPart.render(pPoseStack, pConsumer, pPackedLight, pPackedOverlay);
 	}
 
-	public static Material getMaterial() {
+	protected Material getMaterial(T blockEntity, ChestType chestType) {
 		int[] index =  new int[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 7, 6, 5, 4, 3, 2, 1, 0};
 		int offset = (int) Math.floor((System.currentTimeMillis() - AvaritiaClientEvent.lastTime) / 90.0D) % index.length;
-		return new Material(AvaritiaAtlas.BLOCK_ATLAS, ResourceLocation.tryBuild(Avaritia.MODID, "entity/chest/infinity_chest_" + index[offset]));
+		return new Material(InventoryMenu.BLOCK_ATLAS, ResourceLocation.tryBuild(Avaritia.MODID, "entity/chest/infinity_chest_" + index[offset]));
 	}
 
 	@Override

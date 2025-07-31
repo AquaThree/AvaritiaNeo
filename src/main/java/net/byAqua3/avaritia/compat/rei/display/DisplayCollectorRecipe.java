@@ -2,19 +2,21 @@ package net.byAqua3.avaritia.compat.rei.display;
 
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
 import me.shedaniel.rei.api.common.display.Display;
-import me.shedaniel.rei.api.common.display.DisplaySerializer;
 import me.shedaniel.rei.api.common.entry.EntryIngredient;
 import me.shedaniel.rei.api.common.util.EntryIngredients;
 import net.byAqua3.avaritia.compat.rei.AvaritiaREIPlugin;
-import net.byAqua3.avaritia.loader.AvaritiaItems;
-import net.minecraft.resources.ResourceLocation;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import net.byAqua3.avaritia.recipe.RecipeCollector;
+import net.minecraft.core.RegistryAccess;
 
-import org.jetbrains.annotations.Nullable;
+import java.util.Arrays;
+import java.util.List;
 
 public class DisplayCollectorRecipe implements Display {
+	private RecipeCollector recipe;
+
+	public DisplayCollectorRecipe(RecipeCollector recipe) {
+		this.recipe =  recipe;
+	}
 	
 	@Override
 	public CategoryIdentifier<?> getCategoryIdentifier() {
@@ -23,21 +25,15 @@ public class DisplayCollectorRecipe implements Display {
 
 	@Override
 	public List<EntryIngredient> getInputEntries() {
-		return Collections.singletonList(EntryIngredients.of((AvaritiaItems.NEUTRON_PILE.get())));
+		return EntryIngredients.ofIngredients(this.recipe.getIngredients());
 	}
 
 	@Override
 	public List<EntryIngredient> getOutputEntries() {
-		return Collections.singletonList(EntryIngredients.of((AvaritiaItems.NEUTRON_PILE.get())));
+		return Arrays.asList(EntryIngredients.of(this.recipe.getResultItem(RegistryAccess.EMPTY)));
 	}
-
-	@Override
-	public Optional<ResourceLocation> getDisplayLocation() {
-		return Optional.of(AvaritiaREIPlugin.COLLECTOR.getIdentifier());
-	}
-
-	@Override
-	public @Nullable DisplaySerializer<? extends Display> getSerializer() {
-		return null;
+	
+	public RecipeCollector getRecipe() {
+		return this.recipe;
 	}
 }

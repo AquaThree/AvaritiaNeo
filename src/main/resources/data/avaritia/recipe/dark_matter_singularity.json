@@ -8,7 +8,9 @@
 	},
 	"cost": 200,
 	"ingredients": [
-		"projecte:dark_matter_block"
+		{
+			"item": "projecte:dark_matter_block"
+		}
 	],
 	"neoforge:conditions": [
 		{

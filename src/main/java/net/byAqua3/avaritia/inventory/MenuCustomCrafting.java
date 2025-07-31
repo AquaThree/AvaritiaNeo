@@ -16,8 +16,8 @@ public class MenuCustomCrafting extends CraftingMenu {
 	}
 	
 	@Override
-    public boolean stillValid(Player pPlayer) {
-        return stillValid(this.access, pPlayer, AvaritiaBlocks.COMPRESSED_CRAFTING_TABLE.get()) || stillValid(this.access, pPlayer, AvaritiaBlocks.DOUBLE_COMPRESSED_CRAFTING_TABLE.get());
+    public boolean stillValid(Player player) {
+        return stillValid(this.access, player, AvaritiaBlocks.COMPRESSED_CRAFTING_TABLE.get()) || stillValid(this.access, player, AvaritiaBlocks.DOUBLE_COMPRESSED_CRAFTING_TABLE.get());
     }
 
 }

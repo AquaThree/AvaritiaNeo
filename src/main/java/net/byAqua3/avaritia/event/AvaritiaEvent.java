@@ -3,7 +3,7 @@ package net.byAqua3.avaritia.event;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.byAqua3.avaritia.damage.InfinityDamageSource;
+import net.byAqua3.avaritia.damage.DamageSourceInfinity;
 import net.byAqua3.avaritia.item.ItemInfinityArmor;
 import net.byAqua3.avaritia.item.ItemInfinityAxe;
 import net.byAqua3.avaritia.item.ItemInfinityBow;
@@ -20,18 +20,19 @@ import net.byAqua3.avaritia.loader.AvaritiaSingularities;
 import net.byAqua3.avaritia.loader.AvaritiaTriggers;
 import net.byAqua3.avaritia.network.PacketSingularitySync;
 import net.byAqua3.avaritia.singularity.Singularity;
+import net.byAqua3.avaritia.util.ItemUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.protocol.game.ClientboundPlayerAbilitiesPacket;
+import net.minecraft.network.protocol.game.ClientboundUpdateAttributesPacket;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerChunkCache;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.AbstractSkeleton;
@@ -42,14 +43,12 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.Vec3;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.event.OnDatapackSyncEvent;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDropsEvent;
-import net.neoforged.neoforge.event.entity.living.LivingEntityUseItemEvent;
 import net.neoforged.neoforge.event.entity.living.LivingEvent;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 import net.neoforged.neoforge.event.entity.player.ItemEntityPickupEvent;
@@ -60,21 +59,8 @@ import net.neoforged.neoforge.network.PacketDistributor;
 
 public class AvaritiaEvent {
 
-	public static boolean ClientFly;
-	public static boolean ClientMove;
-
 	public static List<String> FlyPlayer = new ArrayList<>();
 	public static List<String> MovePlayer = new ArrayList<>();
-
-	public static boolean isInfinityArmor(Player player) {
-		if (player.getItemBySlot(EquipmentSlot.HEAD).getItem() == AvaritiaItems.INFINITY_HELMET.get()
-				&& player.getItemBySlot(EquipmentSlot.CHEST).getItem() == AvaritiaItems.INFINITY_CHESTPLATE.get()
-				&& player.getItemBySlot(EquipmentSlot.LEGS).getItem() == AvaritiaItems.INFINITY_LEGGINGS.get()
-				&& player.getItemBySlot(EquipmentSlot.FEET).getItem() == AvaritiaItems.INFINITY_BOOTS.get()) {
-			return true;
-		}
-		return false;
-	}
 
 	@SubscribeEvent
 	public void onEntityJoinWorld(EntityJoinLevelEvent event) {
@@ -83,9 +69,7 @@ public class AvaritiaEvent {
 			ItemEntity itemEntity = (ItemEntity) entity;
 			ItemStack itemStack = itemEntity.getItem();
 			Item item = itemStack.getItem();
-			if (item instanceof ItemInfinitySword || item instanceof ItemInfinityBow || item instanceof ItemInfinityAxe
-					|| item instanceof ItemInfinityPickaxe || item instanceof ItemInfinityShovel
-					|| item instanceof ItemInfinityHoe || item instanceof ItemInfinityArmor) {
+			if (item instanceof ItemInfinitySword || item instanceof ItemInfinityBow || item instanceof ItemInfinityAxe || item instanceof ItemInfinityPickaxe || item instanceof ItemInfinityShovel || item instanceof ItemInfinityHoe || item instanceof ItemInfinityArmor) {
 				itemEntity.setPickUpDelay(8);
 			}
 		}
@@ -103,67 +87,42 @@ public class AvaritiaEvent {
 				AvaritiaTriggers.ROOT.get().trigger(serverPlayer);
 			}
 
-			if ((ClientFly || FlyPlayer.contains(playerName))
-					&& player.getItemBySlot(EquipmentSlot.CHEST).getItem() != AvaritiaItems.INFINITY_CHESTPLATE.get()) {
-				if (!player.isCreative()) {
-					player.getAbilities().mayfly = false;
-					player.getAbilities().flying = false;
-				}
-				player.getAbilities().setFlyingSpeed(0.05F);
-				if (player.level().isClientSide() && ClientFly) {
-					ClientFly = false;
-				}
-				if (FlyPlayer.contains(playerName)) {
-					FlyPlayer.remove(playerName);
-				}
-			}
-			if ((ClientMove || MovePlayer.contains(playerName))
-					&& player.getItemBySlot(EquipmentSlot.FEET).getItem() != AvaritiaItems.INFINITY_BOOTS.get()) {
-				player.getAttribute(Attributes.STEP_HEIGHT).setBaseValue(0.5F);
-				if (player.level().isClientSide() && ClientMove) {
-					ClientMove = false;
-				}
-				if (MovePlayer.contains(playerName)) {
-					MovePlayer.remove(playerName);
-				}
-			}
+			if (!player.level().isClientSide()) {
+				ServerLevel serverLevel = (ServerLevel) player.level();
+				ServerChunkCache serverChunkCache = serverLevel.getChunkSource();
 
-			if (player.getItemBySlot(EquipmentSlot.CHEST).getItem() == AvaritiaItems.INFINITY_CHESTPLATE.get()) {
-				if (player.level().isClientSide()) {
-					AvaritiaEvent.ClientFly = true;
-				}
-
-				if (!AvaritiaEvent.FlyPlayer.contains(playerName)) {
-					AvaritiaEvent.FlyPlayer.add(playerName);
-				}
-			}
-
-			if (player.getItemBySlot(EquipmentSlot.FEET).getItem() == AvaritiaItems.INFINITY_BOOTS.get()) {
-				boolean flying = player.getAbilities().flying;
-				boolean swimming = player.isInWater();
-				if (player.onGround() || flying || swimming) {
-					boolean sneaking = player.isCrouching();
-					float speed = 0.15f * (flying ? 1.1F : 1.0F) * (swimming ? 1.2F : 1.0F) * (sneaking ? 0.1F : 1.0F);
-
-					if (player.zza > 0.0F) {
-						player.moveRelative(speed, new Vec3(0, 0, 1));
-					} else if (player.zza < 0.0F) {
-						player.moveRelative(-speed * 0.25F, new Vec3(0, 0, 1));
+				if (FlyPlayer.contains(playerName) && player.getItemBySlot(EquipmentSlot.CHEST).getItem() != AvaritiaItems.INFINITY_CHESTPLATE.get()) {
+					if (!player.isCreative()) {
+						player.getAbilities().mayfly = false;
+						player.getAbilities().flying = false;
 					}
+					player.getAbilities().setFlyingSpeed(0.05F);
+					serverChunkCache.broadcastAndSend(player, new ClientboundPlayerAbilitiesPacket(player.getAbilities()));
 
-					if (player.xxa != 0.0F) {
-						player.moveRelative(speed * 0.5F * Math.signum(player.xxa), new Vec3(1, 0, 0));
+					if (FlyPlayer.contains(playerName)) {
+						FlyPlayer.remove(playerName);
+					}
+				}
+				if (MovePlayer.contains(playerName) && player.getItemBySlot(EquipmentSlot.FEET).getItem() != AvaritiaItems.INFINITY_BOOTS.get()) {
+					player.getAttribute(Attributes.STEP_HEIGHT).setBaseValue(0.5F);
+					serverChunkCache.broadcastAndSend(player, new ClientboundUpdateAttributesPacket(player.getId(), player.getAttributes().getSyncableAttributes()));
+
+					if (MovePlayer.contains(playerName)) {
+						MovePlayer.remove(playerName);
 					}
 				}
 
-				if (player.level().isClientSide()) {
-					AvaritiaEvent.ClientMove = true;
+				if (player.getItemBySlot(EquipmentSlot.CHEST).getItem() == AvaritiaItems.INFINITY_CHESTPLATE.get()) {
+					if (!AvaritiaEvent.FlyPlayer.contains(playerName)) {
+						AvaritiaEvent.FlyPlayer.add(playerName);
+					}
 				}
 
-				if (!AvaritiaEvent.MovePlayer.contains(playerName)) {
-					AvaritiaEvent.MovePlayer.add(playerName);
+				if (player.getItemBySlot(EquipmentSlot.FEET).getItem() == AvaritiaItems.INFINITY_BOOTS.get()) {
+					if (!AvaritiaEvent.MovePlayer.contains(playerName)) {
+						AvaritiaEvent.MovePlayer.add(playerName);
+					}
 				}
-
 			}
 		}
 	}
@@ -173,8 +132,9 @@ public class AvaritiaEvent {
 		if (event.getEntity() instanceof Player) {
 			Player player = (Player) event.getEntity();
 			if (player.getItemBySlot(EquipmentSlot.FEET).getItem() == AvaritiaItems.INFINITY_BOOTS.get()) {
-				player.setDeltaMovement(player.getDeltaMovement().x, player.getDeltaMovement().y + 0.4D,
-						player.getDeltaMovement().z);
+				if (AvaritiaConfigs.highJump.get()) {
+					player.push(0.0D, 0.4D, 0.0D);
+				}
 			}
 		}
 	}
@@ -191,11 +151,9 @@ public class AvaritiaEvent {
 							event.getDrops().remove(itemEntity);
 						}
 					}
-					int randomInt = player.getRandom().nextInt(100) + 1;
-					if (randomInt <= AvaritiaConfigs.dropChange.get()) {
-						ItemEntity itemEntity = new ItemEntity(event.getEntity().level(), event.getEntity().getX(),
-								event.getEntity().getY(), event.getEntity().getZ(),
-								new ItemStack(Items.WITHER_SKELETON_SKULL));
+					int randomInt = player.getRandom().nextInt(100);
+					if (randomInt < AvaritiaConfigs.dropChange.get()) {
+						ItemEntity itemEntity = new ItemEntity(event.getEntity().level(), event.getEntity().getX(), event.getEntity().getY(), event.getEntity().getZ(), new ItemStack(Items.WITHER_SKELETON_SKULL));
 						itemEntity.setDefaultPickUpDelay();
 						event.getDrops().add(itemEntity);
 					}
@@ -209,7 +167,7 @@ public class AvaritiaEvent {
 		if (event.getEntity() instanceof Player) {
 			DamageSource damageSource = event.getSource();
 			Player player = (Player) event.getEntity();
-			if (isInfinityArmor(player) && !(damageSource instanceof InfinityDamageSource)) {
+			if (ItemUtils.isInfinityArmor(player) && !(damageSource instanceof DamageSourceInfinity)) {
 				event.setCanceled(true);
 				player.hurtTime = 0;
 				player.deathTime = 0;
@@ -222,7 +180,7 @@ public class AvaritiaEvent {
 		if (event.getEntity() instanceof Player) {
 			DamageSource damageSource = event.getSource();
 			Player player = (Player) event.getEntity();
-			if (isInfinityArmor(player) && !(damageSource instanceof InfinityDamageSource)) {
+			if (ItemUtils.isInfinityArmor(player) && !(damageSource instanceof DamageSourceInfinity)) {
 				event.setNewDamage(0.0F);
 				player.hurtTime = 0;
 				player.deathTime = 0;
@@ -235,7 +193,7 @@ public class AvaritiaEvent {
 		if (event.getEntity() instanceof Player) {
 			DamageSource damageSource = event.getSource();
 			Player player = (Player) event.getEntity();
-			if (isInfinityArmor(player) && !(damageSource instanceof InfinityDamageSource)) {
+			if (ItemUtils.isInfinityArmor(player) && !(damageSource instanceof DamageSourceInfinity)) {
 				player.hurtTime = 0;
 				player.deathTime = 0;
 			}
@@ -247,7 +205,7 @@ public class AvaritiaEvent {
 		if (event.getEntity() instanceof Player) {
 			DamageSource damageSource = event.getSource();
 			Player player = (Player) event.getEntity();
-			if (isInfinityArmor(player) && !(damageSource instanceof InfinityDamageSource)) {
+			if (ItemUtils.isInfinityArmor(player) && !(damageSource instanceof DamageSourceInfinity)) {
 				event.setCanceled(true);
 				player.hurtTime = 0;
 				player.deathTime = 0;
@@ -265,8 +223,7 @@ public class AvaritiaEvent {
 		if (item instanceof ItemInfinityAxe) {
 			event.setNewSpeed(event.getNewSpeed() * 5.0F);
 		} else if (item instanceof ItemInfinityPickaxe) {
-			if (itemStack.has(AvaritiaDataComponents.HAMMER.get())
-					&& itemStack.getOrDefault(AvaritiaDataComponents.HAMMER.get(), false)) {
+			if (itemStack.has(AvaritiaDataComponents.HAMMER.get()) && itemStack.getOrDefault(AvaritiaDataComponents.HAMMER.get(), false)) {
 				event.setNewSpeed(10.0F);
 			} else {
 				event.setNewSpeed(Float.MAX_VALUE);
@@ -295,8 +252,7 @@ public class AvaritiaEvent {
 		}
 
 		if (item instanceof ItemInfinityPickaxe) {
-			if (itemStack.has(AvaritiaDataComponents.HAMMER.get())
-					&& itemStack.getOrDefault(AvaritiaDataComponents.HAMMER.get(), false)) {
+			if (itemStack.has(AvaritiaDataComponents.HAMMER.get()) && itemStack.getOrDefault(AvaritiaDataComponents.HAMMER.get(), false)) {
 				if (player.isCreative() || blockState.getDestroySpeed(level, blockPos) <= -1) {
 					item.mineBlock(itemStack, level, blockState, blockPos, player);
 				}
@@ -305,26 +261,14 @@ public class AvaritiaEvent {
 					List<ItemStack> blockDrops = Block.getDrops(blockState, (ServerLevel) level, blockPos, null);
 					if (blockDrops.isEmpty()) {
 						ResourceLocation blockKey = BuiltInRegistries.BLOCK.getKey(block);
-						Item blockItem = BuiltInRegistries.ITEM.getValue(blockKey);
-						ItemEntity itemEntity = new ItemEntity(level, blockPos.getX(), blockPos.getY(), blockPos.getZ(),
-								new ItemStack(blockItem));
+						Item blockItem = BuiltInRegistries.ITEM.get(blockKey);
+						ItemEntity itemEntity = new ItemEntity(level, blockPos.getX(), blockPos.getY(), blockPos.getZ(), new ItemStack(blockItem));
 						itemEntity.setDefaultPickUpDelay();
 						level.addFreshEntity(itemEntity);
 						level.destroyBlock(blockPos, false);
 					}
 				}
 			}
-		}
-	}
-
-	@SubscribeEvent
-	public void onLivingEntityUseFinishItem(LivingEntityUseItemEvent.Finish event) {
-		LivingEntity livingEntity = event.getEntity();
-		ItemStack itemStack = event.getResultStack();
-		Item item = itemStack.getItem();
-
-		if (item == AvaritiaItems.ULTIMATE_STEW.get() || item == AvaritiaItems.COSMIC_MEATBALLS.get()) {
-			livingEntity.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 5 * 60 * 20, 1));
 		}
 	}
 
@@ -384,15 +328,6 @@ public class AvaritiaEvent {
 							newStackItems.addAll(stackItems.subList(index + 1, stackItems.size() - 1));
 
 							player.getInventory().items.set(i, ItemMatterCluster.makeCluster(newMatterItems));
-							// if (player.getInventory().getFreeSlot() != -1) {
-							// player.getInventory().add(ItemMatterCluster.makeCluster(newStackItems));
-							// } else {
-							// ItemEntity newItemEntity = new ItemEntity(player.level(), player.getX(),
-							// player.getY(),
-							// player.getZ(), ItemMatterCluster.makeCluster(newStackItems));
-							// newItemEntity.setDefaultPickUpDelay();
-							// level.addFreshEntity(newItemEntity);
-							// }
 						}
 						break;
 					}
@@ -412,7 +347,7 @@ public class AvaritiaEvent {
 			singularities = AvaritiaSingularities.loadSingularities(resourceManager);
 			PacketDistributor.sendToAllPlayers(new PacketSingularitySync(singularities));
 		} else {
-			resourceManager = player.getServer().getResourceManager();;
+			resourceManager = player.getServer().getResourceManager();
 			singularities = AvaritiaSingularities.loadSingularities(resourceManager);
 			PacketDistributor.sendToPlayer(player, new PacketSingularitySync(singularities));
 		}

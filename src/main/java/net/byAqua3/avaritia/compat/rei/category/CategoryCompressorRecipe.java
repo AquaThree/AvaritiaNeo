@@ -18,7 +18,6 @@ import net.byAqua3.avaritia.compat.rei.display.DisplayCompressorRecipe;
 import net.byAqua3.avaritia.event.AvaritiaClientEvent;
 import net.byAqua3.avaritia.gui.GuiNeutroniumCompressor;
 import net.byAqua3.avaritia.loader.AvaritiaBlocks;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 
 public class CategoryCompressorRecipe implements DisplayCategory<DisplayCompressorRecipe> {
@@ -60,12 +59,12 @@ public class CategoryCompressorRecipe implements DisplayCategory<DisplayCompress
 		List<Widget> widgets = new ArrayList<>();
 		widgets.add(Widgets.createRecipeBase(rectangle));
 		widgets.add(Widgets.withTranslate(Widgets.createDrawableWidget((guiGraphics, mouseX, mouseY, partialTicks) -> {
-			guiGraphics.blit(RenderType::guiTextured, REIRuntime.getInstance().isDarkThemeEnabled() ? GuiNeutroniumCompressor.DARK_BACKGROUND_LOCATION : GuiNeutroniumCompressor.BACKGROUND_LOCATION, 0, 0, 37, 29, 102, 41, 256, 256);
+			guiGraphics.blit(REIRuntime.getInstance().isDarkThemeEnabled() ? GuiNeutroniumCompressor.DARK_BACKGROUND_LOCATION : GuiNeutroniumCompressor.BACKGROUND_LOCATION, 0, 0, 37, 29, 102, 41, 256, 256);
 		}), startPoint.getX() + 10, startPoint.getY() + 10, 0));
 		widgets.add(Widgets.withTranslate(Widgets.createDrawableWidget((guiGraphics, mouseX, mouseY, partialTicks) -> {
 			int offset = (int) Math.floor((System.currentTimeMillis() - AvaritiaClientEvent.lastTime) / 2.5D) % display.getCost();
 			float progress = 16.0F *  ((float) offset / display.getCost());
-			guiGraphics.blit(RenderType::guiTextured, REIRuntime.getInstance().isDarkThemeEnabled() ? GuiNeutroniumCompressor.DARK_BACKGROUND_LOCATION : GuiNeutroniumCompressor.BACKGROUND_LOCATION, 0, 0 + (16 - (int) progress), 176.0F, 32.0F - (int) progress, 16, (int) progress, 256, 256);
+			guiGraphics.blit(REIRuntime.getInstance().isDarkThemeEnabled() ? GuiNeutroniumCompressor.DARK_BACKGROUND_LOCATION : GuiNeutroniumCompressor.BACKGROUND_LOCATION, 0, 0 + (16 - (int) progress), 176.0F, 32.0F - (int) progress, 16, (int) progress, 256, 256);
 		}), startPoint.getX() + 63, startPoint.getY() + 16, 0));
 		widgets.add(Widgets.createLabel(new Point(rectangle.getCenterX(), rectangle.getMaxY() - 15), Component.translatable("avaritia:container.neutronium_compressor.info", display.getCost())).color(-12566464, -4473925).noShadow().centered());
 		widgets.add(Widgets.createSlot(new Point(startPoint.getX() + 12, rectangle.getCenterY() - 11))

@@ -5,14 +5,14 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.BowItem;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.ItemUseAnimation;
+import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
@@ -23,6 +23,11 @@ public class ItemInfinityBow extends BowItem {
 
 	public ItemInfinityBow(Properties properties) {
 		super(properties.stacksTo(1));
+	}
+
+	@Override
+	public boolean hasCustomEntity(ItemStack stack) {
+		return true;
 	}
 
 	@Override
@@ -42,25 +47,25 @@ public class ItemInfinityBow extends BowItem {
 	}
 
 	@Override
-	public ItemUseAnimation getUseAnimation(ItemStack stack) {
-		return ItemUseAnimation.BOW;
+	public UseAnim getUseAnimation(ItemStack stack) {
+		return UseAnim.BOW;
 	}
 
 	@Override
-	public InteractionResult use(Level level, Player player, InteractionHand hand) {
+	public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
 		ItemStack stack = player.getItemInHand(hand);
-		InteractionResult ret = net.neoforged.neoforge.event.EventHooks.onArrowNock(stack, level,
+		InteractionResultHolder<ItemStack> ret = net.neoforged.neoforge.event.EventHooks.onArrowNock(stack, level,
 				player, hand, true);
 		if (ret != null) {
 			return ret;
 		}
 		player.startUsingItem(hand);
-		return InteractionResult.CONSUME;
+		return InteractionResultHolder.consume(stack);
 	}
 
 	@SuppressWarnings("deprecation")
 	@Override
-	public void onUseTick(Level level, LivingEntity livingEntity, ItemStack stack, int time) {	
+	public void onUseTick(Level level, LivingEntity livingEntity, ItemStack stack, int time) {
 		if (livingEntity instanceof Player) {
 			Player player = (Player) livingEntity;
 			
@@ -120,14 +125,12 @@ public class ItemInfinityBow extends BowItem {
 	}
 	
 	@Override
-    public boolean releaseUsing(ItemStack stack, Level level, LivingEntity livingEntity, int time) {
-		return true;
+    public void releaseUsing(ItemStack stack, Level level, LivingEntity livingEntity, int time) {
 	}
 
 	@Override
 	public AbstractArrow customArrow(AbstractArrow arrow, ItemStack projectileStack, ItemStack weaponStack) {
-		return super.customArrow(arrow, projectileStack, weaponStack);
-		//return new EntityInfinityArrow(arrow.level(), false);
+		return new EntityInfinityArrow(arrow.level(), false);
 	}
 
 }

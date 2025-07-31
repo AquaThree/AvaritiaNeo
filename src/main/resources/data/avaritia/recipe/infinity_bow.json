@@ -15,8 +15,14 @@
     "   II    "
   ],
   "key": {
-    "I": "avaritia:infinity_ingot",
-    "X": "avaritia:crystal_matrix_block",
-    "W": "#minecraft:wool"
+    "I": {
+      "item": "avaritia:infinity_ingot"
+    },
+    "X": {
+      "item": "avaritia:crystal_matrix_block"
+    },
+    "W": {
+      "tag": "minecraft:wool"
+    }
   }
 }

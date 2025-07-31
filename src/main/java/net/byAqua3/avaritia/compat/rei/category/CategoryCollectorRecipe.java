@@ -17,7 +17,6 @@ import net.byAqua3.avaritia.compat.rei.AvaritiaREIPlugin;
 import net.byAqua3.avaritia.compat.rei.display.DisplayCollectorRecipe;
 import net.byAqua3.avaritia.gui.GuiNeutronCollector;
 import net.byAqua3.avaritia.loader.AvaritiaBlocks;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 
 public class CategoryCollectorRecipe implements DisplayCategory<DisplayCollectorRecipe> {
@@ -59,7 +58,7 @@ public class CategoryCollectorRecipe implements DisplayCategory<DisplayCollector
 		List<Widget> widgets = new ArrayList<>();
 		widgets.add(Widgets.createRecipeBase(rectangle));
 		widgets.add(Widgets.withTranslate(Widgets.createDrawableWidget((guiGraphics, mouseX, mouseY, partialTicks) -> {
-			guiGraphics.blit(RenderType::guiTextured, REIRuntime.getInstance().isDarkThemeEnabled() ? GuiNeutronCollector.DARK_BACKGROUND_LOCATION : GuiNeutronCollector.BACKGROUND_LOCATION, 0, 0, 37, 29, 102, 41, 256, 256);
+			guiGraphics.blit(REIRuntime.getInstance().isDarkThemeEnabled() ? GuiNeutronCollector.DARK_BACKGROUND_LOCATION : GuiNeutronCollector.BACKGROUND_LOCATION, 0, 0, 37, 29, 102, 41, 256, 256);
 		}), startPoint.getX() + 10, startPoint.getY() + 10, 0));
 		widgets.add(Widgets.createLabel(new Point(rectangle.getCenterX(), rectangle.getMaxY() - 15), Component.translatable("avaritia:container.neutron_collector.info", 5.92)).color(-12566464, -4473925).noShadow().centered());
 		widgets.add(Widgets

@@ -4,6 +4,7 @@
 	"compatibilityLevel": "JAVA_21",
 	"refmap": "mixins.avaritia.refmap.json",
 	"mixins": [
+		"MixinItemRenderer",
 		"MixinItemStack"
 	],
 	"injectors": {

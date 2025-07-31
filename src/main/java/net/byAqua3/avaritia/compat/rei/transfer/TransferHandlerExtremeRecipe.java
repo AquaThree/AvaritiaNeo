@@ -55,7 +55,8 @@ public class TransferHandlerExtremeRecipe {
 							for (int x = 0; x < 9; x++) {
 								int slotIndex = x + y * 9;
 								int inputIndex = x + y * ((RecipeExtremeShaped) recipe).getWidth();
-								if (inputIndex >= ingredients.size() || x >= ((RecipeExtremeShaped) recipe).getWidth()) {
+								if (inputIndex >= ingredients.size()
+										|| x >= ((RecipeExtremeShaped) recipe).getWidth()) {
 									continue;
 								}
 								inputSlots.add(SlotAccessor.fromSlot(context.getMenu().getSlot(slotIndex + 1)));

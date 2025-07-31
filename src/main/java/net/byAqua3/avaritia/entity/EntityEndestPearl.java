@@ -35,7 +35,7 @@ public class EntityEndestPearl extends ThrowableItemProjectile {
 						this.random.nextGaussian() * 3.0D);
 			}
 
-			EntityGapingVoid gapingVoid = new EntityGapingVoid(level());
+			EntityGapingVoid gapingVoid = new EntityGapingVoid(this.level());
 			BlockPos blockPos = result.getBlockPos();
 			if(this.getOwner() instanceof Player) {
 			   gapingVoid.setPlayer((Player) this.getOwner());

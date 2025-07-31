@@ -18,7 +18,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -52,6 +51,7 @@ public class EntityGapingVoid extends Entity {
 
 	public EntityGapingVoid(EntityType<?> entityType, Level level) {
 		super(entityType, level);
+		this.noCulling = true;
 	}
 
 	public EntityGapingVoid(Level level) {
@@ -96,7 +96,7 @@ public class EntityGapingVoid extends Entity {
 			d0 = 1.0;
 		}
 
-		d0 *= 64.0 * getViewScale();
+		d0 *= 64.0 * Entity.getViewScale();
 		return distance < d0 * d0;
 	}
 
@@ -138,11 +138,6 @@ public class EntityGapingVoid extends Entity {
 			return !player.isCreative();
 		}
 		return true;
-	}
-
-	@Override
-	public boolean hurtServer(ServerLevel level, DamageSource damageSource, float amount) {
-		return false;
 	}
 
 	@SuppressWarnings("deprecation")
@@ -198,7 +193,7 @@ public class EntityGapingVoid extends Entity {
 
 		int attackRange = (int) (radius * 0.95D);
 
-		aabb = AABB.encapsulatingFullBlocks(this.blockPosition().offset(new Vec3i((int) -attackRange, (int) -attackRange, (int) -attackRange)), this.blockPosition().offset(new Vec3i((int) attackRange, (int) attackRange, (int) attackRange)));
+		aabb = AABB.encapsulatingFullBlocks(this.blockPosition().offset(new Vec3i(-attackRange, -attackRange, -attackRange)), this.blockPosition().offset(new Vec3i(attackRange, attackRange, attackRange)));
 		List<LivingEntity> entitiesToAttack = this.level().getEntitiesOfClass(LivingEntity.class, aabb, this::shouldAttack);
 		for (Entity toAttack : entitiesToAttack) {
 			if (toAttack != this) {
@@ -248,7 +243,7 @@ public class EntityGapingVoid extends Entity {
 										drops.addAll(blockDrops);
 									} else {
 										ResourceLocation blockKey = BuiltInRegistries.BLOCK.getKey(block);
-										Item blockItem = BuiltInRegistries.ITEM.getValue(blockKey);
+										Item blockItem = BuiltInRegistries.ITEM.get(blockKey);
 										drops.add(new ItemStack(blockItem));
 									}
 

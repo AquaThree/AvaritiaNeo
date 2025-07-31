@@ -4,12 +4,13 @@ import java.text.DecimalFormat;
 import java.util.List;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.datafixers.util.Pair;
 
 import net.byAqua3.avaritia.Avaritia;
 import net.byAqua3.avaritia.inventory.MenuInfinityChest;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
@@ -43,7 +44,7 @@ public class GuiInfinityChest extends AbstractContainerScreen<MenuInfinityChest>
 	@Override
 	protected void renderBg(GuiGraphics guiGraphics, float partialTicks, int mouseX, int mouseY) {
 		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-		guiGraphics.blit(RenderType::guiTextured, BACKGROUND_LOCATION, this.getGuiLeft(), this.getGuiTop(), 0.0F, 0.0F, this.imageWidth,
+		guiGraphics.blit(BACKGROUND_LOCATION, this.getGuiLeft(), this.getGuiTop(), 0.0F, 0.0F, this.imageWidth,
 				this.imageHeight, 512, 512);
 	}
 
@@ -118,13 +119,14 @@ public class GuiInfinityChest extends AbstractContainerScreen<MenuInfinityChest>
 
 		guiGraphics.pose().pushPose();
 		guiGraphics.pose().translate(0.0F, 0.0F, 100.0F);
-
 		if (itemStack.isEmpty() && slot.isActive()) {
-			ResourceLocation resourcelocation = slot.getNoItemIcon();
-			if (resourcelocation != null) {
-                guiGraphics.blitSprite(RenderType::guiTextured, resourcelocation, i, j, 16, 16);
-                flag1 = true;
-            }
+			Pair<ResourceLocation, ResourceLocation> pair = slot.getNoItemIcon();
+			if (pair != null) {
+				TextureAtlasSprite textureatlassprite = this.minecraft.getTextureAtlas(pair.getFirst())
+						.apply(pair.getSecond());
+				guiGraphics.blit(i, j, 0, 16, 16, textureatlassprite);
+				flag1 = true;
+			}
 		}
 
 		if (!flag1) {
@@ -138,12 +140,12 @@ public class GuiInfinityChest extends AbstractContainerScreen<MenuInfinityChest>
 			} else {
 				guiGraphics.renderItem(itemStack, i, j, j1);
 			}
-
+			
 			String text = null;
 			int count = itemStack.getCount();
 
 			if (count >= 1000) {
-				text = new DecimalFormat("#").format(count / 1000) + "k";
+				text = new DecimalFormat("#").format(count / 1000) + "K";
 			}
 			if (count >= 10000) {
 				text = new DecimalFormat("#").format(count / 10000) + "W";

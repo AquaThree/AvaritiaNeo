@@ -1,22 +1,28 @@
 {
-	"type": "avaritia:extreme_shaped",
-	"result": {
-		"id": "avaritia:infinity_helmet"
-	},
-	"pattern": [
-		"  NNNNN  ",
-		" NIIIIIN ",
-		" N XIX N ",
-		" NIIIIIN ",
-		" NIIIIIN ",
-		" NI I IN ",
-		"         ",
-		"         ",
-		"         "
-	],
-	"key": {
-		"N": "avaritia:neutronium_ingot",
-		"I": "avaritia:infinity_ingot",
-		"X": "avaritia:infinity_catalyst"
-	}
+  "type": "avaritia:extreme_shaped",
+  "result": {
+    "id": "avaritia:infinity_helmet"
+  },
+  "pattern": [
+    "  NNNNN  ",
+    " NIIIIIN ",
+    " N XIX N ",
+    " NIIIIIN ",
+    " NIIIIIN ",
+    " NI I IN ",
+    "         ",
+    "         ",
+    "         "
+  ],
+  "key": {
+    "N": {
+      "item": "avaritia:neutronium_ingot"
+    },
+    "I": {
+      "item": "avaritia:infinity_ingot"
+    },
+    "X": {
+      "item": "avaritia:infinity_catalyst"
+    }
+  }
 }

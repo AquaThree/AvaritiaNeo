@@ -1,12 +1,10 @@
 package net.byAqua3.avaritia.compat;
 
 import net.byAqua3.avaritia.compat.projecte.AvaritiaEMC;
-import net.byAqua3.avaritia.compat.rei.AvaritiaREI;
 
 public enum AvaritiaCompat {
-
-	EQUIVALENTEXCHANGE("equivalentexchange", AvaritiaEMC.class.getName()),
-	ROUGHLYENOUGHITEMS("roughlyenoughitems", AvaritiaREI.class.getName());
+	
+	PROJECTE("projecte", AvaritiaEMC.class.getName());
 
 	private final String modId;
 	private final String className;

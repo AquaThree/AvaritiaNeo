@@ -1,30 +1,21 @@
 package net.byAqua3.avaritia.inventory;
 
-import java.util.List;
-
-import net.minecraft.core.NonNullList;
 import net.minecraft.world.SimpleContainer;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.player.StackedItemContents;
+import net.minecraft.world.entity.player.StackedContents;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.CraftingContainer;
+import net.minecraft.world.inventory.TransientCraftingContainer;
 import net.minecraft.world.item.ItemStack;
 
-public class ContainerExtremeCrafting implements CraftingContainer {
+public class ContainerExtremeCrafting extends TransientCraftingContainer {
 
 	private final SimpleContainer matrix;
-	
-	private final NonNullList<ItemStack> items;
-    private final int width;
-    private final int height;
-    private final AbstractContainerMenu container;
+
+	private final AbstractContainerMenu container;
 
 	public ContainerExtremeCrafting(AbstractContainerMenu container, int width, int height, SimpleContainer matrix) {
+		super(container, width, height, matrix.getItems());
 		this.matrix = matrix;
 		this.container = container;
-        this.width = width;
-        this.height = height;
-        this.items = matrix.getItems();
 	}
 
 	@Override
@@ -66,36 +57,11 @@ public class ContainerExtremeCrafting implements CraftingContainer {
 	public void setChanged() {
 		this.matrix.setChanged();
 	}
-	
-	@Override
-    public boolean stillValid(Player player) {
-        return true;
-    }
-
-    @Override
-    public void clearContent() {
-        this.items.clear();
-    }
-
-    @Override
-    public int getHeight() {
-        return this.height;
-    }
-
-    @Override
-    public int getWidth() {
-        return this.width;
-    }
-
-    @Override
-    public List<ItemStack> getItems() {
-        return List.copyOf(this.items);
-    }
 
 	@Override
-	public void fillStackedContents(StackedItemContents stackedContents) {
+	public void fillStackedContents(StackedContents stackedContents) {
 		for (int i = 0; i < this.matrix.getContainerSize(); i++) {
-			stackedContents.accountSimpleStack(this.matrix.getItem(i));
+			stackedContents.accountStack(this.matrix.getItem(i));
 		}
 	}
 

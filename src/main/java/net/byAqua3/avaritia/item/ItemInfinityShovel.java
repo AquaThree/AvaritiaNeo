@@ -5,7 +5,7 @@ import java.util.List;
 
 import net.byAqua3.avaritia.loader.AvaritiaBlockTags;
 import net.byAqua3.avaritia.loader.AvaritiaDataComponents;
-import net.byAqua3.avaritia.loader.AvaritiaToolMaterials;
+import net.byAqua3.avaritia.loader.AvaritiaTiers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -13,7 +13,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
@@ -27,7 +27,12 @@ import net.minecraft.world.level.block.state.BlockState;
 public class ItemInfinityShovel extends ShovelItem {
 
 	public ItemInfinityShovel(Properties properties) {
-		super(AvaritiaToolMaterials.INFINITY, 16, -2.0F, properties);
+		super(AvaritiaTiers.INFINITY, properties.attributes(ShovelItem.createAttributes(AvaritiaTiers.INFINITY, 16, -2.0F)));
+	}
+
+	@Override
+	public boolean hasCustomEntity(ItemStack stack) {
+		return true;
 	}
 
 	@Override
@@ -73,7 +78,7 @@ public class ItemInfinityShovel extends ShovelItem {
 										drops.addAll(blockDrops);
 									} else {
 										ResourceLocation blockKey = BuiltInRegistries.BLOCK.getKey(rangeBlock);
-										Item blockItem = BuiltInRegistries.ITEM.getValue(blockKey);
+										Item blockItem = BuiltInRegistries.ITEM.get(blockKey);
 										drops.add(new ItemStack(blockItem));
 									}
 								}
@@ -94,15 +99,15 @@ public class ItemInfinityShovel extends ShovelItem {
 	}
 
 	@Override
-	public InteractionResult use(Level level, Player player, InteractionHand hand) {
+	public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
 		ItemStack stack = player.getItemInHand(hand);
 		if (player.isShiftKeyDown()) {
 			if (!level.isClientSide()) {
 				stack.update(AvaritiaDataComponents.DESTROYER.get(), false, destroyer -> !destroyer);
 			}
-			return InteractionResult.SUCCESS;
+			return InteractionResultHolder.success(stack);
 		}
-		return InteractionResult.PASS;
+		return InteractionResultHolder.pass(stack);
 	}
 
 }

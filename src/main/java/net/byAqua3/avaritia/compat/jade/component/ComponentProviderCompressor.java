@@ -6,14 +6,19 @@ import net.byAqua3.avaritia.compat.jade.element.ElementCompressorProgress;
 import net.byAqua3.avaritia.item.ItemJsonSingularity;
 import net.byAqua3.avaritia.loader.AvaritiaDataComponents;
 import net.byAqua3.avaritia.loader.AvaritiaSingularities;
+import net.byAqua3.avaritia.recipe.RecipeCompressor;
 import net.byAqua3.avaritia.singularity.Singularity;
 import net.byAqua3.avaritia.tile.TileNeutroniumCompressor;
+import net.byAqua3.avaritia.util.RecipeUtils;
 import net.byAqua3.avaritia.util.TextComponent;
+import net.minecraft.core.NonNullList;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.Level;
 import snownee.jade.api.BlockAccessor;
 import snownee.jade.api.IBlockComponentProvider;
 import snownee.jade.api.IServerDataProvider;
@@ -32,10 +37,23 @@ public class ComponentProviderCompressor implements IBlockComponentProvider, ISe
 		return AvaritiaJadePlugin.COMPRESSOR_UID;
 	}
 
-	public ItemStack getMatrixItem(int itemId) {
-		Item item = BuiltInRegistries.ITEM.byId(itemId);
-		if(item != null) {
-			return new ItemStack(item);
+	public ItemStack getMatrixItem(Level level, ItemStack resultItem) {
+		RecipeCompressor recipe = RecipeUtils.getCompressorRecipeFromResult(level, resultItem);
+		if (!resultItem.isEmpty()) {
+			if (recipe != null) {
+				NonNullList<Ingredient> ingredients = recipe.getIngredients();
+				for (Ingredient ingredient : ingredients) {
+					return ingredient.getItems()[0];
+				}
+			} else if (resultItem.has(AvaritiaDataComponents.SINGULARITY_ID)) {
+				recipe = RecipeUtils.getCompressorRecipeFromResult(level, resultItem, AvaritiaDataComponents.SINGULARITY_ID.get());
+				if (recipe != null) {
+					NonNullList<Ingredient> ingredients = recipe.getIngredients();
+					for (Ingredient ingredient : ingredients) {
+						return ingredient.getItems()[0];
+					}
+				}
+			}
 		}
 		return ItemStack.EMPTY;
 	}
@@ -66,26 +84,26 @@ public class ComponentProviderCompressor implements IBlockComponentProvider, ISe
 			tag.putInt("compressionProgress", tile.dataAccess.get(2));
 			tag.putInt("targetStackId", tile.dataAccess.get(3));
 			tag.putInt("targetSingularityId", tile.dataAccess.get(4));
-			tag.putInt("matrixStackId", tile.dataAccess.get(5));
 		}
 	}
 
 	@SuppressWarnings("unused")
 	@Override
 	public void appendTooltip(ITooltip tooltip, BlockAccessor blockAccessor, IPluginConfig config) {
+		Level level = blockAccessor.getLevel();
 
-		if (blockAccessor.getBlockEntity() != null && blockAccessor.getBlockEntity() instanceof TileNeutroniumCompressor) {
+		if (blockAccessor.getBlockEntity() != null
+				&& blockAccessor.getBlockEntity() instanceof TileNeutroniumCompressor) {
 			TileNeutroniumCompressor tile = (TileNeutroniumCompressor) blockAccessor.getBlockEntity();
 			IElementHelper helper = IElementHelper.get();
 
 			int compressionTarget = blockAccessor.getServerData().getInt("compressionTarget");
 			int consumptionProgress = blockAccessor.getServerData().getInt("consumptionProgress");
 			int compressionProgress = blockAccessor.getServerData().getInt("compressionProgress");
-			int matrixStackId = blockAccessor.getServerData().getInt("matrixStackId");
 			int targetStackId = blockAccessor.getServerData().getInt("targetStackId");
 			int targetSingularityId = blockAccessor.getServerData().getInt("targetSingularityId");
 			
-			ItemStack matrixItem = this.getMatrixItem(matrixStackId);
+			ItemStack matrixItem = this.getMatrixItem(level, this.getResultItem(targetStackId, targetSingularityId));
 			ItemStack resultItem = this.getResultItem(targetStackId, targetSingularityId);
 			
 			if(!resultItem.isEmpty()) {

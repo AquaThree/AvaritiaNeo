@@ -7,7 +7,6 @@ import net.byAqua3.avaritia.inventory.MenuNeutroniumCompressor;
 import net.byAqua3.avaritia.util.TextComponent;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
@@ -32,12 +31,12 @@ public class GuiNeutroniumCompressor extends AbstractContainerScreen<MenuNeutron
 		
 		if (menu.getConsumptionProgress() > 0) {
 			float progress = 22.0F *  ((float) menu.getConsumptionProgress() / menu.getCompressionProgress());
-			guiGraphics.blit(RenderType::guiTextured, BACKGROUND_LOCATION, this.getGuiLeft() + 62, this.getGuiTop() + 35 , 176.0F, 0.0F, (int) progress, 16, 256, 256);
+			guiGraphics.blit(BACKGROUND_LOCATION, this.getGuiLeft() + 62, this.getGuiTop() + 35 , 176.0F, 0.0F, (int) progress, 16, 256, 256);
 		}
 		
 		if (menu.getCompressionProgress() > 0) {
 			float progress = 16.0F *  ((float) menu.getCompressionProgress() / menu.getCompressionTarget());
-	    	guiGraphics.blit(RenderType::guiTextured, BACKGROUND_LOCATION, this.getGuiLeft() + 90, this.getGuiTop() + 35 + (16 - (int) progress), 176.0F, 32.0F - (int) progress, 16, (int) progress, 256, 256);
+	    	guiGraphics.blit(BACKGROUND_LOCATION, this.getGuiLeft() + 90, this.getGuiTop() + 35 + (16 - (int) progress), 176.0F, 32.0F - (int) progress, 16, (int) progress, 256, 256);
 	    	if(this.isMouseHover(this.getGuiLeft() + 90.0F, this.getGuiTop() + 35.0F, 16.0F, 16.0F, mouseX, mouseY)) {
 	    		String text = String.format("%.2f%%", Float.valueOf(100.0F * menu.getCompressionProgress() / menu.getCompressionTarget()));
 	    		guiGraphics.renderTooltip(this.font, TextComponent.getText(text), mouseX, mouseY);
@@ -50,7 +49,7 @@ public class GuiNeutroniumCompressor extends AbstractContainerScreen<MenuNeutron
 	@Override
 	protected void renderBg(GuiGraphics guiGraphics, float partialTicks, int mouseX, int mouseY) {
 		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-		guiGraphics.blit(RenderType::guiTextured, BACKGROUND_LOCATION, this.getGuiLeft(), this.getGuiTop(), 0.0F, 0.0F, this.imageWidth, this.imageHeight, 256, 256);
+		guiGraphics.blit(BACKGROUND_LOCATION, this.getGuiLeft(), this.getGuiTop(), 0.0F, 0.0F, this.imageWidth, this.imageHeight, 256, 256);
 	}
 
 	@Override

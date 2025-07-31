@@ -7,13 +7,18 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SwordItem;
-import net.minecraft.world.item.ToolMaterial;
+import net.minecraft.world.item.Tiers;
 import net.minecraft.world.item.TooltipFlag;
 
 public class ItemSkullFireSword extends SwordItem {
 
 	public ItemSkullFireSword(Properties properties) {
-		super(ToolMaterial.DIAMOND, 3, -2.4F, properties);
+		super(Tiers.DIAMOND, properties.attributes(SwordItem.createAttributes(Tiers.DIAMOND, 3, -2.4F)));
+	}
+
+	@Override
+	public boolean hasCustomEntity(ItemStack stack) {
+		return true;
 	}
 
 	@Override

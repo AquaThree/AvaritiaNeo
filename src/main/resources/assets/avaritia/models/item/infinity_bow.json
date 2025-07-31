@@ -3,6 +3,10 @@
     "textures": {
         "layer0": "avaritia:item/tools/bow/idle"
     },
+    "loader": "avaritia:cosmic",
+	"cosmic": {
+		"mask": "avaritia:item/tools/bow/idle_mask"
+	},
     "display": {
         "thirdperson_righthand": {
             "rotation": [ -80, 260, -40 ],
@@ -24,5 +28,27 @@
             "translation": [ 1.13, 3.2, 1.13],
             "scale": [ 0.68, 0.68, 0.68 ]
         }
-    }
+    },
+    "overrides": [
+        {
+            "predicate": {
+                "avaritia:pulling": 1
+            },
+            "model": "avaritia:item/infinity_bow_pull_0"
+        },
+        {
+            "predicate": {
+                "avaritia:pulling": 1,
+                "avaritia:pull": 0.65
+            },
+            "model": "avaritia:item/infinity_bow_pull_1"
+        },
+        {
+            "predicate": {
+                "avaritia:pulling": 1,
+                "avaritia:pull": 0.9
+            },
+            "model": "avaritia:item/infinity_bow_pull_2"
+        }
+    ]
 }

@@ -37,7 +37,7 @@ public class AvaritiaTabs {
 									ItemStack itemStack = new ItemStack(item);
 									output.accept(itemStack);
 								} else {
-									for(Singularity singularity : AvaritiaSingularities.getInstance().getSingularities()) {
+									for (Singularity singularity : AvaritiaSingularities.getInstance().getSingularities()) {
 										ItemStack itemStack = new ItemStack(item);
 										itemStack.set(AvaritiaDataComponents.SINGULARITY_ID.get(), singularity.getId());
 										output.accept(itemStack);

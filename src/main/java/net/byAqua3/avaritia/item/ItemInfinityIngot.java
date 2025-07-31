@@ -9,10 +9,15 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 
-public class ItemInfinityIngot extends Item {
+public class ItemInfinityIngot extends ItemHalo {
 	
-	public ItemInfinityIngot(Properties properties) {
-		super(properties);
+	public ItemInfinityIngot(Properties properties, int type) {
+		super(properties, type);
+	}
+
+	@Override
+	public boolean hasCustomEntity(ItemStack stack) {
+		return true;
 	}
 	
 	@Override

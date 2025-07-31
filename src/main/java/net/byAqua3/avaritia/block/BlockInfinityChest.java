@@ -9,15 +9,13 @@ import net.byAqua3.avaritia.tile.TileInfinityChest;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.ScheduledTickAccess;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
@@ -33,6 +31,7 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.ChestType;
+import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
@@ -47,7 +46,7 @@ public class BlockInfinityChest extends BaseEntityBlock implements EntityBlock {
 	public static final MapCodec<BlockInfinityChest> CODEC = simpleCodec(
 			properties -> new BlockInfinityChest(properties));
 
-	public static final EnumProperty<Direction> FACING = HorizontalDirectionalBlock.FACING;
+	public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
 	public static final EnumProperty<ChestType> TYPE = BlockStateProperties.CHEST_TYPE;
 	public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 	public static final int EVENT_SET_OPEN_COUNT = 1;
@@ -61,8 +60,7 @@ public class BlockInfinityChest extends BaseEntityBlock implements EntityBlock {
 
 	public BlockInfinityChest(Properties properties) {
 		super(properties);
-		this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH)
-				.setValue(TYPE, ChestType.SINGLE).setValue(WATERLOGGED, Boolean.valueOf(false)));
+		this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(TYPE, ChestType.SINGLE).setValue(WATERLOGGED, Boolean.valueOf(false)));
 	}
 
 	@Override
@@ -77,27 +75,26 @@ public class BlockInfinityChest extends BaseEntityBlock implements EntityBlock {
 
 	@Override
 	public RenderShape getRenderShape(BlockState state) {
-		return RenderShape.MODEL;
+		return RenderShape.ENTITYBLOCK_ANIMATED;
 	}
 
 	@Override
-	public BlockState updateShape(BlockState p_51555_, LevelReader p_374487_, ScheduledTickAccess p_374060_,
-			BlockPos p_51559_, Direction p_51556_, BlockPos p_51560_, BlockState p_51557_, RandomSource p_374212_) {
-		if (p_51555_.getValue(WATERLOGGED)) {
-			p_374060_.scheduleTick(p_51559_, Fluids.WATER, Fluids.WATER.getTickDelay(p_374487_));
+	public BlockState updateShape(BlockState state, Direction facing, BlockState facingState, LevelAccessor level,
+			BlockPos currentPos, BlockPos facingPos) {
+		if (state.getValue(WATERLOGGED)) {
+			level.scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
 		}
 
-		if (p_51557_.is(this) && p_51556_.getAxis().isHorizontal()) {
-			ChestType chesttype = p_51557_.getValue(TYPE);
-			if (p_51555_.getValue(TYPE) == ChestType.SINGLE && chesttype != ChestType.SINGLE
-					&& p_51555_.getValue(FACING) == p_51557_.getValue(FACING)) {
-				return p_51555_.setValue(TYPE, chesttype.getOpposite());
+		if (facingState.is(this) && facing.getAxis().isHorizontal()) {
+			ChestType chesttype = facingState.getValue(TYPE);
+			if (state.getValue(TYPE) == ChestType.SINGLE) {
+				return state.setValue(TYPE, chesttype.getOpposite());
 			}
 		} else {
-			return p_51555_.setValue(TYPE, ChestType.SINGLE);
+			return state.setValue(TYPE, ChestType.SINGLE);
 		}
 
-		return super.updateShape(p_51555_, p_374487_, p_374060_, p_51559_, p_51556_, p_51560_, p_51557_, p_374212_);
+		return super.updateShape(state, facing, facingState, level, currentPos, facingPos);
 	}
 
 	@Override
@@ -155,8 +152,7 @@ public class BlockInfinityChest extends BaseEntityBlock implements EntityBlock {
 	}
 
 	@Override
-	public InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player,
-			BlockHitResult result) {
+	public InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult result) {
 		BlockEntity blockEntity = level.getBlockEntity(pos);
 		if (level.isClientSide()) {
 			return InteractionResult.SUCCESS;

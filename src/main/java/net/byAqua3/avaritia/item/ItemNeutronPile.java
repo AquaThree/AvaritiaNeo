@@ -9,10 +9,20 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 
-public class ItemNeutronPile extends Item {
+public class ItemNeutronPile extends ItemHalo {
 	
-	public ItemNeutronPile(Properties properties) {
-		super(properties);
+	public ItemNeutronPile(Properties properties, int type) {
+		super(properties, type);
+	}
+	
+	@Override
+	public float getAlpha() {
+		return 0.2F;
+	}
+
+	@Override
+	public boolean hasCustomEntity(ItemStack stack) {
+		return true;
 	}
 	
 	@Override

@@ -1,56 +1,32 @@
 package net.byAqua3.avaritia.render.blockentity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.serialization.MapCodec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
 
-import net.minecraft.client.model.ChestModel;
+import net.byAqua3.avaritia.loader.AvaritiaBlocks;
+import net.byAqua3.avaritia.tile.TileInfinityChest;
 import net.minecraft.client.model.geom.EntityModelSet;
-import net.minecraft.client.model.geom.ModelLayers;
+import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.special.NoDataSpecialModelRenderer;
-import net.minecraft.client.renderer.special.SpecialModelRenderer;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.ItemDisplayContext;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
+import net.minecraft.world.item.ItemStack;
 
-@OnlyIn(Dist.CLIENT)
-public class RenderItemInfinityChest implements NoDataSpecialModelRenderer {
+public class RenderItemInfinityChest extends BlockEntityWithoutLevelRenderer {
 	
-	private final ChestModel model;
+	private final BlockEntityRenderDispatcher blockEntityRenderDispatcher;
+	
+	private final TileInfinityChest infinityChest = new TileInfinityChest(BlockPos.ZERO, AvaritiaBlocks.INFINITY_CHEST.get().defaultBlockState());
 
-    public RenderItemInfinityChest(ChestModel model) {
-    	this.model = model;
-    }
+	public RenderItemInfinityChest(BlockEntityRenderDispatcher blockEntityRenderDispatcher,
+			EntityModelSet entityModelSet) {
+		super(blockEntityRenderDispatcher, entityModelSet);
+		this.blockEntityRenderDispatcher = blockEntityRenderDispatcher;
+	}
+	
+	@Override
+	public void renderByItem(ItemStack stack, ItemDisplayContext context, PoseStack poseStack, MultiBufferSource multiBufferSource, int packedLight, int packedOverlay) {
+		blockEntityRenderDispatcher.renderItem(infinityChest, poseStack, multiBufferSource, packedLight, packedOverlay);
+	}
 
-    @Override
-    public void render(ItemDisplayContext context, PoseStack poseStack, MultiBufferSource multiBufferSource, int packedLight, int packedOverlay, boolean hasFoilType) {
-    	VertexConsumer vertexconsumer = RenderInfinityChest.getMaterial().buffer(multiBufferSource, RenderType::entitySolid);
-        this.model.setupAnim(0.0F);
-        this.model.renderToBuffer(poseStack, vertexconsumer, packedLight, packedOverlay);
-    }
-
-    @OnlyIn(Dist.CLIENT)
-    public static record Unbaked(ResourceLocation texture) implements SpecialModelRenderer.Unbaked {
-        public static final MapCodec<RenderItemInfinityChest.Unbaked> MAP_CODEC = RecordCodecBuilder.mapCodec(
-            p_388545_ -> p_388545_.group(
-                        ResourceLocation.CODEC.fieldOf("texture").forGetter(RenderItemInfinityChest.Unbaked::texture)
-                    )
-                    .apply(p_388545_, RenderItemInfinityChest.Unbaked::new)
-        );
-
-        @Override
-        public MapCodec<RenderItemInfinityChest.Unbaked> type() {
-            return MAP_CODEC;
-        }
-
-        @Override
-        public SpecialModelRenderer<?> bake(EntityModelSet entityModelSet) {
-        	ChestModel chestModel = new ChestModel(entityModelSet.bakeLayer(ModelLayers.CHEST));
-            return new RenderItemInfinityChest(chestModel);
-        }
-    }
 }

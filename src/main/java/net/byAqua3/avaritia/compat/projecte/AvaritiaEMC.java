@@ -7,7 +7,6 @@ public class AvaritiaEMC implements ICompatInit {
 
 	@Override
 	public void init(IEventBus modEventBus) {
-		
 	}
 
 }

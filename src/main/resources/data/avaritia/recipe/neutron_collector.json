@@ -15,9 +15,17 @@
     "IIIXIXIII"
   ],
   "key": {
-    "I": "#c:storage_blocks/iron",
-    "X": "avaritia:crystal_matrix_ingot",
-    "R": "#c:storage_blocks/redstone",
-    "Q": "minecraft:quartz_block"
+    "I": {
+      "tag": "c:storage_blocks/iron"
+    },
+    "X": {
+      "item": "avaritia:crystal_matrix_ingot"
+    },
+    "R": {
+      "tag": "c:storage_blocks/redstone"
+    },
+    "Q": {
+      "item": "minecraft:quartz_block"
+    }
   }
 }

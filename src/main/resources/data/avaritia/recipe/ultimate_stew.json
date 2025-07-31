@@ -5,26 +5,68 @@
     "count": 4
   },
   "ingredients": [
-    "#c:crops/wheat",
-    "#c:crops/wheat",
-    "#c:crops/carrot",
-    "#c:crops/carrot",
-    "#c:crops/potato",
-    "#c:crops/potato",
-    "#c:crops/beetroot",
-    "#c:crops/beetroot",
-    "minecraft:apple",
-    "minecraft:apple",
-    "minecraft:melon",
-    "minecraft:melon",
-    "minecraft:pumpkin",
-    "minecraft:pumpkin",
-    "minecraft:cactus",
-    "minecraft:cactus",
-    "minecraft:red_mushroom",
-    "minecraft:red_mushroom",
-    "minecraft:brown_mushroom",
-    "minecraft:brown_mushroom",
-    "avaritia:neutron_pile"
+    {
+      "tag": "c:crops/wheat"
+    },
+    {
+      "tag": "c:crops/wheat"
+    },
+    {
+      "tag": "c:crops/carrot"
+    },
+    {
+      "tag": "c:crops/carrot"
+    },
+    {
+      "tag": "c:crops/potato"
+    },
+    {
+      "tag": "c:crops/potato"
+    },
+    {
+      "tag": "c:crops/beetroot"
+    },
+    {
+      "tag": "c:crops/beetroot"
+    },
+    {
+      "item": "minecraft:apple"
+    },
+    {
+      "item": "minecraft:apple"
+    },
+    {
+      "item": "minecraft:melon"
+    },
+    {
+      "item": "minecraft:melon"
+    },
+    {
+      "item": "minecraft:pumpkin"
+    },
+    {
+      "item": "minecraft:pumpkin"
+    },
+    {
+      "item": "minecraft:cactus"
+    },
+    {
+      "item": "minecraft:cactus"
+    },
+    {
+      "item": "minecraft:red_mushroom"
+    },
+    {
+      "item": "minecraft:red_mushroom"
+    },
+    {
+      "item": "minecraft:brown_mushroom"
+    },
+    {
+      "item": "minecraft:brown_mushroom"
+    },
+    {
+      "item": "avaritia:neutron_pile"
+    }
   ]
 }

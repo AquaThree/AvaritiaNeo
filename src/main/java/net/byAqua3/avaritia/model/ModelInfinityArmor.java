@@ -1,16 +1,15 @@
 package net.byAqua3.avaritia.model;
 
 import java.awt.Color;
-
+import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.byAqua3.avaritia.Avaritia;
 import net.byAqua3.avaritia.event.AvaritiaClientEvent;
-import net.byAqua3.avaritia.loader.AvaritiaAtlas;
-import net.byAqua3.avaritia.loader.AvaritiaShaders;
 import net.byAqua3.avaritia.loader.AvaritiaDataComponents;
 import net.byAqua3.avaritia.loader.AvaritiaItems;
 import net.byAqua3.avaritia.loader.AvaritiaRenderTypes;
+import net.byAqua3.avaritia.loader.AvaritiaShaders;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.AnimationUtils;
 import net.minecraft.client.model.HumanoidModel;
@@ -21,27 +20,27 @@ import net.minecraft.client.model.geom.builders.CubeListBuilder;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
-import net.minecraft.client.renderer.CompiledShaderProgram;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.ShaderManager;
-import net.minecraft.client.renderer.entity.state.ArmorStandRenderState;
-import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
-import net.minecraft.client.renderer.entity.state.PlayerRenderState;
-import net.minecraft.client.renderer.entity.state.ZombieRenderState;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.decoration.ArmorStand;
+import net.minecraft.world.entity.monster.Zombie;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
-public class ModelInfinityArmor extends HumanoidModel<HumanoidRenderState> {
+public class ModelInfinityArmor extends HumanoidModel<LivingEntity> {
 
-	public static final ResourceLocation EYE = ResourceLocation.tryBuild(Avaritia.MODID, "textures/entity/equipment/infinity/infinity_armor_eyes.png");
-	public static final ResourceLocation WING = ResourceLocation.tryBuild(Avaritia.MODID, "textures/entity/equipment/infinity/infinity_armor_wing.png");
-	public static final ResourceLocation WING_GLOW = ResourceLocation.tryBuild(Avaritia.MODID, "textures/entity/equipment/infinity/infinity_armor_wingglow.png");
-	public static final TextureAtlasSprite MASK = Minecraft.getInstance().getModelManager().getAtlas(AvaritiaAtlas.BLOCK_ATLAS).getSprite(ResourceLocation.tryBuild(Avaritia.MODID, "entity/equipment/infinity/infinity_armor_mask"));
-	public static final TextureAtlasSprite MASK_INV = Minecraft.getInstance().getModelManager().getAtlas(AvaritiaAtlas.BLOCK_ATLAS).getSprite(ResourceLocation.tryBuild(Avaritia.MODID, "entity/equipment/infinity/infinity_armor_mask_inv"));
-	public static final TextureAtlasSprite WING_MASK = Minecraft.getInstance().getModelManager().getAtlas(AvaritiaAtlas.BLOCK_ATLAS).getSprite(ResourceLocation.tryBuild(Avaritia.MODID, "entity/equipment/infinity/infinity_armor_mask_wings"));
+	public static final ResourceLocation EYE = ResourceLocation.tryBuild(Avaritia.MODID, "textures/models/armor/infinity_armor_eyes.png");
+	public static final ResourceLocation WING = ResourceLocation.tryBuild(Avaritia.MODID, "textures/models/armor/infinity_armor_wing.png");
+	public static final ResourceLocation WING_GLOW = ResourceLocation.tryBuild(Avaritia.MODID, "textures/models/armor/infinity_armor_wingglow.png");
+	public static final TextureAtlasSprite MASK = Minecraft.getInstance().getModelManager().getAtlas(InventoryMenu.BLOCK_ATLAS).getSprite(ResourceLocation.tryBuild(Avaritia.MODID, "models/armor/infinity_armor_mask"));
+	public static final TextureAtlasSprite MASK_INV = Minecraft.getInstance().getModelManager().getAtlas(InventoryMenu.BLOCK_ATLAS).getSprite(ResourceLocation.tryBuild(Avaritia.MODID, "models/armor/infinity_armor_mask_inv"));
+	public static final TextureAtlasSprite WING_MASK = Minecraft.getInstance().getModelManager().getAtlas(InventoryMenu.BLOCK_ATLAS).getSprite(ResourceLocation.tryBuild(Avaritia.MODID, "models/armor/infinity_armor_mask_wings"));
 
 	public final ModelPart root = createLayer().bakeRoot();
 	public final ModelPart bodyRoot = createBodyLayer(new CubeDeformation(1.0F)).bakeRoot();
@@ -76,6 +75,11 @@ public class ModelInfinityArmor extends HumanoidModel<HumanoidRenderState> {
 		return LayerDefinition.create(meshDefinition, 64, 64);
 	}
 
+	@Override
+	protected Iterable<ModelPart> bodyParts() {
+		return ImmutableList.of(this.body, this.rightArm, this.leftArm, this.rightLeg, this.leftLeg);
+	}
+
 	public void setScale(ModelPart modelPart, float scale) {
 		modelPart.xScale = scale;
 		modelPart.yScale = scale;
@@ -83,8 +87,8 @@ public class ModelInfinityArmor extends HumanoidModel<HumanoidRenderState> {
 	}
 
 	@Override
-	public void setupAnim(HumanoidRenderState humanoidRenderState) {
-		super.setupAnim(humanoidRenderState);
+	public void setupAnim(LivingEntity livingEntity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+		super.setupAnim(livingEntity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
 
 		ModelPart leftWing = root.getChild("left_wing");
 		leftWing.xRot = this.body.xRot;
@@ -95,38 +99,38 @@ public class ModelInfinityArmor extends HumanoidModel<HumanoidRenderState> {
 		rightWing.yRot = this.body.yRot + (float) (-Math.PI * 0.4);
 		rightWing.zRot = this.body.zRot;
 
-		if (humanoidRenderState instanceof ArmorStandRenderState) {
-			ArmorStandRenderState armorStandRenderState = (ArmorStandRenderState) humanoidRenderState;
+		if (livingEntity instanceof ArmorStand) {
+			ArmorStand armorStand = (ArmorStand) livingEntity;
 			this.head.y = 1.0F;
-			this.head.xRot = (float) (Math.PI / 180.0) * armorStandRenderState.headPose.getX();
-			this.head.yRot = (float) (Math.PI / 180.0) * armorStandRenderState.headPose.getY();
-			this.head.zRot = (float) (Math.PI / 180.0) * armorStandRenderState.headPose.getZ();
-			this.leftArm.xRot = (float) (Math.PI / 180.0) * armorStandRenderState.leftArmPose.getX();
-			this.leftArm.yRot = (float) (Math.PI / 180.0) * armorStandRenderState.leftArmPose.getY();
-			this.leftArm.zRot = (float) (Math.PI / 180.0) * armorStandRenderState.leftArmPose.getZ();
-			this.rightArm.xRot = (float) (Math.PI / 180.0) * armorStandRenderState.rightArmPose.getX();
-			this.rightArm.yRot = (float) (Math.PI / 180.0) * armorStandRenderState.rightArmPose.getY();
-			this.rightArm.zRot = (float) (Math.PI / 180.0) * armorStandRenderState.rightArmPose.getZ();
-			this.leftLeg.xRot = (float) (Math.PI / 180.0) * armorStandRenderState.leftLegPose.getX();
-			this.leftLeg.yRot = (float) (Math.PI / 180.0) * armorStandRenderState.leftLegPose.getY();
-			this.leftLeg.zRot = (float) (Math.PI / 180.0) * armorStandRenderState.leftLegPose.getZ();
-			this.rightLeg.xRot = (float) (Math.PI / 180.0) * armorStandRenderState.rightLegPose.getX();
-			this.rightLeg.yRot = (float) (Math.PI / 180.0) * armorStandRenderState.rightLegPose.getY();
-			this.rightLeg.zRot = (float) (Math.PI / 180.0) * armorStandRenderState.rightLegPose.getZ();
+			this.head.xRot = (float) (Math.PI / 180.0) * armorStand.getHeadPose().getX();
+			this.head.yRot = (float) (Math.PI / 180.0) * armorStand.getHeadPose().getY();
+			this.head.zRot = (float) (Math.PI / 180.0) * armorStand.getHeadPose().getZ();
+			this.leftArm.xRot = (float) (Math.PI / 180.0) * armorStand.getLeftArmPose().getX();
+			this.leftArm.yRot = (float) (Math.PI / 180.0) * armorStand.getLeftArmPose().getY();
+			this.leftArm.zRot = (float) (Math.PI / 180.0) * armorStand.getLeftArmPose().getZ();
+			this.rightArm.xRot = (float) (Math.PI / 180.0) * armorStand.getRightArmPose().getX();
+			this.rightArm.yRot = (float) (Math.PI / 180.0) * armorStand.getRightArmPose().getY();
+			this.rightArm.zRot = (float) (Math.PI / 180.0) * armorStand.getRightArmPose().getZ();
+			this.leftLeg.xRot = (float) (Math.PI / 180.0) * armorStand.getLeftLegPose().getX();
+			this.leftLeg.yRot = (float) (Math.PI / 180.0) * armorStand.getLeftLegPose().getY();
+			this.leftLeg.zRot = (float) (Math.PI / 180.0) * armorStand.getLeftLegPose().getZ();
+			this.rightLeg.xRot = (float) (Math.PI / 180.0) * armorStand.getRightLegPose().getX();
+			this.rightLeg.yRot = (float) (Math.PI / 180.0) * armorStand.getRightLegPose().getY();
+			this.rightLeg.zRot = (float) (Math.PI / 180.0) * armorStand.getRightLegPose().getZ();
+			this.hat.copyFrom(this.head);
 		}
 
 		ModelPart head = this.bodyRoot.getChild("head");
-		head.getChild("hat").visible = false;
 		head.copyFrom(this.head);
 		ModelPart hat = this.bodyRoot.getChild("hat");
-		hat.copyFrom(this.head);
+		hat.copyFrom(this.hat);
 
 		ModelPart body = this.bodyRoot.getChild("body");
 		body.copyFrom(this.body);
 
-		if (humanoidRenderState instanceof ZombieRenderState) {
-			ZombieRenderState zombieRenderState = (ZombieRenderState) humanoidRenderState;
-			AnimationUtils.animateZombieArms(this.leftArm, this.rightArm, zombieRenderState.isAggressive, zombieRenderState.attackTime, zombieRenderState.ageInTicks);
+		if (livingEntity instanceof Zombie) {
+			Zombie zombie = (Zombie) livingEntity;
+			AnimationUtils.animateZombieArms(this.leftArm, this.rightArm, zombie.isAggressive(), this.attackTime, ageInTicks);
 		}
 
 		ModelPart leftArm = this.bodyRoot.getChild("left_arm");
@@ -161,16 +165,15 @@ public class ModelInfinityArmor extends HumanoidModel<HumanoidRenderState> {
 
 	}
 
-	public void render(HumanoidRenderState humanoidRenderState, PoseStack poseStack, MultiBufferSource multiBufferSource, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-
+	public void render(LivingEntity livingEntity, PoseStack poseStack, MultiBufferSource multiBufferSource, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
 		RenderType COSMIC_ARMOR_RENDER_TYPE = AvaritiaRenderTypes.COSMIC_ARMOR_RENDER_TYPE;
 
 		Minecraft mc = Minecraft.getInstance();
 
-		Item headItem = humanoidRenderState.headEquipment.getItem();
-		Item chestItem = humanoidRenderState.chestEquipment.getItem();
-		Item legsItem = humanoidRenderState.legsEquipment.getItem();
-		Item feetItem = humanoidRenderState.feetEquipment.getItem();
+		Item headItem = livingEntity.getItemBySlot(EquipmentSlot.HEAD).getItem();
+		Item chestItem = livingEntity.getItemBySlot(EquipmentSlot.CHEST).getItem();
+		Item legsItem = livingEntity.getItemBySlot(EquipmentSlot.LEGS).getItem();
+		Item feetItem = livingEntity.getItemBySlot(EquipmentSlot.FEET).getItem();
 
 		long time = mc.level.getGameTime();
 
@@ -184,24 +187,22 @@ public class ModelInfinityArmor extends HumanoidModel<HumanoidRenderState> {
 		if (AvaritiaShaders.cosmicInventoryRender) {
 			scale = 100.0F;
 		} else {
-			yaw = (float) ((humanoidRenderState.yRot * 2.0F) * Math.PI / 360.0D);
-			pitch = -((float) ((humanoidRenderState.xRot * 2.0F) * Math.PI / 360.0D));
+			yaw = (float) ((livingEntity.getYRot() * 2.0F) * Math.PI / 360.0D);
+			pitch = -((float) ((livingEntity.getXRot() * 2.0F) * Math.PI / 360.0D));
 		}
 
-		ShaderManager shaderManager = Minecraft.getInstance().getShaderManager();
-		CompiledShaderProgram compiledShaderProgram = shaderManager.getProgram(AvaritiaShaders.cosmicArmorShader);
-		compiledShaderProgram.getUniform("time").set(mc.level.getGameTime() % Integer.MAX_VALUE);
-		compiledShaderProgram.getUniform("yaw").set(yaw);
-		compiledShaderProgram.getUniform("pitch").set(pitch);
-		compiledShaderProgram.getUniform("externalScale").set(scale);
-		compiledShaderProgram.getUniform("opacity").set(1.0F);
-		compiledShaderProgram.getUniform("cosmicuvs").set(AvaritiaShaders.COSMIC_UVS);
+		AvaritiaShaders.timeArmorUniform.set(time % Integer.MAX_VALUE);
+		AvaritiaShaders.yawArmorUniform.set(yaw);
+		AvaritiaShaders.pitchArmorUniform.set(pitch);
+		AvaritiaShaders.externalScaleArmorUniform.set(scale);
+		AvaritiaShaders.opacityArmorUniform.set(0.9F);
+		AvaritiaShaders.cosmicuvsArmorUniform.set(AvaritiaShaders.COSMIC_UVS);
 
-		if (humanoidRenderState instanceof PlayerRenderState) {
-			PlayerRenderState playerRenderState = (PlayerRenderState) humanoidRenderState;
-			ItemStack itemStack = playerRenderState.chestEquipment;
+		if (livingEntity instanceof Player) {
+			Player player = (Player) livingEntity;
+			ItemStack itemStack = player.getItemBySlot(EquipmentSlot.CHEST);
 
-			if (chestItem == AvaritiaItems.INFINITY_CHESTPLATE.get() && (itemStack.has(AvaritiaDataComponents.FLY.get()) && itemStack.getOrDefault(AvaritiaDataComponents.FLY.get(), false))) {
+			if (chestItem == AvaritiaItems.INFINITY_CHESTPLATE.get() && (player.getAbilities().flying || (itemStack.has(AvaritiaDataComponents.FLY.get()) && itemStack.getOrDefault(AvaritiaDataComponents.FLY.get(), false)))) {
 				poseStack.pushPose();
 				ModelPart leftWing = root.getChild("left_wing");
 				ModelPart rightWing = root.getChild("right_wing");
@@ -287,16 +288,7 @@ public class ModelInfinityArmor extends HumanoidModel<HumanoidRenderState> {
 			float b = ((rgb >> 0) & 0xFF) / 255.0F;
 
 			hat.render(poseStack, multiBufferSource.getBuffer(AvaritiaRenderTypes.Glow(EYE)), packedLight, packedOverlay, new Color(r, g, b, alpha).getRGB());
-
-			// List<ModelPart> parts = List.of(this.head, this.body, this.rightArm,
-			// this.leftArm, this.rightLeg, this.leftLeg);
-
-			/// for(ModelPart part : parts) {
-			// part.render(poseStack,
-			/// MASK_INV.wrap(multiBufferSource.getBuffer(COSMIC_ARMOR_RENDER_TYPE)),
-			// packedLight, packedOverlay, new Color(red, green, blue, alpha).getRGB());
-			// }
-
+			
 			super.renderToBuffer(poseStack, MASK_INV.wrap(multiBufferSource.getBuffer(COSMIC_ARMOR_RENDER_TYPE)), packedLight, packedOverlay, new Color(red, green, blue, alpha).getRGB());
 
 			poseStack.popPose();

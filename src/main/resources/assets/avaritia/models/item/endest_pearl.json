@@ -1,6 +1,11 @@
 {
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "avaritia:item/endest_pearl"
-  }
+	"parent": "minecraft:item/generated",
+	"textures": {
+		"layer0": "avaritia:item/endest_pearl"
+	},
+	"loader": "avaritia:halo",
+	"halo": {
+		"type": 2,
+		"pulse": true
+	}
 }

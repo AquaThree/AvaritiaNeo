@@ -4,15 +4,35 @@
 		"id": "avaritia:infinity_catalyst"
 	},
 	"ingredients": [
-		"avaritia:diamond_lattice",
-		"avaritia:crystal_matrix_ingot",
-		"avaritia:neutron_pile",
-		"avaritia:neutron_nugget",
-		"avaritia:neutronium_ingot",
-		"avaritia:record_fragment",
-		"avaritia:ultimate_stew",
-		"avaritia:cosmic_meatballs",
-		"avaritia:endest_pearl",
-		"avaritia:infinity_singularity"
+		{
+			"item": "avaritia:diamond_lattice"
+		},
+		{
+			"item": "avaritia:crystal_matrix_ingot"
+		},
+		{
+			"item": "avaritia:neutron_pile"
+		},
+		{
+			"item": "avaritia:neutron_nugget"
+		},
+		{
+			"item": "avaritia:neutronium_ingot"
+		},
+		{
+			"item": "avaritia:record_fragment"
+		},
+		{
+			"item": "avaritia:ultimate_stew"
+		},
+		{
+			"item": "avaritia:cosmic_meatballs"
+		},
+		{
+			"item": "avaritia:endest_pearl"
+		},
+		{
+			"item": "avaritia:infinity_singularity"
+		}
 	]
 }

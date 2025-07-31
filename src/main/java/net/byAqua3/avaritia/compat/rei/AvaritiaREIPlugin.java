@@ -2,19 +2,15 @@ package net.byAqua3.avaritia.compat.rei;
 
 import java.util.List;
 
-import dev.architectury.event.EventResult;
 import me.shedaniel.math.Rectangle;
 import me.shedaniel.rei.api.client.entry.filtering.base.BasicFilteringRule;
 import me.shedaniel.rei.api.client.plugins.REIClientPlugin;
 import me.shedaniel.rei.api.client.registry.category.CategoryRegistry;
-import me.shedaniel.rei.api.client.registry.display.DisplayCategory;
 import me.shedaniel.rei.api.client.registry.display.DisplayRegistry;
-import me.shedaniel.rei.api.client.registry.display.visibility.DisplayVisibilityPredicate;
 import me.shedaniel.rei.api.client.registry.screen.ScreenRegistry;
 import me.shedaniel.rei.api.client.registry.transfer.TransferHandlerRegistry;
 import me.shedaniel.rei.api.client.registry.transfer.simple.SimpleTransferHandler;
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
-import me.shedaniel.rei.api.common.display.Display;
 import me.shedaniel.rei.api.common.util.EntryStacks;
 import me.shedaniel.rei.forge.REIPluginClient;
 import me.shedaniel.rei.plugin.common.BuiltinPlugin;
@@ -32,13 +28,19 @@ import net.byAqua3.avaritia.inventory.MenuExtremeCrafting;
 import net.byAqua3.avaritia.inventory.MenuNeutroniumCompressor;
 import net.byAqua3.avaritia.loader.AvaritiaBlocks;
 import net.byAqua3.avaritia.loader.AvaritiaItems;
+import net.byAqua3.avaritia.recipe.RecipeCollector;
+import net.byAqua3.avaritia.recipe.RecipeCompressor;
+import net.byAqua3.avaritia.recipe.RecipeExtremeCrafting;
+import net.byAqua3.avaritia.util.RecipeUtils;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientLevel;
 
 @REIPluginClient
 public class AvaritiaREIPlugin implements REIClientPlugin {
 	
 	public static final CategoryIdentifier<DisplayExtremeRecipe> EXTREME_CRAFTING = CategoryIdentifier.of(Avaritia.MODID, "extreme_crafting");
 	public static final CategoryIdentifier<DisplayCompressorRecipe> COMPRESSOR = CategoryIdentifier.of(Avaritia.MODID, "compressor");
-	public static final CategoryIdentifier<DisplayCollectorRecipe> COLLECTOR = CategoryIdentifier.of(Avaritia.MODID, "collector");
+	public static final CategoryIdentifier<DisplayCollectorRecipe> COLLECTOR = CategoryIdentifier.of(Avaritia.MODID, "collector");  
 	
 	@Override
 	public void registerCategories(CategoryRegistry registry) {
@@ -54,16 +56,17 @@ public class AvaritiaREIPlugin implements REIClientPlugin {
 	
 	@Override
 	public void registerDisplays(DisplayRegistry registry) {
-		registry.add(new DisplayCollectorRecipe());
-		registry.registerVisibilityPredicate(new DisplayVisibilityPredicate() {
-			@Override
-			public EventResult handleDisplay(DisplayCategory<?> displayCategory, Display display) {
-				if(display instanceof DisplayExtremeRecipe || display instanceof DisplayCompressorRecipe || display instanceof DisplayCollectorRecipe) {
-				    return EventResult.interruptTrue();
-				}
-				return EventResult.pass();
-			}
-		});
+		Minecraft mc = Minecraft.getInstance();
+		ClientLevel level = mc.level;
+		for (RecipeExtremeCrafting recipe : RecipeUtils.getExtremeCraftingRecipes(level)) {
+			registry.add(new DisplayExtremeRecipe(recipe));
+		}
+		for (RecipeCompressor recipe : RecipeUtils.getCompressorRecipes(level)) {
+			registry.add(new DisplayCompressorRecipe(recipe));
+		}
+		for (RecipeCollector recipe : RecipeUtils.getCollectorRecipes(level)) {
+			registry.add(new DisplayCollectorRecipe(recipe));
+		}
 	}
 	
 	@Override

@@ -7,8 +7,8 @@
 		},
 		{
 			"type": "directory",
-			"source": "entity/equipment/infinity",
-			"prefix": "entity/equipment/infinity/"
+			"source": "models/armor",
+			"prefix": "models/armor/"
 		},
 		{
 			"type": "directory",

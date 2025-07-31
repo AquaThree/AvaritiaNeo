@@ -13,6 +13,11 @@ public class ItemCrystalMatrixIngot extends Item {
 	public ItemCrystalMatrixIngot(Properties properties) {
 		super(properties);
 	}
+
+	@Override
+	public boolean hasCustomEntity(ItemStack stack) {
+		return true;
+	}
 	
 	@Override
 	public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltip, TooltipFlag flag) {

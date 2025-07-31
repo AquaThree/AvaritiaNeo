@@ -23,8 +23,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.SimpleContainer;
-import net.minecraft.world.entity.player.StackedItemContents;
-import net.minecraft.world.item.Item;
+import net.minecraft.world.entity.player.StackedContents;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -45,7 +44,7 @@ public class TileInfinityChest extends BlockEntity {
 		}
 
 		@Override
-		public void fillStackedContents(StackedItemContents stackedContents) {
+		public void fillStackedContents(StackedContents stackedContents) {
 			for (ItemStack itemStack : this.getItems()) {
 				stackedContents.accountStack(itemStack, Integer.MAX_VALUE);
 			}
@@ -59,7 +58,7 @@ public class TileInfinityChest extends BlockEntity {
 	public static final Codec<ItemStack> CODEC = Codec.lazyInitialized(
 	        () -> RecordCodecBuilder.create(
 	        		instance -> instance.group(
-	        				Item.CODEC.fieldOf("id").forGetter(ItemStack::getItemHolder),
+	                		ItemStack.ITEM_NON_AIR_CODEC.fieldOf("id").forGetter(ItemStack::getItemHolder),
 	                            ExtraCodecs.intRange(1, Integer.MAX_VALUE).fieldOf("count").orElse(1).forGetter(ItemStack::getCount),
 	                            DataComponentPatch.CODEC
 	                                .optionalFieldOf("components", DataComponentPatch.EMPTY)

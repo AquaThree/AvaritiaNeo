@@ -8,7 +8,11 @@
     "DSD"
   ],
   "key": {
-    "D": "avaritia:diamond_lattice",
-    "S": "#c:nether_stars"
+    "D": {
+      "item": "avaritia:diamond_lattice"
+    },
+    "S": {
+      "tag": "c:nether_stars"
+    }
   }
 }

@@ -1,10 +1,12 @@
 {
-	"type": "minecraft:crafting_shapeless",
-	"result": {
-		"id": "avaritia:compressed_crafting_table",
-		"count": 9
-	},
-	"ingredients": [
-		"avaritia:double_compressed_crafting_table"
-	]
+  "type": "minecraft:crafting_shapeless",
+  "result": {
+    "id": "avaritia:compressed_crafting_table",
+    "count": 9
+  },
+  "ingredients": [
+    {
+      "item": "avaritia:double_compressed_crafting_table"
+    }
+  ]
 }

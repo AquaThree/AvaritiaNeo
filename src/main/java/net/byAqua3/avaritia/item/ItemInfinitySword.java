@@ -1,13 +1,8 @@
 package net.byAqua3.avaritia.item;
 
-import net.byAqua3.avaritia.damage.InfinityDamageSource;
-import net.byAqua3.avaritia.event.AvaritiaEvent;
-import net.byAqua3.avaritia.loader.AvaritiaToolMaterials;
-import net.minecraft.core.Holder;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.damagesource.DamageType;
-import net.minecraft.world.damagesource.DamageTypes;
+import net.byAqua3.avaritia.damage.DamageSourceInfinity;
+import net.byAqua3.avaritia.loader.AvaritiaTiers;
+import net.byAqua3.avaritia.util.ItemUtils;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Entity.RemovalReason;
 import net.minecraft.world.entity.LivingEntity;
@@ -19,7 +14,12 @@ import net.minecraft.world.item.SwordItem;
 public class ItemInfinitySword extends SwordItem {
 
 	public ItemInfinitySword(Properties properties) {
-		super(AvaritiaToolMaterials.INFINITY, 2, -2.4F, properties);
+		super(AvaritiaTiers.INFINITY, properties.attributes(SwordItem.createAttributes(AvaritiaTiers.INFINITY, 2, -2.4F)));
+	}
+
+	@Override
+	public boolean hasCustomEntity(ItemStack stack) {
+		return true;
 	}
 
 	@Override
@@ -41,18 +41,16 @@ public class ItemInfinitySword extends SwordItem {
 	@Override
 	public boolean hurtEnemy(ItemStack stack, LivingEntity entity, LivingEntity attacker) {
 		if (entity != null) {
-			if (entity.level() instanceof ServerLevel) {
-				ServerLevel serverlevel = (ServerLevel) entity.level();
-				Holder<DamageType> damageType = entity.level().registryAccess().lookupOrThrow(Registries.DAMAGE_TYPE)
-						.getOrThrow(DamageTypes.GENERIC_KILL);
-				InfinityDamageSource infinityDamageSource = new InfinityDamageSource(damageType, entity, attacker);
-				if (entity instanceof Player && AvaritiaEvent.isInfinityArmor((Player) entity)) {
-					entity.hurtServer(serverlevel, infinityDamageSource, 4.0F);
+			DamageSourceInfinity damageSource = new DamageSourceInfinity(attacker);
+			
+			if (!entity.level().isClientSide()) {
+				if (entity instanceof Player && ItemUtils.isInfinityArmor((Player) entity)) {
+					entity.hurt(damageSource, 4.0F);
 					return true;
 				}
-				entity.hurtServer(serverlevel, infinityDamageSource, Float.MAX_VALUE);
+				entity.hurt(damageSource, Float.MAX_VALUE);
 				entity.setHealth(0.0F);
-				entity.die(infinityDamageSource);
+				entity.die(damageSource);
 			}
 		}
 		return super.hurtEnemy(stack, entity, attacker);
@@ -60,25 +58,24 @@ public class ItemInfinitySword extends SwordItem {
 
 	@Override
 	public boolean onLeftClickEntity(ItemStack stack, Player player, Entity entity) {
-		if (entity instanceof LivingEntity) {
-			LivingEntity livingEntity = ((LivingEntity) entity);
-			if (livingEntity.getHealth() <= 0) {
-				livingEntity.remove(RemovalReason.KILLED);
-			} else {
-				if (entity.level() instanceof ServerLevel) {
-					ServerLevel serverlevel = (ServerLevel) entity.level();
-					Holder<DamageType> damageType = livingEntity.level().registryAccess()
-							.lookupOrThrow(Registries.DAMAGE_TYPE).getOrThrow(DamageTypes.GENERIC_KILL);
-					InfinityDamageSource infinityDamageSource = new InfinityDamageSource(damageType, livingEntity,
-							player);
-					if (entity instanceof Player && AvaritiaEvent.isInfinityArmor((Player) entity)) {
-						entity.hurtServer(serverlevel, infinityDamageSource, 4.0F);
+		DamageSourceInfinity damageSource = new DamageSourceInfinity(player);
+
+		if (!entity.level().isClientSide()) {
+			if (entity instanceof LivingEntity) {
+				LivingEntity livingEntity = (LivingEntity) entity;
+				if (livingEntity.getHealth() <= 0.0F) {
+					livingEntity.remove(RemovalReason.KILLED);
+				} else {
+					if (entity instanceof Player && ItemUtils.isInfinityArmor((Player) entity)) {
+						entity.hurt(damageSource, 4.0F);
 						return true;
 					}
-					livingEntity.hurtServer(serverlevel, infinityDamageSource, Float.MAX_VALUE);
+					livingEntity.hurt(damageSource, Float.MAX_VALUE);
 					livingEntity.setHealth(0.0F);
-					livingEntity.die(infinityDamageSource);
+					livingEntity.die(damageSource);
 				}
+			} else {
+				entity.hurt(damageSource, Float.MAX_VALUE);
 			}
 		}
 		return super.onLeftClickEntity(stack, player, entity);

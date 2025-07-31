@@ -2,7 +2,6 @@ package net.byAqua3.avaritia.compat.jade.element;
 
 import net.byAqua3.avaritia.Avaritia;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.phys.Vec2;
 import snownee.jade.api.ui.Element;
@@ -27,7 +26,7 @@ public class ElementCompressorProgress extends Element {
 	public void render(GuiGraphics guiGraphics, float x, float y, float maxX, float maxY) {
 		float progress = 16.0F * this.progress;
 		
-		guiGraphics.blit(RenderType::guiTextured, PROGRESS_BASE, (int) x, (int) y, 0.0F, 0.0F, 16, 16, 16, 16);
-		guiGraphics.blit(RenderType::guiTextured, PROGRESS, (int) x, (int) y + (16 - (int) progress), 0.0F, 16.0F - (int) progress, 16, (int) progress, 16, 16);
+		guiGraphics.blit(PROGRESS_BASE, (int) x, (int) y, 0.0F, 0.0F, 16, 16, 16, 16);
+		guiGraphics.blit(PROGRESS, (int) x, (int) y + (16 - (int) progress), 0.0F, 16.0F - (int) progress, 16, (int) progress, 16, 16);
 	}
 }

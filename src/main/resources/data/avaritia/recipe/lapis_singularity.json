@@ -1,10 +1,12 @@
 {
-	"type": "avaritia:compressor",
-	"result": {
-		"id": "avaritia:lapis_singularity"
-	},
-	"cost": 200,
-	"ingredients": [
-		"#c:storage_blocks/lapis"
-	]
+  "type": "avaritia:compressor",
+  "result": {
+    "id": "avaritia:lapis_singularity"
+  },
+  "cost": 200,
+  "ingredients": [
+    {
+      "tag": "c:storage_blocks/lapis"
+    }
+  ]
 }

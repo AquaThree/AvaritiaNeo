@@ -13,7 +13,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
@@ -33,6 +33,11 @@ public class ItemMatterCluster extends Item {
 		AvaritiaTabs.BLACK_ITEMS.add(this);
 	}
 
+	@Override
+	public boolean hasCustomEntity(ItemStack stack) {
+		return true;
+	}
+
 	public static ItemStack makeCluster(List<ItemStack> itemStacks) {
 		SimpleContainer clusterInventory = new SimpleContainer(INTERNAL_INV_SIZE);
 		int count = 0;
@@ -47,16 +52,14 @@ public class ItemMatterCluster extends Item {
 		}
 		if (count > 0) {
 			ItemStack cluster = new ItemStack(AvaritiaItems.MATTER_CLUSTER.get());
-			cluster.update(AvaritiaDataComponents.CLUSTER_CONTAINER.get(), ClusterContainerContents.EMPTY,
-					clusterContainer -> ClusterContainerContents.fromItems(clusterInventory.getItems()));
+			cluster.update(AvaritiaDataComponents.CLUSTER_CONTAINER.get(), ClusterContainerContents.EMPTY, clusterContainer -> ClusterContainerContents.fromItems(clusterInventory.getItems()));
 			return cluster;
 		}
 		return ItemStack.EMPTY;
 	}
 
 	public static List<ItemStack> getClusterItems(ItemStack cluster) {
-		ClusterContainerContents clusterContainer = cluster.getOrDefault(AvaritiaDataComponents.CLUSTER_CONTAINER.get(),
-				ClusterContainerContents.EMPTY);
+		ClusterContainerContents clusterContainer = cluster.getOrDefault(AvaritiaDataComponents.CLUSTER_CONTAINER.get(), ClusterContainerContents.EMPTY);
 		return clusterContainer.getItems();
 	}
 
@@ -72,8 +75,7 @@ public class ItemMatterCluster extends Item {
 	}
 
 	@Override
-	public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltip,
-			TooltipFlag flag) {
+	public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
 		if (!stack.has(AvaritiaDataComponents.CLUSTER_CONTAINER.get())) {
 			return;
 		}
@@ -81,8 +83,7 @@ public class ItemMatterCluster extends Item {
 		List<ItemStack> itemStacks = getClusterItems(stack);
 
 		if (getClusterCount(itemStacks) > 0) {
-			tooltip.add(
-					Component.translatable("tooltip.matter_cluster.counter", getClusterCount(itemStacks), CAPACITY));
+			tooltip.add(Component.translatable("tooltip.matter_cluster.counter", getClusterCount(itemStacks), CAPACITY));
 			tooltip.add(TextComponent.getText(""));
 		}
 
@@ -90,38 +91,34 @@ public class ItemMatterCluster extends Item {
 			Object2IntMap<Item> object2IntMap = new Object2IntOpenHashMap<>();
 			for (ItemStack itemStack : itemStacks) {
 				if (!itemStack.isEmpty()) {
-					object2IntMap.put(itemStack.getItem(),
-							itemStack.getCount() + object2IntMap.getOrDefault(itemStack.getItem(), 0));
+					object2IntMap.put(itemStack.getItem(), itemStack.getCount() + object2IntMap.getOrDefault(itemStack.getItem(), 0));
 				}
 			}
 			object2IntMap.forEach((item, count) -> {
-				tooltip.add(TextComponent
-						.getText(item.getName().getString() + ChatFormatting.GRAY.toString() + " × " + count));
+				tooltip.add(TextComponent.getText(item.getDescription().getString() + ChatFormatting.GRAY.toString() + " × " + count));
 			});
 		} else {
 			tooltip.add(Component.translatable("tooltip.matter_cluster.desc").withStyle(ChatFormatting.DARK_GRAY));
-			tooltip.add(Component.translatable("tooltip.matter_cluster.desc2").withStyle(ChatFormatting.ITALIC)
-					.withStyle(ChatFormatting.DARK_GRAY));
+			tooltip.add(Component.translatable("tooltip.matter_cluster.desc2").withStyle(ChatFormatting.ITALIC).withStyle(ChatFormatting.DARK_GRAY));
 		}
 	}
 
 	@Override
-	public InteractionResult use(Level level, Player player, InteractionHand hand) {
+	public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
 		ItemStack stack = player.getItemInHand(hand);
 		List<ItemStack> itemStacks = getClusterItems(stack);
 
 		if (stack.has(AvaritiaDataComponents.CLUSTER_CONTAINER.get()) && !itemStacks.isEmpty()) {
 			if (!level.isClientSide()) {
 				for (ItemStack itemStack : itemStacks) {
-					ItemEntity itemEntity = new ItemEntity(level, player.getX(), player.getY(), player.getZ(),
-							itemStack);
+					ItemEntity itemEntity = new ItemEntity(level, player.getX(), player.getY(), player.getZ(), itemStack);
 					itemEntity.setDefaultPickUpDelay();
 					level.addFreshEntity(itemEntity);
 				}
 			}
 			player.setItemInHand(hand, ItemStack.EMPTY);
 		}
-		return InteractionResult.SUCCESS;
+		return InteractionResultHolder.success(stack);
 	}
 
 }

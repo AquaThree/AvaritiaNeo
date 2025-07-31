@@ -4,8 +4,8 @@
         "srcrgb": "srcalpha",
         "dstrgb": "1-srcalpha"
     },
-    "vertex": "avaritia:core/cosmic",
-    "fragment": "avaritia:core/cosmic",
+    "vertex": "avaritia:cosmic",
+    "fragment": "avaritia:cosmic",
     "attributes": [
         "Position",
         "Color",

@@ -2,7 +2,6 @@ package net.byAqua3.avaritia.mixin;
 
 import java.util.Optional;
 
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -25,20 +24,19 @@ import net.minecraft.world.item.ItemStack;
 public class MixinItemStack {
 
 	@Shadow
-	@Final
 	private Item item;
 
 	@Inject(method = { "getMaxStackSize" }, at = { @At("HEAD") }, cancellable = true)
 	public void getMaxStackSize(CallbackInfoReturnable<Integer> callbackInfo) {
 		if (this.item != null) {
-			ItemStack itemStack = (ItemStack) (Object) this;
+			ItemStack itemStack = ((ItemStack) (Object) this);
 			if (itemStack.has(AvaritiaDataComponents.MAX_STACK_SIZE.get())) {
 				callbackInfo.setReturnValue(itemStack.get(AvaritiaDataComponents.MAX_STACK_SIZE.get()));
 				callbackInfo.cancel();
 			}
 		}
 	}
-	
+
 	@WrapOperation(method = { "isSameItemSameComponents" }, at = { @At(value = "INVOKE", target = "Ljava/util/Objects;equals(Ljava/lang/Object;Ljava/lang/Object;)Z") })
 	private static boolean isSameItemSameComponentsEquals(Object a, Object b, Operation<Boolean> original) {
 		if (a instanceof PatchedDataComponentMap && b instanceof PatchedDataComponentMap) {

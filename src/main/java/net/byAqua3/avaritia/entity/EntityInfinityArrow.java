@@ -1,13 +1,9 @@
 package net.byAqua3.avaritia.entity;
 
-import net.byAqua3.avaritia.damage.InfinityDamageSource;
+import net.byAqua3.avaritia.damage.DamageSourceInfinity;
 import net.byAqua3.avaritia.loader.AvaritiaEntities;
-import net.minecraft.core.Holder;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.damagesource.DamageType;
-import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -19,7 +15,7 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
 
 public class EntityInfinityArrow extends Arrow {
-	
+
 	private int knockback;
 
 	private boolean sub;
@@ -33,7 +29,7 @@ public class EntityInfinityArrow extends Arrow {
 		this(AvaritiaEntities.INFINITY_ARROW.get(), level);
 		this.sub = isSub;
 	}
-	
+
 	public int getKnockback() {
 		return this.knockback;
 	}
@@ -69,37 +65,33 @@ public class EntityInfinityArrow extends Arrow {
 		tag.putBoolean("isSub", this.isSub());
 		tag.putBoolean("isImpacted", this.isImpacted());
 	}
-	
+
 	@Override
 	protected void doKnockback(LivingEntity livingEntity, DamageSource damageSource) {
 		if (this.knockback > 0) {
-            double d0 = Math.max(0.0, 1.0 - livingEntity.getAttributeValue(Attributes.KNOCKBACK_RESISTANCE));
-            Vec3 vec3 = this.getDeltaMovement().multiply(1.0, 0.0, 1.0).normalize().scale((double)this.knockback * 0.6 * d0);
-            if (vec3.lengthSqr() > 0.0) {
-                livingEntity.push(vec3.x, 0.1, vec3.z);
-            }
-        }
-    }
+			double d0 = Math.max(0.0, 1.0 - livingEntity.getAttributeValue(Attributes.KNOCKBACK_RESISTANCE));
+			Vec3 vec3 = this.getDeltaMovement().multiply(1.0, 0.0, 1.0).normalize().scale((double) this.knockback * 0.6 * d0);
+			if (vec3.lengthSqr() > 0.0) {
+				livingEntity.push(vec3.x, 0.1, vec3.z);
+			}
+		}
+	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	protected void onHitEntity(EntityHitResult result) {
 		if (result.getEntity() != this.getOwner()) {
-			Holder<DamageType> damageType = this.level().registryAccess().lookupOrThrow(Registries.DAMAGE_TYPE)
-					.getOrThrow(DamageTypes.GENERIC_KILL);
-			InfinityDamageSource infinityDamageSource = new InfinityDamageSource(damageType, result.getEntity(),
-					this.getOwner());
-			if (result.getEntity() instanceof EnderMan) {
-				result.getEntity().hurtOrSimulate(infinityDamageSource, (float) this.getBaseDamage());
-				this.remove(RemovalReason.KILLED);
-			} else if (!result.getEntity().hurtOrSimulate(this.damageSources().arrow(this, this.getOwner()), 0.0F)
-					&& !(result.getEntity() instanceof Player)) {
-				result.getEntity().hurtOrSimulate(infinityDamageSource, (float) this.getBaseDamage());
-				this.remove(RemovalReason.KILLED);
+			DamageSourceInfinity damageSource = new DamageSourceInfinity(this.getOwner());
+			
+			if (!this.level().isClientSide()) {
+				if (result.getEntity() instanceof EnderMan) {
+					result.getEntity().hurt(damageSource, (float) this.getBaseDamage());
+					this.discard();
+				} else if (!result.getEntity().hurt(this.damageSources().arrow(this, this.getOwner()), 0.0F) && !(result.getEntity() instanceof Player)) {
+					result.getEntity().hurt(damageSource, (float) this.getBaseDamage());
+					this.discard();
+				}
 			}
 			super.onHitEntity(result);
-		} else {
-			this.remove(RemovalReason.KILLED);
 		}
 	}
 
@@ -107,7 +99,7 @@ public class EntityInfinityArrow extends Arrow {
 	public void tick() {
 		super.tick();
 		if (!isSub()) {
-			if (this.isInGround()) {
+			if (this.inGround) {
 				if (!this.isImpacted()) {
 					if (!this.level().isClientSide()) {
 						for (int i = 0; i < 36; i++) {
@@ -126,8 +118,7 @@ public class EntityInfinityArrow extends Arrow {
 							EntityInfinityArrow arrow = new EntityInfinityArrow(this.level(), true);
 							Vec3 motion = arrow.getDeltaMovement();
 							arrow.setPos(x, y, z);
-							arrow.setDeltaMovement(motion.x + dx, motion.y - (this.random.nextDouble() * 1.85 + 0.15),
-									motion.z + dz);
+							arrow.setDeltaMovement(motion.x + dx, motion.y - (this.random.nextDouble() * 1.85 + 0.15), motion.z + dz);
 							arrow.setBaseDamage(this.getBaseDamage());
 							arrow.setOwner(this.getOwner());
 							arrow.setCritArrow(true);
@@ -138,14 +129,18 @@ public class EntityInfinityArrow extends Arrow {
 					}
 
 					if (this.inGroundTime >= 100) {
-						this.remove(RemovalReason.KILLED);
+						if (!this.level().isClientSide()) {
+							this.discard();
+						}
 					}
 				}
 			}
 
 		} else {
-			if (this.isInGround() && this.inGroundTime >= 20) {
-				this.remove(RemovalReason.KILLED);
+			if (this.inGround && this.inGroundTime >= 20) {
+				if (!this.level().isClientSide()) {
+					this.discard();
+				}
 			}
 		}
 	}

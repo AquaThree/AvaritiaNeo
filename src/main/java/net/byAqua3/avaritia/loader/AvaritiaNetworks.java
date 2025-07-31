@@ -18,8 +18,7 @@ public class AvaritiaNetworks {
 		PayloadRegistrar registrar = event.registrar("1");
 
 		registrar = registrar.executesOn(HandlerThread.MAIN);
-		registrar.playBidirectional(PacketSingularitySync.TYPE, PacketSingularitySync.STREAM_CODEC,
-				new PacketSingularitySync.Handler());
+		registrar.playBidirectional(PacketSingularitySync.TYPE, PacketSingularitySync.STREAM_CODEC, new PacketSingularitySync.Handler());
 	}
 
 }

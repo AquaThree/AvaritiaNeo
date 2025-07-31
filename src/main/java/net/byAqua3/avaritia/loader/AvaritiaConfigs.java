@@ -14,6 +14,9 @@ public class AvaritiaConfigs {
 	
 	public static ModConfigSpec.BooleanValue nightVision;
 	public static ModConfigSpec.BooleanValue clearBadEffect;
+	public static ModConfigSpec.BooleanValue clearFire;
+	public static ModConfigSpec.BooleanValue highJump;
+	public static ModConfigSpec.BooleanValue speed;
 	
 	public static void registerConfigs() {
 		ModConfigSpec.Builder builder = new ModConfigSpec.Builder();
@@ -24,6 +27,9 @@ public class AvaritiaConfigs {
 		builder.push("infinityArmor");
 		nightVision = builder.comment("NightVision").define("nightVision", true);
 		clearBadEffect = builder.comment("ClearBadEffect").define("clearBadEffect", true);
+		clearFire = builder.comment("ClearFire").define("clearFire", true);
+		highJump = builder.comment("HighJump").define("highJump", true);
+		speed = builder.comment("Speed").define("speed", true);
 		builder.pop();
 		builder.pop();
 		modConfigSpec = builder.build();

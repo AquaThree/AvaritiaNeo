@@ -68,7 +68,7 @@ public class AvaritiaClientEvent {
 		if (item instanceof ItemInfinitySword) {
 			for (int i = 0; i < event.getToolTip().size(); i++) {
 				Component component = event.getToolTip().get(i);
-				if (component.contains(Component.translatable("attribute.name.attack_damage"))) {
+				if (component.contains(Component.translatable("attribute.name.generic.attack_damage"))) {
 					Pattern pattern = Pattern.compile("[^0-9]");
 					Matcher matcher = pattern.matcher(component.getString());
 					String text = component.getString().replace(matcher.replaceAll(""),
