@@ -30,6 +30,7 @@ import net.minecraft.server.level.ServerChunkCache;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -44,6 +45,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.event.AddReloadListenerEvent;
 import net.neoforged.neoforge.event.OnDatapackSyncEvent;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
@@ -85,6 +87,14 @@ public class AvaritiaEvent {
 			if (player instanceof ServerPlayer) {
 				ServerPlayer serverPlayer = (ServerPlayer) player;
 				AvaritiaTriggers.ROOT.get().trigger(serverPlayer);
+			}
+
+			if (ItemUtils.isInfinityArmor(player)) {
+				if (player.getHealth() <= 0.0F && (player.getLastDamageSource() == null || !(player.getLastDamageSource() instanceof DamageSourceInfinity))) {
+					player.hurtTime = 0;
+					player.deathTime = 0;
+					player.setHealth(Math.max(20.0F, player.getMaxHealth()));
+				}
 			}
 
 			if (!player.level().isClientSide()) {
@@ -337,20 +347,26 @@ public class AvaritiaEvent {
 	}
 
 	@SubscribeEvent
+	public void onAddReloadListener(AddReloadListenerEvent event) {
+		event.addListener(new ResourceManagerReloadListener() {
+			@Override
+			public void onResourceManagerReload(ResourceManager resourceManager) {
+				List<Singularity> singularities = AvaritiaSingularities.loadSingularities(resourceManager);
+				AvaritiaSingularities.getInstance().getSingularities().clear();
+				AvaritiaSingularities.getInstance().getSingularities().addAll(singularities);
+			}
+		});
+	}
+
+	@SubscribeEvent
 	public void onDatapackSync(OnDatapackSyncEvent event) {
 		ServerPlayer player = event.getPlayer();
-		ResourceManager resourceManager;
-		List<Singularity> singularities;
+		List<Singularity> singularities = AvaritiaSingularities.getInstance().getSingularities();
 
 		if (player == null) {
-			resourceManager = event.getPlayerList().getServer().getResourceManager();
-			singularities = AvaritiaSingularities.loadSingularities(resourceManager);
 			PacketDistributor.sendToAllPlayers(new PacketSingularitySync(singularities));
 		} else {
-			resourceManager = player.getServer().getResourceManager();
-			singularities = AvaritiaSingularities.loadSingularities(resourceManager);
 			PacketDistributor.sendToPlayer(player, new PacketSingularitySync(singularities));
 		}
 	}
-
 }

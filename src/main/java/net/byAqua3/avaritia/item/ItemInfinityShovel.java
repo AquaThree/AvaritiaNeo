@@ -58,22 +58,19 @@ public class ItemInfinityShovel extends ShovelItem {
 		if (livingEntity instanceof Player) {
 			Player player = (Player) livingEntity;
 
-			if (stack.has(AvaritiaDataComponents.DESTROYER.get())
-					&& stack.getOrDefault(AvaritiaDataComponents.DESTROYER.get(), false)) {
+			if (stack.has(AvaritiaDataComponents.DESTROYER.get()) && stack.getOrDefault(AvaritiaDataComponents.DESTROYER.get(), false)) {
 				List<ItemStack> drops = new ArrayList<>();
 
 				for (int x = -blockRange; x <= blockRange; x++) {
 					for (int y = -blockRange; y <= blockRange; y++) {
 						for (int z = -blockRange; z <= blockRange; z++) {
-							BlockPos rangePos = new BlockPos(Mth.floor(pos.getX() + x), Mth.floor(pos.getY() + y),
-									Mth.floor(pos.getZ() + z));
+							BlockPos rangePos = new BlockPos(Mth.floor(pos.getX() + x), Mth.floor(pos.getY() + y), Mth.floor(pos.getZ() + z));
 							BlockState rangeState = level.getBlockState(rangePos);
 							Block rangeBlock = rangeState.getBlock();
 							List<TagKey<Block>> tags = rangeState.getTags().toList();
 							if (!rangeState.isAir() && tags.contains(AvaritiaBlockTags.INFINITY_SHOVEL)) {
 								if (!level.isClientSide() && !player.isCreative()) {
-									List<ItemStack> blockDrops = Block.getDrops(rangeState, (ServerLevel) level, pos,
-											null);
+									List<ItemStack> blockDrops = Block.getDrops(rangeState, (ServerLevel) level, pos, null);
 									if (!blockDrops.isEmpty()) {
 										drops.addAll(blockDrops);
 									} else {
@@ -88,8 +85,7 @@ public class ItemInfinityShovel extends ShovelItem {
 					}
 				}
 				if (!level.isClientSide() && !drops.isEmpty()) {
-					ItemEntity itemEntity = new ItemEntity(level, pos.getX(), pos.getY(), pos.getZ(),
-							ItemMatterCluster.makeCluster(drops));
+					ItemEntity itemEntity = new ItemEntity(level, pos.getX(), pos.getY(), pos.getZ(), ItemMatterCluster.makeCluster(drops));
 					itemEntity.setDefaultPickUpDelay();
 					level.addFreshEntity(itemEntity);
 				}

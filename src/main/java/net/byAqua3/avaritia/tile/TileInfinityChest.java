@@ -7,6 +7,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import net.byAqua3.avaritia.Avaritia;
 import net.byAqua3.avaritia.component.ClusterContainerContents;
+import net.byAqua3.avaritia.inventory.MenuInfinityChest;
 import net.byAqua3.avaritia.loader.AvaritiaBlocks;
 import net.byAqua3.avaritia.loader.AvaritiaDataComponents;
 import net.minecraft.core.BlockPos;
@@ -18,19 +19,53 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.Tag;
-import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.SimpleContainer;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.player.StackedContents;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.ChestLidController;
+import net.minecraft.world.level.block.entity.ContainerOpenersCounter;
+import net.minecraft.world.level.block.entity.LidBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.common.util.DataComponentUtil;
 
-public class TileInfinityChest extends BlockEntity {
+public class TileInfinityChest extends BlockEntity implements LidBlockEntity {
+
+	private final ContainerOpenersCounter openersCounter = new ContainerOpenersCounter() {
+		@Override
+		protected void onOpen(Level level, BlockPos pos, BlockState state) {
+			level.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.CHEST_OPEN, SoundSource.BLOCKS, 0.5F, level.random.nextFloat() * 0.1F + 0.9F);
+		}
+
+		@Override
+		protected void onClose(Level level, BlockPos pos, BlockState state) {
+			level.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.CHEST_CLOSE, SoundSource.BLOCKS, 0.5F, level.random.nextFloat() * 0.1F + 0.9F);
+		}
+
+		@Override
+		protected void openerCountChanged(Level level, BlockPos pos, BlockState state, int count, int openCount) {
+			TileInfinityChest.this.signalOpenCount(level, pos, state, count, openCount);
+		}
+
+		@Override
+		protected boolean isOwnContainer(Player player) {
+			if (!(player.containerMenu instanceof MenuInfinityChest)) {
+				return false;
+			} else {
+				MenuInfinityChest menu = (MenuInfinityChest) player.containerMenu;
+				TileInfinityChest tile = menu.getTile();
+				return tile == TileInfinityChest.this;
+			}
+		}
+	};
+
+	private final ChestLidController chestLidController = new ChestLidController();
 
 	public final SimpleContainer chest = new SimpleContainer(300) {
 		@Override
@@ -49,67 +84,55 @@ public class TileInfinityChest extends BlockEntity {
 				stackedContents.accountStack(itemStack, Integer.MAX_VALUE);
 			}
 		}
+
+		@Override
+		public void startOpen(Player player) {
+			if (!TileInfinityChest.this.remove && !player.isSpectator()) {
+				TileInfinityChest.this.openersCounter.incrementOpeners(player, TileInfinityChest.this.getLevel(), TileInfinityChest.this.getBlockPos(), TileInfinityChest.this.getBlockState());
+			}
+		}
+
+		@Override
+		public void stopOpen(Player player) {
+			if (!TileInfinityChest.this.remove && !player.isSpectator()) {
+				TileInfinityChest.this.openersCounter.decrementOpeners(player, TileInfinityChest.this.getLevel(), TileInfinityChest.this.getBlockPos(), TileInfinityChest.this.getBlockState());
+			}
+		}
 	};
 
-	public boolean start;
-	public boolean stop;
-	public float lidAngle;
-	
-	public static final Codec<ItemStack> CODEC = Codec.lazyInitialized(
-	        () -> RecordCodecBuilder.create(
-	        		instance -> instance.group(
-	                		ItemStack.ITEM_NON_AIR_CODEC.fieldOf("id").forGetter(ItemStack::getItemHolder),
-	                            ExtraCodecs.intRange(1, Integer.MAX_VALUE).fieldOf("count").orElse(1).forGetter(ItemStack::getCount),
-	                            DataComponentPatch.CODEC
-	                                .optionalFieldOf("components", DataComponentPatch.EMPTY)
-	                                .forGetter(itemStack -> itemStack.getComponentsPatch())
-	                        )
-	                        .apply(instance, ItemStack::new)
-	            )
-	    );
+	public static final Codec<ItemStack> CODEC = Codec.lazyInitialized(() -> RecordCodecBuilder.create(instance -> instance.group(ItemStack.ITEM_NON_AIR_CODEC.fieldOf("id").forGetter(ItemStack::getItemHolder), ExtraCodecs.intRange(1, Integer.MAX_VALUE).fieldOf("count").orElse(1).forGetter(ItemStack::getCount), DataComponentPatch.CODEC.optionalFieldOf("components", DataComponentPatch.EMPTY).forGetter(itemStack -> itemStack.getComponentsPatch())).apply(instance, ItemStack::new)));
 
 	public TileInfinityChest(BlockPos pos, BlockState state) {
 		super(AvaritiaBlocks.INFINITY_CHEST_TILE.get(), pos, state);
 	}
 
-	private void playSound(SoundEvent sound) {
-		Level level = this.getLevel();
-		BlockPos blockPos = this.getBlockPos();
-		level.playLocalSound(blockPos, sound, SoundSource.BLOCKS, 0.5F, level.random.nextFloat() * 0.1F + 0.9F, false);
+	public static void lidAnimateTick(Level pLevel, BlockPos pPos, BlockState pState, TileInfinityChest blockEntity) {
+		blockEntity.chestLidController.tickLid();
 	}
 
-	public void onStart() {
-		if (lidAngle < 1.0F) {
-			this.playSound(SoundEvents.CHEST_OPEN);
-		}
-		this.start = true;
-		this.stop = false;
+	protected void signalOpenCount(Level level, BlockPos pos, BlockState state, int eventId, int eventParam) {
+		Block block = state.getBlock();
+		level.blockEvent(pos, block, 1, eventParam);
 	}
 
-	public void onStop() {
-		if (lidAngle > 0.0F) {
-			this.playSound(SoundEvents.CHEST_CLOSE);
+	public void recheckOpen() {
+		if (!this.remove) {
+			this.openersCounter.recheckOpeners(this.getLevel(), this.getBlockPos(), this.getBlockState());
 		}
-		this.start = false;
-		this.stop = true;
 	}
 
-	public void update() {
-		if (start) {
-			this.lidAngle += 0.1F;
+	@Override
+	public float getOpenNess(float partialTicks) {
+		return this.chestLidController.getOpenness(partialTicks);
+	}
 
-			if (this.lidAngle > 1.0F) {
-				this.lidAngle = 1.0F;
-				start = false;
-			}
-		}
-		if (stop) {
-			this.lidAngle -= 0.1F;
-
-			if (this.lidAngle < 0.0F) {
-				this.lidAngle = 0.0F;
-				stop = false;
-			}
+	@Override
+	public boolean triggerEvent(int id, int type) {
+		if (id == 1) {
+			this.chestLidController.shouldBeOpen(type > 0);
+			return true;
+		} else {
+			return super.triggerEvent(id, type);
 		}
 	}
 
@@ -150,28 +173,27 @@ public class TileInfinityChest extends BlockEntity {
 			tag.put("Items", tagList);
 		}
 	}
-	
-	
-	@Override
-    protected void applyImplicitComponents(BlockEntity.DataComponentInput componentInput) {
-        super.applyImplicitComponents(componentInput);
-        
-        NonNullList<ItemStack> itemStacks = NonNullList.withSize(300, ItemStack.EMPTY);
-        componentInput.getOrDefault(AvaritiaDataComponents.CLUSTER_CONTAINER, ClusterContainerContents.EMPTY).copyInto(itemStacks);
-        
-        if(!itemStacks.isEmpty()) {
-        	for(int i = 0; i < itemStacks.size(); i++) {
-        		this.chest.getItems().set(i, itemStacks.get(i));
-        	}
-        }
-    }
 
-    @Override
-    protected void collectImplicitComponents(DataComponentMap.Builder builder) {
-        super.collectImplicitComponents(builder);
-        
-        List<ItemStack> itemStacks = this.chest.getItems();
-        builder.set(AvaritiaDataComponents.CLUSTER_CONTAINER, ClusterContainerContents.fromItems(itemStacks));
-    }
+	@Override
+	protected void applyImplicitComponents(BlockEntity.DataComponentInput componentInput) {
+		super.applyImplicitComponents(componentInput);
+
+		NonNullList<ItemStack> itemStacks = NonNullList.withSize(300, ItemStack.EMPTY);
+		componentInput.getOrDefault(AvaritiaDataComponents.CLUSTER_CONTAINER, ClusterContainerContents.EMPTY).copyInto(itemStacks);
+
+		if (!itemStacks.isEmpty()) {
+			for (int i = 0; i < itemStacks.size(); i++) {
+				this.chest.getItems().set(i, itemStacks.get(i));
+			}
+		}
+	}
+
+	@Override
+	protected void collectImplicitComponents(DataComponentMap.Builder builder) {
+		super.collectImplicitComponents(builder);
+
+		List<ItemStack> itemStacks = this.chest.getItems();
+		builder.set(AvaritiaDataComponents.CLUSTER_CONTAINER, ClusterContainerContents.fromItems(itemStacks));
+	}
 
 }

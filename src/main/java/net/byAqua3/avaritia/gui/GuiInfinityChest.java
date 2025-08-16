@@ -29,12 +29,6 @@ public class GuiInfinityChest extends AbstractContainerScreen<MenuInfinityChest>
 	}
 
 	@Override
-	public void init() {
-		super.init();
-		this.getMenu().getTile().onStart();
-	}
-
-	@Override
 	public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
 		this.renderBackground(guiGraphics, mouseX, mouseY, partialTicks);
 		super.render(guiGraphics, mouseX, mouseY, partialTicks);
@@ -44,8 +38,7 @@ public class GuiInfinityChest extends AbstractContainerScreen<MenuInfinityChest>
 	@Override
 	protected void renderBg(GuiGraphics guiGraphics, float partialTicks, int mouseX, int mouseY) {
 		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-		guiGraphics.blit(BACKGROUND_LOCATION, this.getGuiLeft(), this.getGuiTop(), 0.0F, 0.0F, this.imageWidth,
-				this.imageHeight, 512, 512);
+		guiGraphics.blit(BACKGROUND_LOCATION, this.getGuiLeft(), this.getGuiTop(), 0.0F, 0.0F, this.imageWidth, this.imageHeight, 512, 512);
 	}
 
 	@Override
@@ -53,23 +46,22 @@ public class GuiInfinityChest extends AbstractContainerScreen<MenuInfinityChest>
 		guiGraphics.drawString(this.font, this.title, this.titleLabelX, this.titleLabelY, 4210752, false);
 		guiGraphics.drawString(this.font, this.playerInventoryTitle, 152, 236, 4210752, false);
 	}
-	
+
 	@Override
 	protected void renderTooltip(GuiGraphics guiGraphics, int mouseX, int mouseY) {
-        if (this.menu.getCarried().isEmpty() && this.hoveredSlot != null && this.hoveredSlot.hasItem()) {
-            ItemStack itemStack = this.hoveredSlot.getItem();
-            List<Component> components = this.getTooltipFromContainerItem(itemStack);
-            components.add(Component.translatable("avaritia:container.infinity_chest.info", itemStack.getCount(), itemStack.getMaxStackSize()));
-            guiGraphics.renderTooltip(this.font, components, itemStack.getTooltipImage(), itemStack, mouseX, mouseY);
-        }
-    }
+		if (this.menu.getCarried().isEmpty() && this.hoveredSlot != null && this.hoveredSlot.hasItem()) {
+			ItemStack itemStack = this.hoveredSlot.getItem();
+			List<Component> components = this.getTooltipFromContainerItem(itemStack);
+			components.add(Component.translatable("avaritia:container.infinity_chest.info", itemStack.getCount(), itemStack.getMaxStackSize()));
+			guiGraphics.renderTooltip(this.font, components, itemStack.getTooltipImage(), itemStack, mouseX, mouseY);
+		}
+	}
 
 	private void recalculateQuickCraftRemaining() {
 		ItemStack itemstack = this.menu.getCarried();
 		if (!itemstack.isEmpty() && this.isQuickCrafting) {
 			if (this.quickCraftingType == 2) {
-				this.quickCraftingRemainder = Math.max(itemstack.getMaxStackSize(),
-						this.menu.getTile().chest.getMaxStackSize());
+				this.quickCraftingRemainder = Math.max(itemstack.getMaxStackSize(), this.menu.getTile().chest.getMaxStackSize());
 			} else {
 				this.quickCraftingRemainder = itemstack.getCount();
 
@@ -77,8 +69,7 @@ public class GuiInfinityChest extends AbstractContainerScreen<MenuInfinityChest>
 					ItemStack itemstack1 = slot.getItem();
 					int i = itemstack1.isEmpty() ? 0 : itemstack1.getCount();
 					int j = Math.max(itemstack.getMaxStackSize(), slot.getMaxStackSize(itemstack));
-					int k = Math.min(AbstractContainerMenu.getQuickCraftPlaceCount(this.quickCraftSlots,
-							this.quickCraftingType, itemstack) + i, j);
+					int k = Math.min(AbstractContainerMenu.getQuickCraftPlaceCount(this.quickCraftSlots, this.quickCraftingType, itemstack) + i, j);
 					this.quickCraftingRemainder -= k - i;
 				}
 			}
@@ -104,8 +95,7 @@ public class GuiInfinityChest extends AbstractContainerScreen<MenuInfinityChest>
 				flag = true;
 				int k = Math.max(itemstack1.getMaxStackSize(), slot.getMaxStackSize(itemstack1));
 				int l = slot.getItem().isEmpty() ? 0 : slot.getItem().getCount();
-				int i1 = AbstractContainerMenu.getQuickCraftPlaceCount(this.quickCraftSlots, this.quickCraftingType,
-						itemstack1) + l;
+				int i1 = AbstractContainerMenu.getQuickCraftPlaceCount(this.quickCraftSlots, this.quickCraftingType, itemstack1) + l;
 				if (i1 > k) {
 					i1 = k;
 				}
@@ -122,8 +112,7 @@ public class GuiInfinityChest extends AbstractContainerScreen<MenuInfinityChest>
 		if (itemStack.isEmpty() && slot.isActive()) {
 			Pair<ResourceLocation, ResourceLocation> pair = slot.getNoItemIcon();
 			if (pair != null) {
-				TextureAtlasSprite textureatlassprite = this.minecraft.getTextureAtlas(pair.getFirst())
-						.apply(pair.getSecond());
+				TextureAtlasSprite textureatlassprite = this.minecraft.getTextureAtlas(pair.getFirst()).apply(pair.getSecond());
 				guiGraphics.blit(i, j, 0, 16, 16, textureatlassprite);
 				flag1 = true;
 			}
@@ -140,7 +129,7 @@ public class GuiInfinityChest extends AbstractContainerScreen<MenuInfinityChest>
 			} else {
 				guiGraphics.renderItem(itemStack, i, j, j1);
 			}
-			
+
 			String text = null;
 			int count = itemStack.getCount();
 
@@ -162,11 +151,4 @@ public class GuiInfinityChest extends AbstractContainerScreen<MenuInfinityChest>
 
 		guiGraphics.pose().popPose();
 	}
-
-	@Override
-	public void onClose() {
-		super.onClose();
-		this.getMenu().getTile().onStop();
-	}
-
 }

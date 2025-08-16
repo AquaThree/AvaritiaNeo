@@ -6,10 +6,13 @@ import net.byAqua3.avaritia.util.ItemUtils;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Entity.RemovalReason;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SwordItem;
+import net.neoforged.neoforge.entity.PartEntity;
 
 public class ItemInfinitySword extends SwordItem {
 
@@ -47,6 +50,10 @@ public class ItemInfinitySword extends SwordItem {
 				if (entity instanceof Player && ItemUtils.isInfinityArmor((Player) entity)) {
 					entity.hurt(damageSource, 4.0F);
 					return true;
+				} else if (entity instanceof EnderDragon) {
+					entity.getAttribute(Attributes.MAX_HEALTH).setBaseValue(0.0D);
+					entity.setHealth(0.0F);
+					return true;
 				}
 				entity.hurt(damageSource, Float.MAX_VALUE);
 				entity.setHealth(0.0F);
@@ -66,8 +73,12 @@ public class ItemInfinitySword extends SwordItem {
 				if (livingEntity.getHealth() <= 0.0F) {
 					livingEntity.remove(RemovalReason.KILLED);
 				} else {
-					if (entity instanceof Player && ItemUtils.isInfinityArmor((Player) entity)) {
-						entity.hurt(damageSource, 4.0F);
+					if (livingEntity instanceof Player && ItemUtils.isInfinityArmor((Player) livingEntity)) {
+						livingEntity.hurt(damageSource, 4.0F);
+						return true;
+					} else if (livingEntity instanceof EnderDragon) {
+						livingEntity.getAttribute(Attributes.MAX_HEALTH).setBaseValue(0.0D);
+						livingEntity.setHealth(0.0F);
 						return true;
 					}
 					livingEntity.hurt(damageSource, Float.MAX_VALUE);
@@ -75,6 +86,18 @@ public class ItemInfinitySword extends SwordItem {
 					livingEntity.die(damageSource);
 				}
 			} else {
+				if (entity instanceof PartEntity) {
+					PartEntity<?> partEntity = (PartEntity<?>) entity;
+					
+					if (partEntity.getParent() instanceof LivingEntity) {
+						LivingEntity livingEntity = (LivingEntity) partEntity.getParent();
+						livingEntity.getAttribute(Attributes.MAX_HEALTH).setBaseValue(0.0D);
+						livingEntity.setHealth(0.0F);
+					} else {
+						partEntity.getParent().hurt(damageSource, Float.MAX_VALUE);
+					}
+					return true;
+				}
 				entity.hurt(damageSource, Float.MAX_VALUE);
 			}
 		}

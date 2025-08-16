@@ -6,6 +6,7 @@ import moze_intel.projecte.api.mapper.collector.IMappingCollector;
 import moze_intel.projecte.api.nss.NSSItem;
 import moze_intel.projecte.api.nss.NormalizedSimpleStack;
 import net.byAqua3.avaritia.loader.AvaritiaItems;
+
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.server.ReloadableServerResources;
 import net.minecraft.server.packs.resources.ResourceManager;
@@ -17,7 +18,7 @@ public class AvaritiaEMCMapper implements IEMCMapper<NormalizedSimpleStack, Long
 	public String getName() {
 		return "Avaritia EMC Mapper";
 	}
-	
+
 	@Override
 	public String getDescription() {
 		return "Avaritia EMC Mapper.";
@@ -29,8 +30,7 @@ public class AvaritiaEMCMapper implements IEMCMapper<NormalizedSimpleStack, Long
 	}
 
 	@Override
-	public void addMappings(IMappingCollector<NormalizedSimpleStack, Long> mapper, ReloadableServerResources serverResources,
-			RegistryAccess registryAccess, ResourceManager resourceManager) {
+	public void addMappings(IMappingCollector<NormalizedSimpleStack, Long> mapper, ReloadableServerResources serverResources, RegistryAccess registryAccess, ResourceManager resourceManager) {
 		mapper.setValueBefore(NSSItem.createItem(AvaritiaItems.NEUTRON_PILE.get()), 711100L);
 	}
 

@@ -7,7 +7,7 @@ import net.minecraft.world.item.crafting.RecipeType;
 
 @RecipeTypeMapper
 public class RecipeExtremeMapper extends BaseRecipeTypeMapper {
-	
+
 	@Override
 	public String getName() {
 		return "Extreme Mapper";
@@ -22,10 +22,9 @@ public class RecipeExtremeMapper extends BaseRecipeTypeMapper {
 	public String getTranslationKey() {
 		return "mapping.mapper.extreme_crafting";
 	}
-	
+
 	@Override
 	public boolean canHandle(RecipeType<?> recipeType) {
 		return recipeType == AvaritiaRecipes.EXTREME_CRAFTING.get();
 	}
-
 }

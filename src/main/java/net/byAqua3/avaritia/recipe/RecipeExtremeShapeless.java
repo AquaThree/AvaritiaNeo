@@ -11,6 +11,7 @@ import net.byAqua3.avaritia.item.ItemInfinitySingularity;
 import net.byAqua3.avaritia.item.ItemJsonSingularity;
 import net.byAqua3.avaritia.item.ItemSingularity;
 import net.byAqua3.avaritia.loader.AvaritiaDataComponents;
+import net.byAqua3.avaritia.loader.AvaritiaItems;
 import net.byAqua3.avaritia.loader.AvaritiaRecipes;
 import net.byAqua3.avaritia.loader.AvaritiaSingularities;
 import net.byAqua3.avaritia.singularity.Singularity;
@@ -35,8 +36,7 @@ public class RecipeExtremeShapeless implements RecipeExtremeCrafting {
 	public final boolean hasSingularities;
 	private final boolean isSimple;
 
-	public RecipeExtremeShapeless(String group, ItemStack result, List<Ingredient> ingredients,
-			boolean hasSingularities) {
+	public RecipeExtremeShapeless(String group, ItemStack result, List<Ingredient> ingredients, boolean hasSingularities) {
 		this.group = group;
 		this.result = result;
 		this.ingredients = NonNullList.copyOf(ingredients);
@@ -46,23 +46,23 @@ public class RecipeExtremeShapeless implements RecipeExtremeCrafting {
 
 	@Override
 	public boolean matches(CraftingInput container, Level level) {
-		StackedContents stackedcontents = new StackedContents();
+		StackedContents stackedContents = new StackedContents();
 		java.util.List<ItemStack> inputs = new java.util.ArrayList<>();
 		int i = 0;
 
 		for (int j = 0; j < container.size(); ++j) {
-			ItemStack itemstack = container.getItem(j);
-			if (!itemstack.isEmpty()) {
+			ItemStack itemStack = container.getItem(j);
+			if (!itemStack.isEmpty()) {
 				++i;
 				if (this.isSimple) {
-					stackedcontents.accountStack(itemstack, 1);
+					stackedContents.accountStack(itemStack, 1);
 				} else {
-					inputs.add(itemstack);
+					inputs.add(itemStack);
 				}
 			}
 		}
 
-		return i == this.getIngredients().size() && (this.isSimple ? stackedcontents.canCraft(this, null)
+		return i == this.getIngredients().size() && (this.isSimple ? stackedContents.canCraft(this, null)
 				: net.neoforged.neoforge.common.util.RecipeMatcher.findMatches(inputs, this.getIngredients()) != null);
 	}
 
@@ -98,15 +98,14 @@ public class RecipeExtremeShapeless implements RecipeExtremeCrafting {
 			ingredients.addAll(this.ingredients);
 			for (int i = 0; i < BuiltInRegistries.ITEM.size(); i++) {
 				Item item = BuiltInRegistries.ITEM.byId(i);
-				if (item instanceof ItemSingularity && !(item instanceof ItemInfinitySingularity)) {
-					if (!(item instanceof ItemJsonSingularity)) {
-					   ingredients.add(DataComponentIngredient.of(false, new ItemStack(item)));
-					} else {
-						for(Singularity singularity : AvaritiaSingularities.getInstance().getSingularities()) {
-							ingredients.add(DataComponentIngredient.of(true, AvaritiaDataComponents.SINGULARITY_ID.get(), singularity.getId(), item));
-						}
-					}
+				if (item instanceof ItemSingularity && !(item instanceof ItemJsonSingularity) && !(item instanceof ItemInfinitySingularity)) {
+					ingredients.add(Ingredient.of(item));
 				}
+			}
+			for(Singularity singularity : AvaritiaSingularities.getInstance().getSingularities()) {
+				ItemStack itemStack = new ItemStack(AvaritiaItems.JSON_SINGULARITY.get());
+				itemStack.set(AvaritiaDataComponents.SINGULARITY_ID.get(), singularity.getId());
+				ingredients.add(DataComponentIngredient.of(true, itemStack));
 			}
 			return NonNullList.copyOf(ingredients);
 		}

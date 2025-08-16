@@ -5,10 +5,13 @@ import javax.annotation.Nullable;
 import com.mojang.serialization.MapCodec;
 
 import net.byAqua3.avaritia.inventory.MenuInfinityChest;
+import net.byAqua3.avaritia.loader.AvaritiaBlocks;
 import net.byAqua3.avaritia.tile.TileInfinityChest;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.player.Player;
@@ -43,8 +46,7 @@ public class BlockInfinityChest extends BaseEntityBlock implements EntityBlock {
 
 	public static final Component TITLE = Component.translatable("avaritia:container.infinity_chest.title");
 
-	public static final MapCodec<BlockInfinityChest> CODEC = simpleCodec(
-			properties -> new BlockInfinityChest(properties));
+	public static final MapCodec<BlockInfinityChest> CODEC = simpleCodec(properties -> new BlockInfinityChest(properties));
 
 	public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
 	public static final EnumProperty<ChestType> TYPE = BlockStateProperties.CHEST_TYPE;
@@ -79,8 +81,7 @@ public class BlockInfinityChest extends BaseEntityBlock implements EntityBlock {
 	}
 
 	@Override
-	public BlockState updateShape(BlockState state, Direction facing, BlockState facingState, LevelAccessor level,
-			BlockPos currentPos, BlockPos facingPos) {
+	public BlockState updateShape(BlockState state, Direction facing, BlockState facingState, LevelAccessor level, BlockPos currentPos, BlockPos facingPos) {
 		if (state.getValue(WATERLOGGED)) {
 			level.scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
 		}
@@ -108,8 +109,7 @@ public class BlockInfinityChest extends BaseEntityBlock implements EntityBlock {
 		Direction direction = context.getHorizontalDirection().getOpposite();
 		FluidState fluidstate = context.getLevel().getFluidState(context.getClickedPos());
 
-		return this.defaultBlockState().setValue(FACING, direction).setValue(TYPE, chesttype).setValue(WATERLOGGED,
-				Boolean.valueOf(fluidstate.getType() == Fluids.WATER));
+		return this.defaultBlockState().setValue(FACING, direction).setValue(TYPE, chesttype).setValue(WATERLOGGED, Boolean.valueOf(fluidstate.getType() == Fluids.WATER));
 	}
 
 	@Override
@@ -120,18 +120,7 @@ public class BlockInfinityChest extends BaseEntityBlock implements EntityBlock {
 	@Nullable
 	private Direction candidatePartnerFacing(BlockPlaceContext context, Direction direction) {
 		BlockState blockstate = context.getLevel().getBlockState(context.getClickedPos().relative(direction));
-		return blockstate.is(this) && blockstate.getValue(TYPE) == ChestType.SINGLE ? blockstate.getValue(FACING)
-				: null;
-	}
-
-	@Nullable
-	@Override
-	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state,
-			BlockEntityType<T> entityType) {
-		if (!level.isClientSide()) {
-			return null;
-		}
-		return (world, blockPos, blockState, tile) -> ((TileInfinityChest) tile).update();
+		return blockstate.is(this) && blockstate.getValue(TYPE) == ChestType.SINGLE ? blockstate.getValue(FACING) : null;
 	}
 
 	@Override
@@ -159,12 +148,26 @@ public class BlockInfinityChest extends BaseEntityBlock implements EntityBlock {
 		} else {
 			if (blockEntity instanceof TileInfinityChest) {
 				TileInfinityChest tile = (TileInfinityChest) blockEntity;
-				SimpleMenuProvider simpleMenuProvider = new SimpleMenuProvider(
-						(id, inventory, access) -> new MenuInfinityChest(id, inventory, tile), TITLE);
+				SimpleMenuProvider simpleMenuProvider = new SimpleMenuProvider((id, inventory, access) -> new MenuInfinityChest(id, inventory, tile), TITLE);
 
 				player.openMenu(simpleMenuProvider, pos);
 			}
 			return InteractionResult.CONSUME;
+		}
+	}
+	
+	@Nullable
+    @Override
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
+        return level.isClientSide() ? createTickerHelper(blockEntityType, AvaritiaBlocks.INFINITY_CHEST_TILE.get(), TileInfinityChest::lidAnimateTick) : null;
+    }
+
+	@Override
+	protected void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
+		BlockEntity blockEntity = level.getBlockEntity(pos);
+		if (blockEntity instanceof TileInfinityChest) {
+			TileInfinityChest tile = (TileInfinityChest) blockEntity;
+			tile.recheckOpen();
 		}
 	}
 

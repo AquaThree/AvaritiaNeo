@@ -30,6 +30,7 @@ public class MenuInfinityChest extends AbstractContainerMenu {
 	public MenuInfinityChest(int id, Inventory inventory, TileInfinityChest tile) {
 		super(AvaritiaMenus.INFINITY_CHEST.get(), id);
 		this.tile = tile;
+		tile.chest.startOpen(inventory.player);
 
 		int y;
 		for (y = 0; y < 12; y++) {
@@ -53,9 +54,6 @@ public class MenuInfinityChest extends AbstractContainerMenu {
 	}
 
 	private boolean tryItemClickBehaviourOverride(Player player, ClickAction clickAction, Slot slot, ItemStack clickedItem, ItemStack carriedItem) {
-		// Neo: Fire the ItemStackedOnOtherEvent, and return true if it was cancelled
-		// (meaning the event was handled). Returning true will trigger the container to
-		// stop processing further logic.
 		if (net.neoforged.neoforge.common.CommonHooks.onItemStackedOn(clickedItem, carriedItem, slot, clickAction, player, createCarriedSlotAccess())) {
 			return true;
 		}
@@ -349,6 +347,12 @@ public class MenuInfinityChest extends AbstractContainerMenu {
 			slot.onTake(player, slotStack);
 		}
 		return resultStack;
+	}
+
+	@Override
+	public void removed(Player player) {
+		super.removed(player);
+		this.tile.chest.stopOpen(player);
 	}
 
 	@Override

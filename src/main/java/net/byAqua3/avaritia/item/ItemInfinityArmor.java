@@ -88,14 +88,16 @@ public class ItemInfinityArmor extends ArmorItem {
 					}
 				}
 			} else if (this.getEquipmentSlot() == EquipmentSlot.FEET && slotId == 36) {
-				player.getAttribute(Attributes.STEP_HEIGHT).setBaseValue(1.0625F);
+				if (AvaritiaConfigs.stepHeight.get()) {
+					player.getAttribute(Attributes.STEP_HEIGHT).setBaseValue(1.0625F);
+				}
 
 				if (AvaritiaConfigs.speed.get()) {
 					boolean flying = player.getAbilities().flying;
 					boolean swimming = player.isInWater();
 					if (player.onGround() || flying || swimming) {
 						boolean sneaking = player.isCrouching();
-						float speed = 0.15F * (flying ? 1.1F : 1.0F) * (swimming ? 1.2F : 1.0F) * (sneaking ? 0.1F : 1.0F);
+						float speed = (float) (0.15F * AvaritiaConfigs.speedValue.get()) * (flying ? 1.1F : 1.0F) * (swimming ? 1.2F : 1.0F) * (sneaking ? 0.1F : 1.0F);
 
 						if (player.zza > 0.0F) {
 							player.moveRelative(speed, new Vec3(0, 0, 1));

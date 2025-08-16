@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import net.byAqua3.avaritia.Avaritia;
+import net.byAqua3.avaritia.item.ItemInfinitySingularity;
 import net.byAqua3.avaritia.item.ItemJsonSingularity;
 import net.byAqua3.avaritia.singularity.Singularity;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -27,21 +28,21 @@ public class AvaritiaTabs {
 			() -> CreativeModeTab.builder().title(Component.translatable("itemGroup.avaritia"))
 					.icon(() -> new ItemStack(AvaritiaItems.INFINITY_CATALYST.get()))
 					.displayItems((generator, output) -> {
-						Iterator<DeferredHolder<Item, ? extends Item>> itemIterator = AvaritiaItems.ITEMS.getEntries()
-								.iterator();
+						Iterator<DeferredHolder<Item, ? extends Item>> itemIterator = AvaritiaItems.ITEMS.getEntries().iterator();
 						while (itemIterator.hasNext()) {
 							DeferredHolder<Item, ? extends Item> itemHolder = itemIterator.next();
 							Item item = itemHolder.get();
 							if (!BLACK_ITEMS.contains(item)) {
 								if (!(item instanceof ItemJsonSingularity)) {
+									if(item instanceof ItemInfinitySingularity) {
+										for (Singularity singularity : AvaritiaSingularities.getInstance().getSingularities()) {
+											ItemStack itemStack = new ItemStack(AvaritiaItems.JSON_SINGULARITY.get());
+											itemStack.set(AvaritiaDataComponents.SINGULARITY_ID.get(), singularity.getId());
+											output.accept(itemStack);
+										}
+									}
 									ItemStack itemStack = new ItemStack(item);
 									output.accept(itemStack);
-								} else {
-									for (Singularity singularity : AvaritiaSingularities.getInstance().getSingularities()) {
-										ItemStack itemStack = new ItemStack(item);
-										itemStack.set(AvaritiaDataComponents.SINGULARITY_ID.get(), singularity.getId());
-										output.accept(itemStack);
-									}
 								}
 							}
 						}

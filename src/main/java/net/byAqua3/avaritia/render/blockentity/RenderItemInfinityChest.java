@@ -26,7 +26,7 @@ public class RenderItemInfinityChest extends BlockEntityWithoutLevelRenderer {
 	
 	@Override
 	public void renderByItem(ItemStack stack, ItemDisplayContext context, PoseStack poseStack, MultiBufferSource multiBufferSource, int packedLight, int packedOverlay) {
-		blockEntityRenderDispatcher.renderItem(infinityChest, poseStack, multiBufferSource, packedLight, packedOverlay);
+		this.blockEntityRenderDispatcher.renderItem(this.infinityChest, poseStack, multiBufferSource, packedLight, packedOverlay);
 	}
 
 }
