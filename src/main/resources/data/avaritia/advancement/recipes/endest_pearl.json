@@ -1,0 +1,38 @@
+{
+  "parent": "avaritia:recipes/extreme_crafting_table",
+  "criteria": {
+    "avaritia:endest_pearl": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "avaritia:endest_pearl"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:summoned_entity"
+    }
+  },
+  "display": {
+    "show_toast": true,
+    "announce_to_chat": true,
+    "icon": {
+      "id": "avaritia:endest_pearl"
+    },
+    "title": {
+      "translate": "advancements.avaritia.endest_pearl.title"
+    },
+    "description": {
+      "translate": "advancements.avaritia.endest_pearl.description"
+    }
+  },
+  "requirements": [
+    [
+      "avaritia:endest_pearl"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

@@ -1,0 +1,34 @@
+{
+  "variants": {
+    "active=false,facing=north": {
+      "model": "avaritia:block/compressor_inactive"
+    },
+    "active=true,facing=north": {
+      "model": "avaritia:block/compressor"
+    },
+    "active=false,facing=south": {
+      "model": "avaritia:block/compressor_inactive",
+      "y": 180
+    },
+    "active=true,facing=south": {
+      "model": "avaritia:block/compressor",
+      "y": 180
+    },
+    "active=false,facing=west": {
+      "model": "avaritia:block/compressor_inactive",
+      "y": 270
+    },
+    "active=true,facing=west": {
+      "model": "avaritia:block/compressor",
+      "y": 270
+    },
+    "active=false,facing=east": {
+      "model": "avaritia:block/compressor_inactive",
+      "y": 90
+    },
+    "active=true,facing=east": {
+      "model": "avaritia:block/compressor",
+      "y": 90
+    }
+  }
+}

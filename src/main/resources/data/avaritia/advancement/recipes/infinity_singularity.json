@@ -1,0 +1,37 @@
+{
+  "parent": "avaritia:recipes/singularity",
+  "criteria": {
+    "avaritia:infinity_singularity": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "avaritia:infinity_singularity"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "show_toast": true,
+    "announce_to_chat": true,
+    "icon": {
+      "id": "avaritia:infinity_singularity"
+    },
+    "frame": "challenge",
+    "title": {
+      "translate": "advancements.avaritia.infinity_singularity.title"
+    },
+    "description": {
+      "translate": "advancements.avaritia.infinity_singularity.description"
+    }
+  },
+  "requirements": [
+    [
+      "avaritia:infinity_singularity"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

@@ -1,0 +1,43 @@
+{
+  "parent": "avaritia:recipes/infinity_ingot",
+  "criteria": {
+    "avaritia:infinity_bow": {
+      "conditions": {
+        "damage": {
+          "type": {
+            "direct_entity": {
+              "type": "avaritia:infinity_arrow"
+            },
+            "tags": [
+              {
+                "expected": true,
+                "id": "minecraft:is_projectile"
+              }
+            ]
+          }
+        }
+      },
+      "trigger": "minecraft:player_hurt_entity"
+    }
+  },
+  "display": {
+    "show_toast": true,
+    "announce_to_chat": true,
+    "icon": {
+      "id": "avaritia:infinity_bow"
+    },
+    "frame": "challenge",
+    "title": {
+      "translate": "advancements.avaritia.infinity_bow.title"
+    },
+    "description": {
+      "translate": "advancements.avaritia.infinity_bow.description"
+    }
+  },
+  "requirements": [
+    [
+      "avaritia:infinity_bow"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

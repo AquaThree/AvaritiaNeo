@@ -1,0 +1,36 @@
+{
+  "parent": "avaritia:recipes/diamond_lattice",
+  "criteria": {
+    "avaritia:crystal_matrix_ingot": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "avaritia:crystal_matrix_ingot"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "show_toast": true,
+    "announce_to_chat": true,
+    "icon": {
+      "id": "avaritia:crystal_matrix_ingot"
+    },
+    "title": {
+      "translate": "advancements.avaritia.crystal_matrix_ingot.title"
+    },
+    "description": {
+      "translate": "advancements.avaritia.crystal_matrix_ingot.description"
+    }
+  },
+  "requirements": [
+    [
+      "avaritia:crystal_matrix_ingot"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

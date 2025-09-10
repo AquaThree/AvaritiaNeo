@@ -1,0 +1,12 @@
+{
+  "type": "avaritia:compressor",
+  "result": {
+    "id": "avaritia:quartz_singularity"
+  },
+  "cost": 200,
+  "ingredients": [
+    {
+      "item": "minecraft:quartz_block"
+    }
+  ]
+}

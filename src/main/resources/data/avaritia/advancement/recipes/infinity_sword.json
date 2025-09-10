@@ -1,0 +1,45 @@
+{
+  "parent": "avaritia:recipes/infinity_ingot",
+  "criteria": {
+    "avaritia:infinity_sword": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "equipment": {
+                "mainhand": {
+                  "items": [
+                     "avaritia:infinity_sword"
+                  ]
+                }
+              }
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    }
+  },
+  "display": {
+    "show_toast": true,
+    "announce_to_chat": true,
+    "icon": {
+      "id": "avaritia:infinity_sword"
+    },
+    "frame": "challenge",
+    "title": {
+      "translate": "advancements.avaritia.infinity_sword.title"
+    },
+    "description": {
+      "translate": "advancements.avaritia.infinity_sword.description"
+    }
+  },
+  "requirements": [
+    [
+      "avaritia:infinity_sword"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

@@ -1,0 +1,19 @@
+{
+	"parent": "minecraft:item/generated",
+	"textures": {
+		"layer0": "avaritia:item/matter_cluster_empty"
+	},
+	"loader": "avaritia:cosmic",
+	"cosmic": {
+		"mask": "avaritia:item/matter_cluster_empty_mask",
+		"isMatterCluster": true
+	},
+	"overrides": [
+		{
+			"predicate": {
+				"avaritia:full": 1.0
+			},
+			"model": "avaritia:item/matter_cluster_full"
+		}
+	]
+}

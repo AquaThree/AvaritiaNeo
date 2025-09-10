@@ -1,0 +1,37 @@
+{
+  "parent": "avaritia:recipes/extreme_crafting_table",
+  "criteria": {
+    "avaritia:infinity_catalyst": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "avaritia:infinity_catalyst"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "show_toast": true,
+    "announce_to_chat": true,
+    "icon": {
+      "id": "avaritia:infinity_catalyst"
+    },
+    "frame": "challenge",
+    "title": {
+      "translate": "advancements.avaritia.infinity_catalyst.title"
+    },
+    "description": {
+      "translate": "advancements.avaritia.infinity_catalyst.description"
+    }
+  },
+  "requirements": [
+    [
+      "avaritia:infinity_catalyst"
+    ]
+  ],
+  "sends_telemetry_event": true
+}
