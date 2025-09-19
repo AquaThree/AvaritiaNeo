@@ -1,0 +1,10 @@
+{
+	"parent": "minecraft:item/generated",
+	"textures": {
+		"layer0": "avaritia:item/infinity_catalyst"
+	},
+	"loader": "avaritia:halo",
+	"halo": {
+		"type": 0
+	}
+}

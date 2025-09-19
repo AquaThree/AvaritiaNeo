@@ -1,0 +1,35 @@
+{
+  "type": "avaritia:extreme_shaped",
+  "result": {
+    "id": "avaritia:skullfire_sword",
+    "nbt": "{Damage:0}"
+  },
+  "pattern": [
+    "       IX",
+    "      IXI",
+    "     IXI ",
+    "    IXI  ",
+    " B IXI   ",
+    "  BXI    ",
+    "  WB     ",
+    " W  B    ",
+    "D        "
+  ],
+  "key": {
+    "B": {
+      "item": "minecraft:bone"
+    },
+    "D": {
+      "item": "minecraft:nether_star"
+    },
+    "I": {
+      "item": "avaritia:crystal_matrix_ingot"
+    },
+    "X": {
+      "item": "minecraft:blaze_powder"
+    },
+    "W": {
+      "tag": "minecraft:logs"
+    }
+  }
+}
