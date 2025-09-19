@@ -1,0 +1,21 @@
+{
+	"type": "avaritia:compressor",
+	"result": {
+		"item": "avaritia:json_singularity",
+		"nbt": {
+			"singularity_id": "crystal_matrix_singularity"
+		}
+	},
+	"cost": 200,
+	"ingredients": [
+		{
+			"item": "avaritia:crystal_matrix_ingot"
+		}
+	],
+	"conditions": [
+		{
+			"type": "neoforge:mod_loaded",
+			"modid": "avaritia"
+		}
+	]
+}
