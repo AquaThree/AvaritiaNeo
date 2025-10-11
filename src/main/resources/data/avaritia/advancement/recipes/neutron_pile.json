@@ -1,0 +1,36 @@
+{
+  "parent": "avaritia:recipes/neutron_collector",
+  "criteria": {
+    "avaritia:neutron_pile": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "avaritia:neutron_pile"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "show_toast": true,
+    "announce_to_chat": true,
+    "icon": {
+      "id": "avaritia:neutron_pile"
+    },
+    "title": {
+      "translate": "advancements.avaritia.neutron_pile.title"
+    },
+    "description": {
+      "translate": "advancements.avaritia.neutron_pile.description"
+    }
+  },
+  "requirements": [
+    [
+      "avaritia:neutron_pile"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

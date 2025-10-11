@@ -1,0 +1,15 @@
+{
+	"required": true,
+	"package": "net.byAqua3.avaritia.mixin",
+	"compatibilityLevel": "JAVA_21",
+	"refmap": "mixins.avaritia.refmap.json",
+	"mixins": [
+		"MixinItemRenderer",
+		"MixinItemStack"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	},
+	"minVersion": "0.8",
+	"target": "@env(DEFAULT)"
+}

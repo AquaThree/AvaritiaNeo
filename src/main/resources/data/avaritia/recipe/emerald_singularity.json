@@ -1,0 +1,12 @@
+{
+  "type": "avaritia:compressor",
+  "result": {
+    "id": "avaritia:emerald_singularity"
+  },
+  "cost": 200,
+  "ingredients": [
+    {
+      "tag": "c:storage_blocks/emerald"
+    }
+  ]
+}

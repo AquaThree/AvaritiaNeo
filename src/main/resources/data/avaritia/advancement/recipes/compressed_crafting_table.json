@@ -1,0 +1,36 @@
+{
+  "parent": "avaritia:root",
+  "criteria": {
+    "avaritia:compressed_crafting_table": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "avaritia:compressed_crafting_table"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "show_toast": true,
+    "announce_to_chat": true,
+    "icon": {
+      "id": "avaritia:compressed_crafting_table"
+    },
+    "title": {
+      "translate": "advancements.avaritia.compressed_crafting_table.title"
+    },
+    "description": {
+      "translate": "advancements.avaritia.compressed_crafting_table.description"
+    }
+  },
+  "requirements": [
+    [
+      "avaritia:compressed_crafting_table"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

@@ -1,0 +1,36 @@
+{
+  "parent": "avaritia:recipes/extreme_crafting_table",
+  "criteria": {
+    "avaritia:neutron_collector": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "avaritia:neutron_collector"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "show_toast": true,
+    "announce_to_chat": true,
+    "icon": {
+      "id": "avaritia:neutron_collector"
+    },
+    "title": {
+      "translate": "advancements.avaritia.neutron_collector.title"
+    },
+    "description": {
+      "translate": "advancements.avaritia.neutron_collector.description"
+    }
+  },
+  "requirements": [
+    [
+      "avaritia:neutron_collector"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

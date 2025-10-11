@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "result": {
+    "id": "avaritia:diamond_lattice"
+  },
+  "pattern": [
+    "D D",
+    " D ",
+    "D D"
+  ],
+  "key": {
+    "D": {
+      "tag": "c:gems/diamond"
+    }
+  }
+}

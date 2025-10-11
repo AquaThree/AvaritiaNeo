@@ -1,0 +1,12 @@
+{
+  "type": "avaritia:compressor",
+  "result": {
+    "id": "avaritia:amethyst_singularity"
+  },
+  "cost": 200,
+  "ingredients": [
+    {
+      "item": "minecraft:amethyst_block"
+    }
+  ]
+}

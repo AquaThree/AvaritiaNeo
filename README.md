@@ -1,0 +1,3 @@
+# AvaritiaNeo
+A minecraft mod.
+

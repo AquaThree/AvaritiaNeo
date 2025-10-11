@@ -1,0 +1,37 @@
+{
+  "parent": "avaritia:recipes/infinity_catalyst",
+  "criteria": {
+    "avaritia:infinity_ingot": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "avaritia:infinity_ingot"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "show_toast": true,
+    "announce_to_chat": true,
+    "icon": {
+      "id": "avaritia:infinity_ingot"
+    },
+    "frame": "challenge",
+    "title": {
+      "translate": "advancements.avaritia.infinity_ingot.title"
+    },
+    "description": {
+      "translate": "advancements.avaritia.infinity_ingot.description"
+    }
+  },
+  "requirements": [
+    [
+      "avaritia:infinity_ingot"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

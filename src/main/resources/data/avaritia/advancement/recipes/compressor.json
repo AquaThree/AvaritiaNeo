@@ -1,0 +1,36 @@
+{
+  "parent": "avaritia:recipes/extreme_crafting_table",
+  "criteria": {
+    "avaritia:compressor": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "avaritia:compressor"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "show_toast": true,
+    "announce_to_chat": true,
+    "icon": {
+      "id": "avaritia:compressor"
+    },
+    "title": {
+      "translate": "advancements.avaritia.compressor.title"
+    },
+    "description": {
+      "translate": "advancements.avaritia.compressor.description"
+    }
+  },
+  "requirements": [
+    [
+      "avaritia:compressor"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

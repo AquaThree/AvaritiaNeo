@@ -1,0 +1,11 @@
+{
+	"parent": "avaritia:item/matter_cluster",
+	"textures": {
+		"layer0": "avaritia:item/matter_cluster_full"
+	},
+	"loader": "avaritia:cosmic",
+	"cosmic": {
+		"mask": "avaritia:item/matter_cluster_full_mask",
+		"isMatterCluster": true
+	}
+}

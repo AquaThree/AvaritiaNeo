@@ -1,0 +1,34 @@
+{
+  "variants": {
+    "active=false,facing=north": {
+      "model": "avaritia:block/neutron_collector_inactive"
+    },
+    "active=true,facing=north": {
+      "model": "avaritia:block/neutron_collector"
+    },
+    "active=false,facing=south": {
+      "model": "avaritia:block/neutron_collector_inactive",
+      "y": 180
+    },
+    "active=true,facing=south": {
+      "model": "avaritia:block/neutron_collector",
+      "y": 180
+    },
+    "active=false,facing=west": {
+      "model": "avaritia:block/neutron_collector_inactive",
+      "y": 270
+    },
+    "active=true,facing=west": {
+      "model": "avaritia:block/neutron_collector",
+      "y": 270
+    },
+    "active=false,facing=east": {
+      "model": "avaritia:block/neutron_collector_inactive",
+      "y": 90
+    },
+    "active=true,facing=east": {
+      "model": "avaritia:block/neutron_collector",
+      "y": 90
+    }
+  }
+}

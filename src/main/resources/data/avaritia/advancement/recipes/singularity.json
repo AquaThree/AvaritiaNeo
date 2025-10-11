@@ -1,0 +1,34 @@
+{
+  "parent": "avaritia:recipes/compressor",
+  "criteria": {
+    "avaritia:singularity": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#avaritia:singularities"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "show_toast": true,
+    "announce_to_chat": true,
+    "icon": {
+      "id": "avaritia:iron_singularity"
+    },
+    "title": {
+      "translate": "advancements.avaritia.singularity.title"
+    },
+    "description": {
+      "translate": "advancements.avaritia.singularity.description"
+    }
+  },
+  "requirements": [
+    [
+      "avaritia:singularity"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

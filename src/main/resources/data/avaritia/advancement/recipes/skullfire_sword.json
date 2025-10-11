@@ -1,0 +1,53 @@
+{
+  "parent": "avaritia:recipes/extreme_crafting_table",
+  "criteria": {
+    "avaritia:skullfire_sword": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "minecraft:wither_skeleton"
+            }
+          }
+        ],
+        "player": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "equipment": {
+                "mainhand": {
+                  "items": [
+                     "avaritia:skullfire_sword"
+                  ]
+                }
+              }
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    }
+  },
+  "display": {
+    "show_toast": true,
+    "announce_to_chat": true,
+    "icon": {
+      "id": "avaritia:skullfire_sword"
+    },
+    "title": {
+      "translate": "advancements.avaritia.skullfire_sword.title"
+    },
+    "description": {
+      "translate": "advancements.avaritia.skullfire_sword.description"
+    }
+  },
+  "requirements": [
+    [
+      "avaritia:skullfire_sword"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

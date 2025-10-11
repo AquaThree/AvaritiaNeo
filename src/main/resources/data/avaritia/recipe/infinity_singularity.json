@@ -1,0 +1,9 @@
+{
+  "type": "avaritia:extreme_shapeless",
+  "result": {
+    "id": "avaritia:infinity_singularity"
+  },
+  "ingredients": [
+  ],
+  "singularities": true
+}

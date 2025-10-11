@@ -1,0 +1,10 @@
+{
+	"parent": "avaritia:item/infinity_bow",
+	"textures": {
+		"layer0": "avaritia:item/tools/bow/pull_2"
+	},
+	"loader": "avaritia:cosmic",
+	"cosmic": {
+		"mask": "avaritia:item/tools/bow/pull_2_mask"
+	}
+}

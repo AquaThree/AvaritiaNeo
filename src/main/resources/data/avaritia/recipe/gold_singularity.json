@@ -1,0 +1,12 @@
+{
+  "type": "avaritia:compressor",
+  "result": {
+    "id": "avaritia:gold_singularity"
+  },
+  "cost": 200,
+  "ingredients": [
+    {
+      "tag": "c:storage_blocks/gold"
+    }
+  ]
+}

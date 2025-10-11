@@ -1,0 +1,25 @@
+{
+  "type": "avaritia:extreme_shaped",
+  "result": {
+    "id": "avaritia:infinity_hoe"
+  },
+  "pattern": [
+    "     N   ",
+    " IIIIII  ",
+    "IIIIIII  ",
+    "I    II  ",
+    "     N   ",
+    "     N   ",
+    "     N   ",
+    "     N   ",
+    "     N   "
+  ],
+  "key": {
+    "N": {
+      "item": "avaritia:neutronium_ingot"
+    },
+    "I": {
+      "item": "avaritia:infinity_ingot"
+    }
+  }
+}
