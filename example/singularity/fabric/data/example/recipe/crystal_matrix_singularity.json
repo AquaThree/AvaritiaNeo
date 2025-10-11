@@ -1,0 +1,23 @@
+{
+	"type": "avaritia:compressor",
+	"result": {
+		"id": "avaritia:json_singularity",
+		"components": {
+			"avaritia:singularity_id": "crystal_matrix_singularity"
+		}
+	},
+	"cost": 200,
+	"ingredients": [
+		{
+			"item": "avaritia:crystal_matrix_ingot"
+		}
+	],
+	"fabric:load_conditions": [
+		{
+			"condition": "fabric:all_mods_loaded",
+			"values": [
+				"avaritia"
+			]
+		}
+	]
+}

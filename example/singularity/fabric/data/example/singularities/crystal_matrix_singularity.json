@@ -1,0 +1,15 @@
+{
+	"id": "crystal_matrix_singularity",
+	"color": [
+		-1,
+		-6819349
+	],
+	"fabric:load_conditions": [
+		{
+			"condition": "fabric:all_mods_loaded",
+			"values": [
+				"avaritia"
+			]
+		}
+	]
+}
