@@ -62,8 +62,7 @@ public class RecipeExtremeShapeless implements RecipeExtremeCrafting {
 			}
 		}
 
-		return i == this.getIngredients().size() && (this.isSimple ? stackedContents.canCraft(this, null)
-				: net.neoforged.neoforge.common.util.RecipeMatcher.findMatches(inputs, this.getIngredients()) != null);
+		return i == this.getIngredients().size() && (this.isSimple ? stackedContents.canCraft(this, null) : net.neoforged.neoforge.common.util.RecipeMatcher.findMatches(inputs, this.getIngredients()) != null);
 	}
 
 	@Override
@@ -96,13 +95,12 @@ public class RecipeExtremeShapeless implements RecipeExtremeCrafting {
 		if (this.hasSingularities) {
 			List<Ingredient> ingredients = new ArrayList<>();
 			ingredients.addAll(this.ingredients);
-			for (int i = 0; i < BuiltInRegistries.ITEM.size(); i++) {
-				Item item = BuiltInRegistries.ITEM.byId(i);
+			for (Item item : BuiltInRegistries.ITEM) {
 				if (item instanceof ItemSingularity && !(item instanceof ItemJsonSingularity) && !(item instanceof ItemInfinitySingularity)) {
 					ingredients.add(Ingredient.of(item));
 				}
 			}
-			for(Singularity singularity : AvaritiaSingularities.getInstance().getSingularities()) {
+			for (Singularity singularity : AvaritiaSingularities.getInstance().getSingularities()) {
 				ItemStack itemStack = new ItemStack(AvaritiaItems.JSON_SINGULARITY.get());
 				itemStack.set(AvaritiaDataComponents.SINGULARITY_ID.get(), singularity.getId());
 				ingredients.add(DataComponentIngredient.of(true, itemStack));
@@ -118,22 +116,14 @@ public class RecipeExtremeShapeless implements RecipeExtremeCrafting {
 	}
 
 	public static class Serializer implements RecipeSerializer<RecipeExtremeShapeless> {
-		public static final MapCodec<RecipeExtremeShapeless> CODEC = RecordCodecBuilder.mapCodec(instance -> instance
-				.group(Codec.STRING.optionalFieldOf("group", "").forGetter(recipe -> recipe.group),
-						ItemStack.STRICT_CODEC.fieldOf("result").forGetter(recipe -> recipe.result),
-						Ingredient.CODEC_NONEMPTY.listOf().fieldOf("ingredients")
-								.forGetter(recipe -> recipe.ingredients),
-								Codec.BOOL.optionalFieldOf("singularities", false)
-								.forGetter(recipe -> recipe.hasSingularities))
-				.apply(instance, RecipeExtremeShapeless::new));
-		public static final StreamCodec<RegistryFriendlyByteBuf, RecipeExtremeShapeless> STREAM_CODEC = StreamCodec
-				.of(RecipeExtremeShapeless.Serializer::toNetwork, RecipeExtremeShapeless.Serializer::fromNetwork);
+		public static final MapCodec<RecipeExtremeShapeless> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(Codec.STRING.optionalFieldOf("group", "").forGetter(recipe -> recipe.group), ItemStack.STRICT_CODEC.fieldOf("result").forGetter(recipe -> recipe.result), Ingredient.CODEC_NONEMPTY.listOf().fieldOf("ingredients").forGetter(recipe -> recipe.ingredients), Codec.BOOL.optionalFieldOf("singularities", false).forGetter(recipe -> recipe.hasSingularities)).apply(instance, RecipeExtremeShapeless::new));
+		public static final StreamCodec<RegistryFriendlyByteBuf, RecipeExtremeShapeless> STREAM_CODEC = StreamCodec.of(RecipeExtremeShapeless.Serializer::toNetwork, RecipeExtremeShapeless.Serializer::fromNetwork);
 
 		@Override
 		public MapCodec<RecipeExtremeShapeless> codec() {
 			return CODEC;
 		}
-		
+
 		@Override
 		public StreamCodec<RegistryFriendlyByteBuf, RecipeExtremeShapeless> streamCodec() {
 			return STREAM_CODEC;

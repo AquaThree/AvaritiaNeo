@@ -87,6 +87,7 @@ public class AvaritiaJEIPlugin implements IModPlugin {
 		registration.addRecipeClickArea(GuiNeutroniumCompressor.class, 62, 35, 22, 15, COMPRESSOR);
 	}
 
+	@SuppressWarnings("removal")
 	@Override
 	public void registerItemSubtypes(ISubtypeRegistration registration) {
 		registration.registerSubtypeInterpreter(AvaritiaItems.JSON_SINGULARITY.get(), (stack, context) -> {

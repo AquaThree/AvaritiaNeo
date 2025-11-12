@@ -75,22 +75,17 @@ public class RecipeExtremeShaped implements RecipeExtremeCrafting {
 	public RecipeSerializer<?> getSerializer() {
 		return AvaritiaRecipes.EXTREME_SHAPED_RECIPE.get();
 	}
-	
+
 	@Override
-    public boolean isIncomplete() {
-        NonNullList<Ingredient> ingredients = this.getIngredients();
-        return ingredients.isEmpty() || ingredients.stream().filter(ingredient -> !ingredient.isEmpty()).anyMatch(Ingredient::hasNoItems);
-    }
+	public boolean isIncomplete() {
+		NonNullList<Ingredient> ingredients = this.getIngredients();
+		return ingredients.isEmpty() || ingredients.stream().filter(ingredient -> !ingredient.isEmpty()).anyMatch(Ingredient::hasNoItems);
+	}
 
 	public static class Serializer implements RecipeSerializer<RecipeExtremeShaped> {
 
-		public static final MapCodec<RecipeExtremeShaped> CODEC = RecordCodecBuilder.mapCodec(instance -> instance
-				.group(Codec.STRING.optionalFieldOf("group", "").forGetter(recipe -> recipe.group),
-						ShapedRecipePattern.MAP_CODEC.forGetter(recipe -> recipe.pattern),
-						ItemStack.STRICT_CODEC.fieldOf("result").forGetter(recipe -> recipe.result))
-				.apply(instance, RecipeExtremeShaped::new));
-		public static final StreamCodec<RegistryFriendlyByteBuf, RecipeExtremeShaped> STREAM_CODEC = StreamCodec
-				.of(RecipeExtremeShaped.Serializer::toNetwork, RecipeExtremeShaped.Serializer::fromNetwork);
+		public static final MapCodec<RecipeExtremeShaped> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(Codec.STRING.optionalFieldOf("group", "").forGetter(recipe -> recipe.group), ShapedRecipePattern.MAP_CODEC.forGetter(recipe -> recipe.pattern), ItemStack.STRICT_CODEC.fieldOf("result").forGetter(recipe -> recipe.result)).apply(instance, RecipeExtremeShaped::new));
+		public static final StreamCodec<RegistryFriendlyByteBuf, RecipeExtremeShaped> STREAM_CODEC = StreamCodec.of(RecipeExtremeShaped.Serializer::toNetwork, RecipeExtremeShaped.Serializer::fromNetwork);
 
 		@Override
 		public MapCodec<RecipeExtremeShaped> codec() {
@@ -113,6 +108,6 @@ public class RecipeExtremeShaped implements RecipeExtremeCrafting {
 			friendlyByteBuf.writeUtf(recipe.group);
 			ShapedRecipePattern.STREAM_CODEC.encode(friendlyByteBuf, recipe.pattern);
 			ItemStack.STREAM_CODEC.encode(friendlyByteBuf, recipe.result);
-
 		}
-	}}
+	}
+}

@@ -54,7 +54,7 @@ public class ItemInfinityArmor extends ArmorItem {
 			} else if (this.getEquipmentSlot() == EquipmentSlot.CHEST && slotId == 38) {
 				player.setArrowCount(0);
 				player.getAbilities().mayfly = true;
-				player.getAbilities().setFlyingSpeed(0.05F * 2.0F);
+				player.getAbilities().setFlyingSpeed(0.05F * (float) (2.0F * AvaritiaConfigs.flySpeedValue.get()));
 				if (AvaritiaConfigs.clearBadEffect.get()) {
 					List<MobEffectInstance> mobEffects = Lists.newArrayList(player.getActiveEffects());
 					for (MobEffectInstance mobEffect : mobEffects) {

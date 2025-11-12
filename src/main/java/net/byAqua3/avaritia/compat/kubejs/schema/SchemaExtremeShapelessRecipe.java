@@ -12,7 +12,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 
 public class SchemaExtremeShapelessRecipe extends RecipeSchema {
 
-	public final static RecipeKey<List<Ingredient>> INGREDIENTS = IngredientComponent.UNWRAPPED_INGREDIENT_LIST.inputKey("ingredients").allowEmpty();
+	public final static RecipeKey<List<Ingredient>> INGREDIENTS = IngredientComponent.OPTIONAL_INGREDIENT.instance().asList().inputKey("ingredients");
 	public final static RecipeKey<ItemStack> RESULT = ItemStackComponent.ITEM_STACK.outputKey("result");
 	public final static RecipeKey<Boolean> SINGULARITIES = BooleanComponent.BOOLEAN.inputKey("singularities").optional(false);
 

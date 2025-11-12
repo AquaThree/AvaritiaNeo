@@ -18,6 +18,7 @@ import net.byAqua3.avaritia.loader.AvaritiaSingularities;
 import net.byAqua3.avaritia.loader.AvaritiaTriggers;
 import net.byAqua3.avaritia.network.PacketSingularitySync;
 import net.byAqua3.avaritia.singularity.Singularity;
+import net.byAqua3.avaritia.singularity.SingularityManager;
 import net.byAqua3.avaritia.util.ItemUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -28,8 +29,6 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerChunkCache;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.server.packs.resources.ResourceManager;
-import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 import net.minecraft.server.players.PlayerList;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.damagesource.DamageSource;
@@ -69,7 +68,7 @@ public class AvaritiaEvent {
 	@SubscribeEvent
 	public void onEntityJoinWorld(EntityJoinLevelEvent event) {
 		Entity entity = event.getEntity();
-		
+
 		if (entity instanceof ItemEntity) {
 			ItemEntity itemEntity = (ItemEntity) entity;
 			ItemStack itemStack = itemEntity.getItem();
@@ -84,7 +83,7 @@ public class AvaritiaEvent {
 			}
 		}
 	}
-	
+
 	@SuppressWarnings("deprecation")
 	@SubscribeEvent
 	public void onServerTick(ServerTickEvent.Post event) {
@@ -155,11 +154,8 @@ public class AvaritiaEvent {
 				ItemStack itemStack = player.getMainHandItem();
 
 				if (!itemStack.isEmpty() && itemStack.getItem() instanceof ItemSkullFireSword) {
-					for (ItemEntity itemEntity : event.getDrops()) {
-						if (itemEntity.getItem().getItem() == Items.WITHER_SKELETON_SKULL) {
-							event.getDrops().remove(itemEntity);
-						}
-					}
+					event.getDrops().removeIf(itemEntity -> itemEntity.getItem().getItem() == Items.WITHER_SKELETON_SKULL);
+					
 					int randomInt = player.getRandom().nextInt(100);
 					if (randomInt < AvaritiaConfigs.dropChange.get()) {
 						ItemEntity itemEntity = new ItemEntity(event.getEntity().level(), event.getEntity().getX(), event.getEntity().getY(), event.getEntity().getZ(), new ItemStack(Items.WITHER_SKELETON_SKULL));
@@ -347,14 +343,7 @@ public class AvaritiaEvent {
 
 	@SubscribeEvent
 	public void onAddReloadListener(AddReloadListenerEvent event) {
-		event.addListener(new ResourceManagerReloadListener() {
-			@Override
-			public void onResourceManagerReload(ResourceManager resourceManager) {
-				List<Singularity> singularities = AvaritiaSingularities.loadSingularities(resourceManager);
-				AvaritiaSingularities.getInstance().getSingularities().clear();
-				AvaritiaSingularities.getInstance().getSingularities().addAll(singularities);
-			}
-		});
+		event.addListener(new SingularityManager());
 	}
 
 	@SubscribeEvent

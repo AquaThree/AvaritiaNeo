@@ -12,11 +12,12 @@ import net.minecraft.world.item.crafting.Ingredient;
 
 public class SchemaCompressorRecipe extends RecipeSchema {
 
-	public final static RecipeKey<List<Ingredient>> INGREDIENTS = IngredientComponent.UNWRAPPED_INGREDIENT_LIST.inputKey("ingredients");
+	public final static RecipeKey<List<Ingredient>> INGREDIENTS = IngredientComponent.INGREDIENT.instance().asList().inputKey("ingredients");
 	public final static RecipeKey<ItemStack> RESULT = ItemStackComponent.ITEM_STACK.outputKey("result");
 	public final static RecipeKey<Integer> COST = NumberComponent.INT.inputKey("cost");
 
 	public SchemaCompressorRecipe() {
 		super(new RecipeKey[] { INGREDIENTS, RESULT, COST });
 		this.constructor(new RecipeKey[] { INGREDIENTS, RESULT, COST });
-	}}
+	}
+}

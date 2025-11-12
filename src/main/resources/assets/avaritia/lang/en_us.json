@@ -14,6 +14,7 @@
   "avaritia.configuration.dropChange": "DropChange",
   "avaritia.configuration.infinityArmor": "Infinity Armor",
   "avaritia.configuration.nightVision": "NightVision",
+  "avaritia.configuration.flySpeedValue": "FlySpeedValue",
   "avaritia.configuration.clearBadEffect": "ClearBadEffect",
   "avaritia.configuration.clearFire": "ClearFire",
   "avaritia.configuration.highJump": "HighJump",

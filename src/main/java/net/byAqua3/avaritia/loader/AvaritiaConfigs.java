@@ -12,6 +12,7 @@ public class AvaritiaConfigs {
 	
 	public static ModConfigSpec.IntValue dropChange;
 	public static ModConfigSpec.BooleanValue nightVision;
+	public static ModConfigSpec.DoubleValue flySpeedValue;
 	public static ModConfigSpec.BooleanValue clearBadEffect;
 	public static ModConfigSpec.BooleanValue clearFire;
 	public static ModConfigSpec.BooleanValue highJump;
@@ -28,6 +29,7 @@ public class AvaritiaConfigs {
 		builder.pop();
 		builder.push("infinityArmor");
 		nightVision = builder.comment("NightVision").define("nightVision", true);
+		flySpeedValue = builder.comment("FlySpeedValue").defineInRange("flySpeedValue", 1.0D, 0.1D, 2.0D);
 		clearBadEffect = builder.comment("ClearBadEffect").define("clearBadEffect", true);
 		clearFire = builder.comment("ClearFire").define("clearFire", true);
 		highJump = builder.comment("HighJump").define("highJump", true);
