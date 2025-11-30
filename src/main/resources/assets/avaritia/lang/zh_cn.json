@@ -25,7 +25,7 @@
   "avaritia.configuration.maxStackSize": "最大堆叠数量",
   "emi.category.avaritia.extreme_crafting": "终极工作台",
   "emi.category.avaritia.compressor": "中子态素压缩机",
-  "emi.category.avaritia.collector": "中子态素压缩机",
+  "emi.category.avaritia.collector": "中子态素收集器",
   "config.jade.plugin_avaritia.compressor": "中子态素压缩机",
   "config.jade.plugin_avaritia.collector": "中子态素收集器",
   "mapping.mapper.avaritia_emc": "Avaritia Mapper",
