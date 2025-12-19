@@ -49,7 +49,7 @@ public class AvaritiaRenderTypes {
 				DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 2097152, true, false,
 				RenderType.CompositeState.builder().setShaderState(RenderStateShard.POSITION_COLOR_TEX_LIGHTMAP_SHADER)
 						.setDepthTestState(RenderStateShard.LEQUAL_DEPTH_TEST)
-						.setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY)
+						.setTransparencyState(RenderStateShard.GLINT_TRANSPARENCY)
 						.setCullState(RenderStateShard.NO_CULL)
 						.setLayeringState(RenderStateShard.VIEW_OFFSET_Z_LAYERING)
 						.setTextureState(new RenderStateShard.TextureStateShard(resourceLocation, false, false))

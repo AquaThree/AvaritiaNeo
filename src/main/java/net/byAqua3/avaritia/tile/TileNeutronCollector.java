@@ -1,6 +1,7 @@
 package net.byAqua3.avaritia.tile;
 
 import net.byAqua3.avaritia.loader.AvaritiaBlocks;
+import net.byAqua3.avaritia.loader.AvaritiaConfigs;
 import net.byAqua3.avaritia.loader.AvaritiaItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
@@ -13,8 +14,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class TileNeutronCollector extends TileMachine {
-
-	public static final int PRODUCTION_TICKS = 7111;
 
 	public final SimpleContainer result = new SimpleContainer(1) {
 		@Override
@@ -72,7 +71,7 @@ public class TileNeutronCollector extends TileMachine {
 
 	@Override
 	protected void doWork() {
-		if (++this.progress >= PRODUCTION_TICKS) {
+		if (++this.progress >= AvaritiaConfigs.productionTicks.get()) {
 			ItemStack itemStack = this.result.getItem(0);
 			if (itemStack.isEmpty()) {
 				this.result.setItem(0, new ItemStack(AvaritiaItems.NEUTRON_PILE.get()));

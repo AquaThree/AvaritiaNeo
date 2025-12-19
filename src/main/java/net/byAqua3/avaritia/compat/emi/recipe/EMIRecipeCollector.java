@@ -13,6 +13,7 @@ import dev.emi.emi.api.widget.WidgetHolder;
 import net.byAqua3.avaritia.Avaritia;
 import net.byAqua3.avaritia.compat.emi.AvaritiaEMIPlugin;
 import net.byAqua3.avaritia.gui.GuiNeutronCollector;
+import net.byAqua3.avaritia.loader.AvaritiaConfigs;
 import net.byAqua3.avaritia.recipe.RecipeCollector;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.chat.Component;
@@ -70,7 +71,9 @@ public class EMIRecipeCollector implements EmiRecipe {
 	@Override
 	public void addWidgets(WidgetHolder widgets) {
 		widgets.addTexture(GuiNeutronCollector.BACKGROUND_LOCATION, 11, 11, 102, 41, 37, 29, 102, 41, 256, 256);
-		widgets.addText(Component.translatable("avaritia:container.neutron_collector.info", 5.92F), widgets.getWidth() / 2, widgets.getHeight() - 12, -12566464, false).horizontalAlign(Alignment.CENTER);
+		String time = String.format("%.2f", Float.valueOf(AvaritiaConfigs.productionTicks.get() / 20.0F / 60.0F));
+		Component text = Component.translatable("avaritia:container.neutron_collector.info", time);
+		widgets.addText(text, widgets.getWidth() / 2, widgets.getHeight() - 12, -12566464, false).horizontalAlign(Alignment.CENTER);
 		widgets.addSlot(this.getOutputs().get(0), 53, widgets.getHeight() / 2 - 11).drawBack(false).recipeContext(this);
 	}
 }

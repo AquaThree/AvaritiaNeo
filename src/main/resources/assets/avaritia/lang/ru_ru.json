@@ -21,6 +21,8 @@
   "avaritia.configuration.stepHeight": "Высота шага",
   "avaritia.configuration.speed": "Скорость",
   "avaritia.configuration.speedValue": "Значение скорости",
+  "avaritia.configuration.neutronCollector": "Нейтронный коллектор",
+  "avaritia.configuration.productionTicks": "Такты производства",
   "avaritia.configuration.infinityChest": "Бесконечный сундук",
   "avaritia.configuration.maxStackSize": "Максимальный размер стака",
   "emi.category.avaritia.extreme_crafting": "Экстремальный верстак",

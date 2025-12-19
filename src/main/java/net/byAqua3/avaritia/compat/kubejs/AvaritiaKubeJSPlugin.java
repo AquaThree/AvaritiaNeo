@@ -20,7 +20,6 @@ public class AvaritiaKubeJSPlugin implements KubeJSPlugin {
 		ArtifactVersion version = new DefaultArtifactVersion("2101.7.2-build.270");
 		int compareInt = KubeJS.thisMod.getModInfo().getVersion().compareTo(version);
 
-		Avaritia.LOGGER.info(String.valueOf(compareInt));
 		if (compareInt == 0) {
 			AvaritiaSpecialKubeJSPlugin.registerRecipeSchemas(event);
 		} else if (compareInt < 0) {

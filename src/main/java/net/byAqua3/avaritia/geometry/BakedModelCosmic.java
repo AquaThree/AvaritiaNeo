@@ -66,7 +66,7 @@ public class BakedModelCosmic extends BakedModelRenderer {
 		AvaritiaShaders.externalScaleUniform.set(scale);
 		AvaritiaShaders.opacityUniform.set(1.0F);
 		AvaritiaShaders.cosmicuvsUniform.set(AvaritiaShaders.COSMIC_UVS);
-		
+
 		if (this.isMatterCluster) {
 			if (stack.has(AvaritiaDataComponents.CLUSTER_CONTAINER.get()) && ItemMatterCluster.getClusterCount(ItemMatterCluster.getClusterItems(stack)) <= ItemMatterCluster.CAPACITY) {
 				AvaritiaShaders.opacityUniform.set(Float.valueOf(ItemMatterCluster.getClusterCount(ItemMatterCluster.getClusterItems(stack))) / Float.valueOf(ItemMatterCluster.CAPACITY));
@@ -77,4 +77,5 @@ public class BakedModelCosmic extends BakedModelRenderer {
 
 		VertexConsumer vertexConsumer = multiBufferSource.getBuffer(COSMIC_RENDER_TYPE);
 		itemRenderer.renderQuadList(poseStack, vertexConsumer, RenderUtils.bakeItem(textureAtlasSprites), stack, packedLight, packedOverlay);
-	}}
+	}
+}

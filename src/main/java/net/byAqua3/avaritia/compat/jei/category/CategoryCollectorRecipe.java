@@ -12,6 +12,7 @@ import net.byAqua3.avaritia.block.BlockNeutronCollector;
 import net.byAqua3.avaritia.compat.jei.AvaritiaJEIPlugin;
 import net.byAqua3.avaritia.gui.GuiNeutronCollector;
 import net.byAqua3.avaritia.loader.AvaritiaBlocks;
+import net.byAqua3.avaritia.loader.AvaritiaConfigs;
 import net.byAqua3.avaritia.recipe.RecipeCollector;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
@@ -60,6 +61,7 @@ public class CategoryCollectorRecipe implements IRecipeCategory<RecipeCollector>
 	public void draw(RecipeCollector recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
 		Minecraft mc = Minecraft.getInstance();
 		Font font = mc.font;
-		String text = Component.translatable("avaritia:container.neutron_collector.info", 5.92F).getString();
+		String time = String.format("%.2f", Float.valueOf(AvaritiaConfigs.productionTicks.get() / 20.0F / 60.0F));
+		String text = Component.translatable("avaritia:container.neutron_collector.info", time).getString();
 		guiGraphics.drawString(font, text, (this.background.getWidth() / 2 - font.width(text) / 2), 31, 4210752, false);
 	}}

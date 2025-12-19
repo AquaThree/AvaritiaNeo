@@ -1,6 +1,7 @@
 package net.byAqua3.avaritia.compat.jade.component;
 
 import net.byAqua3.avaritia.compat.jade.AvaritiaJadePlugin;
+import net.byAqua3.avaritia.loader.AvaritiaConfigs;
 import net.byAqua3.avaritia.tile.TileNeutronCollector;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -36,6 +37,6 @@ public class ComponentProviderCollector implements IBlockComponentProvider, ISer
 			IElementHelper helper = IElementHelper.get();
 
 			int progress = blockAccessor.getServerData().getInt("progress");
-			tooltip.add(helper.text(Component.translatable("avaritia:container.neutron_collector.info2", String.format("%.2f%%", Float.valueOf(100.0F * progress / 7111.0F)))));
+			tooltip.add(helper.text(Component.translatable("avaritia:container.neutron_collector.info2", String.format("%.2f%%", Float.valueOf(100.0F * progress / AvaritiaConfigs.productionTicks.get())))));
 		}
 	}}

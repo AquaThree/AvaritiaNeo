@@ -21,6 +21,8 @@
   "avaritia.configuration.stepHeight": "Altura do Passo",
   "avaritia.configuration.speed": "Velocidade",
   "avaritia.configuration.speedValue": "Valor de Velocidade",
+  "avaritia.configuration.neutronCollector": "Coletor de Nêutrons",
+  "avaritia.configuration.productionTicks": "Ticks de Produção",
   "avaritia.configuration.infinityChest": "Baú do Infinito",
   "avaritia.configuration.maxStackSize": "Tamanho Máximo do Pack",
   "emi.category.avaritia.extreme_crafting": "Bancada de Trabalho Extrema",

@@ -1,0 +1,16 @@
+{
+	"required": true,
+	"package": "net.byAqua3.avaritia.mixin.iris",
+	"compatibilityLevel": "JAVA_21",
+	"plugin": "net.byAqua3.avaritia.mixin.iris.IrisConfigPlugin",
+	"refmap": "mixins.avaritia.refmap.json",
+	"mixins": [
+		"MixinShaderInstance",
+		"MixinBakedModelCosmic"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	},
+	"minVersion": "0.8",
+	"target": "@env(DEFAULT)"
+}

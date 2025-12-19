@@ -21,6 +21,8 @@
   "avaritia.configuration.stepHeight": "StepHeight",
   "avaritia.configuration.speed": "Speed",
   "avaritia.configuration.speedValue": "SpeedValue",
+  "avaritia.configuration.neutronCollector": "Neutron Collector",
+  "avaritia.configuration.productionTicks": "ProductionTicks",
   "avaritia.configuration.infinityChest": "Infinity Chest",
   "avaritia.configuration.maxStackSize": "MaxStackSize",
   "emi.category.avaritia.extreme_crafting": "Extreme Crafting Table",

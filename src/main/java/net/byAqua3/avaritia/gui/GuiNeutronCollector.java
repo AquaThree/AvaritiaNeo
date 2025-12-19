@@ -4,6 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.byAqua3.avaritia.Avaritia;
 import net.byAqua3.avaritia.inventory.MenuNeutronCollector;
+import net.byAqua3.avaritia.loader.AvaritiaConfigs;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
@@ -35,7 +36,7 @@ public class GuiNeutronCollector extends AbstractContainerScreen<MenuNeutronColl
 	@Override
 	protected void renderLabels(GuiGraphics guiGraphics, int mouseX, int mouseY) {
 		guiGraphics.drawString(this.font, this.title, this.imageWidth / 2 - this.font.width(this.title) / 2, this.titleLabelY, 4210752, false);
-		String text = String.format("%.2f%%", Float.valueOf(100.0F * menu.getProgress() / 7111.0F));
+		String text = String.format("%.2f%%", Float.valueOf(100.0F * menu.getProgress() / AvaritiaConfigs.productionTicks.get()));
 		guiGraphics.drawString(this.font,  text, this.imageWidth / 2 - this.font.width(text) / 2, 60.0F, 4210752, false);
 		guiGraphics.drawString(this.font, this.playerInventoryTitle, this.inventoryLabelX, this.inventoryLabelY, 4210752, false);
 	}}

@@ -21,6 +21,8 @@
   "avaritia.configuration.stepHeight": "行走高度提升",
   "avaritia.configuration.speed": "速度提升",
   "avaritia.configuration.speedValue": "速度提升数值",
+  "avaritia.configuration.neutronCollector": "中子态素收集器",
+  "avaritia.configuration.productionTicks": "收集时间",
   "avaritia.configuration.infinityChest": "无尽箱子",
   "avaritia.configuration.maxStackSize": "最大堆叠数量",
   "emi.category.avaritia.extreme_crafting": "终极工作台",

@@ -19,6 +19,7 @@ public class AvaritiaConfigs {
 	public static ModConfigSpec.BooleanValue stepHeight;
 	public static ModConfigSpec.BooleanValue speed;
 	public static ModConfigSpec.DoubleValue speedValue;
+	public static ModConfigSpec.IntValue productionTicks;
 	public static ModConfigSpec.IntValue maxStackSize;
 	
 	public static void registerConfigs() {
@@ -36,6 +37,9 @@ public class AvaritiaConfigs {
 		stepHeight = builder.comment("StepHeight").define("stepHeight", true);
 		speed = builder.comment("Speed").define("speed", true);
 		speedValue = builder.comment("SpeedValue").defineInRange("speedValue", 1.0D, 0.1D, 2.0D);
+		builder.pop();
+		builder.push("neutronCollector");
+		productionTicks = builder.comment("ProductionTicks").defineInRange("productionTicks", 7111, 1, Integer.MAX_VALUE);
 		builder.pop();
 		builder.push("infinityChest");
 		maxStackSize = builder.comment("MaxStackSize").defineInRange("maxStackSize", Integer.MAX_VALUE, 64, Integer.MAX_VALUE);
