@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "result": {
+    "id": "avaritia:crystal_matrix_ingot",
+    "count": 9
+  },
+  "ingredients": [
+    {
+      "item": "avaritia:crystal_matrix_block"
+    }
+  ]
+}
