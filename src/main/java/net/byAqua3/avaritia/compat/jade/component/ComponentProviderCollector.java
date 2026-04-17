@@ -19,12 +19,12 @@ public class ComponentProviderCollector implements IBlockComponentProvider, ISer
 	public ResourceLocation getUid() {
 		return AvaritiaJadePlugin.COLLECTOR_UID;
 	}
-	
+
 	@Override
 	public void appendServerData(CompoundTag tag, BlockAccessor blockAccessor) {
 		if (blockAccessor.getBlockEntity() != null && blockAccessor.getBlockEntity() instanceof TileNeutronCollector) {
 			TileNeutronCollector tile = (TileNeutronCollector) blockAccessor.getBlockEntity();
-			
+
 			tag.putInt("progress", tile.dataAccess.get(0));
 		}
 	}
@@ -37,6 +37,9 @@ public class ComponentProviderCollector implements IBlockComponentProvider, ISer
 			IElementHelper helper = IElementHelper.get();
 
 			int progress = blockAccessor.getServerData().getInt("progress");
-			tooltip.add(helper.text(Component.translatable("avaritia:container.neutron_collector.info2", String.format("%.2f%%", Float.valueOf(100.0F * progress / AvaritiaConfigs.productionTicks.get())))));
+			String text = String.format("%.2f%%", Float.valueOf(100.0F * progress / AvaritiaConfigs.productionTicks.get()));
+
+			tooltip.add(helper.text(Component.translatable("avaritia:container.neutron_collector.info2", text)));
 		}
-	}}
+	}
+}

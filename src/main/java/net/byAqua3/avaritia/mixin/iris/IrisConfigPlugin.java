@@ -27,7 +27,7 @@ public class IrisConfigPlugin implements IMixinConfigPlugin {
 
 	@Override
 	public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
-		return !LoadingModList.get().getMods().stream().filter(modInfo -> modInfo.getModId().equalsIgnoreCase("iris")).toList().isEmpty();
+		return !LoadingModList.get().getMods().stream().filter(modInfo -> modInfo.getModId().equals("iris")).toList().isEmpty();
 	}
 
 	@Override

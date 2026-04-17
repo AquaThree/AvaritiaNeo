@@ -37,6 +37,7 @@ public class GuiNeutronCollector extends AbstractContainerScreen<MenuNeutronColl
 	protected void renderLabels(GuiGraphics guiGraphics, int mouseX, int mouseY) {
 		guiGraphics.drawString(this.font, this.title, this.imageWidth / 2 - this.font.width(this.title) / 2, this.titleLabelY, 4210752, false);
 		String text = String.format("%.2f%%", Float.valueOf(100.0F * menu.getProgress() / AvaritiaConfigs.productionTicks.get()));
-		guiGraphics.drawString(this.font,  text, this.imageWidth / 2 - this.font.width(text) / 2, 60.0F, 4210752, false);
+		guiGraphics.drawString(this.font, text, this.imageWidth / 2 - this.font.width(text) / 2, 60.0F, 4210752, false);
 		guiGraphics.drawString(this.font, this.playerInventoryTitle, this.inventoryLabelX, this.inventoryLabelY, 4210752, false);
-	}}
+	}
+}

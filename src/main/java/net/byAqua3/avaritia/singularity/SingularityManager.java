@@ -56,5 +56,4 @@ public class SingularityManager extends SimpleJsonResourceReloadListener {
 		AvaritiaSingularities.getInstance().getSingularities().addAll(this.singularities.values());
 		Avaritia.LOGGER.info("Loaded {} singularities took {}ms", this.singularities.size(), System.currentTimeMillis() - lastTime);
 	}
-
 }

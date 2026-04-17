@@ -18,11 +18,9 @@ public class ItemJsonSingularity extends ItemSingularity {
 	public Color getColor(ItemStack stack) {
 		String singularityId = stack.getOrDefault(AvaritiaDataComponents.SINGULARITY_ID, "null");
 		Singularity singularity = AvaritiaSingularities.getInstance().getSingularity(singularityId);
-
 		if (singularity != null) {
-			return new Color(singularity.color);
+			return new Color(singularity.getColor());
 		}
-
 		return new Color(255, 255, 255);
 	}
 
@@ -31,7 +29,7 @@ public class ItemJsonSingularity extends ItemSingularity {
 		String singularityId = stack.getOrDefault(AvaritiaDataComponents.SINGULARITY_ID, "null");
 		Singularity singularity = AvaritiaSingularities.getInstance().getSingularity(singularityId);
 		if (singularity != null) {
-			return new Color(singularity.layerColor);
+			return new Color(singularity.getLayerColor());
 		}
 		return new Color(255, 255, 255);
 	}

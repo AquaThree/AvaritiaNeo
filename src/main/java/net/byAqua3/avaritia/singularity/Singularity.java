@@ -17,9 +17,9 @@ public class Singularity {
 	public static final StreamCodec<RegistryFriendlyByteBuf, Singularity> STREAM_CODEC = StreamCodec.composite(ByteBufCodecs.STRING_UTF8, singularity -> singularity.id, ByteBufCodecs.INT, singularity -> singularity.color, ByteBufCodecs.INT, singularity -> singularity.layerColor, Singularity::new);
 	public static final Codec<Optional<net.neoforged.neoforge.common.conditions.WithConditions<Singularity>>> CONDITIONAL_CODEC = net.neoforged.neoforge.common.conditions.ConditionalOps.createConditionalCodecWithConditions(CODEC.codec());
 
-	public String id;
-	public int color;
-	public int layerColor;
+	private final String id;
+	private final int color;
+	private final int layerColor;
 
 	public Singularity(String id, int color, int layerColor) {
 		this.id = id;

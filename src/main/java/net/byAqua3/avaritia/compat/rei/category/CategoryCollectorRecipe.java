@@ -67,5 +67,4 @@ public class CategoryCollectorRecipe implements DisplayCategory<DisplayCollector
 		widgets.add(Widgets.createSlot(new Point(startPoint.getX() + 53, rectangle.getCenterY() - 11)).entries(display.getOutputEntries().get(0)).disableBackground().markOutput());
 		return widgets;
 	}
-	
 }

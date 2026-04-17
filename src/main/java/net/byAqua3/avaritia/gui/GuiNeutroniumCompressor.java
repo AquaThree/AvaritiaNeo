@@ -56,4 +56,5 @@ public class GuiNeutroniumCompressor extends AbstractContainerScreen<MenuNeutron
 			guiGraphics.drawString(this.font, text, this.imageWidth / 2 - this.font.width(text) / 2, 60.0F, 4210752, false);
 		}
 		guiGraphics.drawString(this.font, this.playerInventoryTitle, this.inventoryLabelX, this.inventoryLabelY, 4210752, false);
-	}}
+	}
+}

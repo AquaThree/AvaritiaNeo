@@ -24,15 +24,15 @@ public class MixinItemStack {
 	private Item item;
 
 	@Inject(method = { "canBeHurtBy" }, at = { @At("HEAD") }, cancellable = true)
-	public void canBeHurtBy(DamageSource damageSource, CallbackInfoReturnable<Boolean> callbackInfo) {
+	public void canBeHurtBy(DamageSource damageSource, CallbackInfoReturnable<Boolean> callbackInfoReturnable) {
 		if (this.item != null) {
 			ItemStack itemStack = (ItemStack) (Object) this;
 			List<TagKey<Item>> tags = itemStack.getTags().toList();
 
 			if (tags.contains(AvaritiaItemTags.IMMORTAL)) {
 				if (damageSource.is(DamageTypeTags.IS_EXPLOSION)) {
-					callbackInfo.setReturnValue(false);
-					callbackInfo.cancel();
+					callbackInfoReturnable.setReturnValue(false);
+					callbackInfoReturnable.cancel();
 				}
 			}
 		}

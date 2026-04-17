@@ -77,7 +77,6 @@ public class AvaritiaEvent {
 			if (tags.contains(AvaritiaItemTags.IMMORTAL)) {
 				itemEntity.setInvulnerable(true);
 			}
-
 			if (tags.contains(AvaritiaItemTags.FAST_PICKUP)) {
 				itemEntity.setPickUpDelay(8);
 			}
