@@ -39,9 +39,9 @@ public class AvaritiaBlocks {
 	public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(BuiltInRegistries.BLOCK, Avaritia.MODID);
 	public static final DeferredRegister<BlockEntityType<?>> TILES = DeferredRegister.create(BuiltInRegistries.BLOCK_ENTITY_TYPE, Avaritia.MODID);
 	
+	public static final DeferredHolder<Block, Block> CRYSTAL_MATRIX_BLOCK = BLOCKS.register("crystal_matrix_block", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.METAL).requiresCorrectToolForDrops().strength(50.0F, 2000.0F).sound(SoundType.METAL)));
 	public static final DeferredHolder<Block, Block> NEUTRONIUM_BLOCK = BLOCKS.register("neutronium_block", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.METAL).requiresCorrectToolForDrops().strength(50.0F, 2000.0F).sound(SoundType.METAL)));
 	public static final DeferredHolder<Block, Block> INFINITY_BLOCK = BLOCKS.register("infinity_block", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.METAL).requiresCorrectToolForDrops().strength(50.0F, 2000.0F).sound(SoundType.METAL)));
-	public static final DeferredHolder<Block, Block> CRYSTAL_MATRIX_BLOCK = BLOCKS.register("crystal_matrix_block", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.METAL).requiresCorrectToolForDrops().strength(50.0F, 2000.0F).sound(SoundType.METAL)));
 	public static final DeferredHolder<Block, Block> COMPRESSED_CRAFTING_TABLE = BLOCKS.register("compressed_crafting_table", () -> new BlockCustomCraftingTable(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).requiresCorrectToolForDrops().strength(4.0F).sound(SoundType.WOOD)));
 	public static final DeferredHolder<Block, Block> DOUBLE_COMPRESSED_CRAFTING_TABLE = BLOCKS.register("double_compressed_crafting_table", () -> new BlockCustomCraftingTable(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).requiresCorrectToolForDrops().strength(20.0F).sound(SoundType.WOOD)));
 	public static final DeferredHolder<Block, Block> EXTREME_CRAFTING_TABLE = BLOCKS.register("extreme_crafting_table", () -> new BlockExtremeCraftingTable(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).requiresCorrectToolForDrops().strength(20.0F, 2000.0F).sound(SoundType.GLASS)));
@@ -49,9 +49,9 @@ public class AvaritiaBlocks {
 	public static final DeferredHolder<Block, Block> NEUTRON_COLLECTOR = BLOCKS.register("neutron_collector", () -> new BlockNeutronCollector(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).requiresCorrectToolForDrops().strength(20.0F).sound(SoundType.GLASS)));
 	public static final DeferredHolder<Block, Block> INFINITY_CHEST = BLOCKS.register("infinity_chest", () -> new BlockInfinityChest(BlockBehaviour.Properties.of().mapColor(MapColor.METAL).requiresCorrectToolForDrops().strength(50.0F, 2000.0F).sound(SoundType.METAL)));
 
+	public static final DeferredHolder<Item, Item> CRYSTAL_MATRIX_BLOCK_ITEM = AvaritiaItems.ITEMS.register("crystal_matrix_block", () -> new BlockItem(CRYSTAL_MATRIX_BLOCK.get(), new Item.Properties().rarity(Rarity.RARE)));
 	public static final DeferredHolder<Item, Item> NEUTRONIUM_BLOCK_ITEM = AvaritiaItems.ITEMS.register("neutronium_block", () -> new BlockItem(NEUTRONIUM_BLOCK.get(), new Item.Properties().rarity(Rarity.UNCOMMON)));
 	public static final DeferredHolder<Item, Item> INFINITY_BLOCK_ITEM = AvaritiaItems.ITEMS.register("infinity_block", () -> new BlockItem(INFINITY_BLOCK.get(), new Item.Properties().rarity(AvaritiaItems.COSMIC_RARITY)));
-	public static final DeferredHolder<Item, Item> CRYSTAL_MATRIX_BLOCK_ITEM = AvaritiaItems.ITEMS.register("crystal_matrix_block", () -> new BlockItem(CRYSTAL_MATRIX_BLOCK.get(), new Item.Properties().rarity(Rarity.RARE)));
 	public static final DeferredHolder<Item, Item> COMPRESSED_CRAFTING_TABLE_ITEM = AvaritiaItems.ITEMS.register("compressed_crafting_table", () -> new BlockItem(COMPRESSED_CRAFTING_TABLE.get(), new Item.Properties()));
 	public static final DeferredHolder<Item, Item> DOUBLE_COMPRESSED_CRAFTING_TABLE_ITEM = AvaritiaItems.ITEMS.register("double_compressed_crafting_table", () -> new BlockItem(DOUBLE_COMPRESSED_CRAFTING_TABLE.get(), new Item.Properties()));
 	public static final DeferredHolder<Item, Item> EXTREME_CRAFTING_TABLE_ITEM = AvaritiaItems.ITEMS.register("extreme_crafting_table", () -> new BlockItem(EXTREME_CRAFTING_TABLE.get(), new Item.Properties().rarity(Rarity.RARE)));
