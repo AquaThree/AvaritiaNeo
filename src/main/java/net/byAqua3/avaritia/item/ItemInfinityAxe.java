@@ -42,15 +42,13 @@ public class ItemInfinityAxe extends AxeItem {
 
 	@Override
 	public boolean mineBlock(ItemStack stack, Level level, BlockState state, BlockPos pos, LivingEntity livingEntity) {
-		int blockRange = (int) Math.round(8.0D);
-
 		if (livingEntity instanceof Player) {
 			Player player = (Player) livingEntity;
 
 			if (!player.isShiftKeyDown()) {
-				for (int x = -blockRange; x <= blockRange; x++) {
-					for (int y = (int) -Math.round(32.0D); y <= (int) Math.round(32.0D); y++) {
-						for (int z = -blockRange; z <= blockRange; z++) {
+				for (int x = -7; x <= 8; x++) {
+					for (int y = -32; y <= 32; y++) {
+						for (int z = -7; z <= 8; z++) {
 							BlockPos rangePos = new BlockPos(Mth.floor(pos.getX() + x), Mth.floor(pos.getY() + y), Mth.floor(pos.getZ() + z));
 							BlockState rangeState = level.getBlockState(rangePos);
 							Block rangeBlock = rangeState.getBlock();
@@ -79,13 +77,11 @@ public class ItemInfinityAxe extends AxeItem {
 		ItemStack stack = player.getItemInHand(hand);
 		BlockPos blockPos = player.blockPosition();
 		if (player.isShiftKeyDown()) {
-			int blockRange = (int) Math.round(8.0D);
-
 			List<ItemStack> drops = new ArrayList<>();
 
-			for (int x = -blockRange; x <= blockRange; x++) {
-				for (int y = -blockRange; y <= blockRange; y++) {
-					for (int z = -blockRange; z <= blockRange; z++) {
+			for (int x = -7; x <= 8; x++) {
+				for (int y = -7; y <= 8; y++) {
+					for (int z = -7; z <= 8; z++) {
 						BlockPos rangePos = new BlockPos(Mth.floor(blockPos.getX() + x), Mth.floor(blockPos.getY() + y), Mth.floor(blockPos.getZ() + z));
 						BlockState rangeState = level.getBlockState(rangePos);
 						Block rangeBlock = rangeState.getBlock();

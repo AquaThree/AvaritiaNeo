@@ -84,7 +84,7 @@ public class ItemInfinityHoe extends HoeItem {
 				}
 			}
 		} else {
-			int blockRange = (int) Math.round(4.0D);
+			int blockRange = 4;
 
 			for (int x = -blockRange; x <= blockRange; x++) {
 				for (int z = -blockRange; z <= blockRange; z++) {
