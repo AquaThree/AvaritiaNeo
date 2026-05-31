@@ -34,7 +34,7 @@ public class EMIRecipeExtremeCrafting implements EmiRecipe {
 		this.inputs = recipe.getIngredients().stream().map(ingredient -> EmiIngredient.of(ingredient)).toList();
 		this.outputs = List.of(EmiStack.of(recipe.getResultItem(RegistryAccess.EMPTY)));
 	}
-	
+
 	public RecipeExtremeCrafting getRecipe() {
 		return this.recipe;
 	}
@@ -84,7 +84,7 @@ public class EMIRecipeExtremeCrafting implements EmiRecipe {
 
 			for (int y = 0; y < 9; y++) {
 				for (int x = 0; x < 9; x++) {
-					int slotIndex = x + y * 9;
+					int slotIndex = ((9 - shapedRecipe.getWidth()) / 2 + x) + ((9 - shapedRecipe.getHeight()) / 2 + y) * 9;
 					int inputIndex = x + y * shapedRecipe.getWidth();
 					if (inputIndex >= ingredients.size() || x >= shapedRecipe.getWidth()) {
 						continue;
@@ -95,7 +95,7 @@ public class EMIRecipeExtremeCrafting implements EmiRecipe {
 			}
 		} else {
 			widgets.addTexture(EmiTexture.SHAPELESS, widgets.getWidth() - 22, 5);
-			
+
 			for (int i = 0; i < ingredients.size(); i++) {
 				EmiIngredient ingredient = ingredients.get(i);
 				SlotWidget originalSlot = inputSlots.get(i);

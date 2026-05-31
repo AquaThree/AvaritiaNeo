@@ -17,6 +17,7 @@
   "avaritia.configuration.flySpeedValue": "FlySpeedValue",
   "avaritia.configuration.clearBadEffect": "ClearBadEffect",
   "avaritia.configuration.clearFire": "ClearFire",
+  "avaritia.configuration.clearFrozen": "ClearFrozen",
   "avaritia.configuration.highJump": "HighJump",
   "avaritia.configuration.stepHeight": "StepHeight",
   "avaritia.configuration.speed": "Speed",

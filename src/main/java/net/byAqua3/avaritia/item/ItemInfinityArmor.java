@@ -68,11 +68,13 @@ public class ItemInfinityArmor extends ArmorItem {
 				if (AvaritiaConfigs.clearFire.get()) {
 					player.clearFire();
 				}
+				if (AvaritiaConfigs.clearFrozen.get()) {
+					player.setTicksFrozen(0);
+				}
 			} else if (this.getEquipmentSlot() == EquipmentSlot.FEET && slotId == 36) {
 				if (AvaritiaConfigs.stepHeight.get()) {
 					player.getAttribute(Attributes.STEP_HEIGHT).setBaseValue(1.0625F);
 				}
-
 				if (AvaritiaConfigs.speed.get()) {
 					boolean flying = player.getAbilities().flying;
 					boolean swimming = player.isInWater();

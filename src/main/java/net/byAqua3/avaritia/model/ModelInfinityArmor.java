@@ -209,11 +209,11 @@ public class ModelInfinityArmor extends HumanoidModel<LivingEntity> {
 				leftWing.render(poseStack, vertexConsumer, packedLight, packedOverlay);
 				rightWing.render(poseStack, vertexConsumer, packedLight, packedOverlay);
 
-				leftWing.render(poseStack, WING_MASK.wrap(multiBufferSource.getBuffer(COSMIC_ARMOR_RENDER_TYPE)), packedLight, packedOverlay, new Color(red, green, blue, alpha).getRGB());
-				rightWing.render(poseStack, WING_MASK.wrap(multiBufferSource.getBuffer(COSMIC_ARMOR_RENDER_TYPE)), packedLight, packedOverlay, new Color(red, green, blue, alpha).getRGB());
-
 				leftWing.render(poseStack, multiBufferSource.getBuffer(AvaritiaRenderTypes.WingGlow(WING_GLOW)), packedLight, packedOverlay, new Color(0.84F, 1.0F, 0.95F, (float) (pulse_mag_sqr * 0.5D)).getRGB());
 				rightWing.render(poseStack, multiBufferSource.getBuffer(AvaritiaRenderTypes.WingGlow(WING_GLOW)), packedLight, packedOverlay, new Color(0.84F, 1.0F, 0.95F, (float) (pulse_mag_sqr * 0.5D)).getRGB());
+				
+				leftWing.render(poseStack, WING_MASK.wrap(multiBufferSource.getBuffer(COSMIC_ARMOR_RENDER_TYPE)), packedLight, packedOverlay, new Color(red, green, blue, alpha).getRGB());
+				rightWing.render(poseStack, WING_MASK.wrap(multiBufferSource.getBuffer(COSMIC_ARMOR_RENDER_TYPE)), packedLight, packedOverlay, new Color(red, green, blue, alpha).getRGB());
 				poseStack.popPose();
 			}
 		}

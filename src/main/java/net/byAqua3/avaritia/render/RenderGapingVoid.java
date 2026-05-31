@@ -120,12 +120,15 @@ public class RenderGapingVoid<T extends EntityGapingVoid> extends EntityRenderer
 	@Override
 	public void render(EntityGapingVoid livingEntity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource multiBufferSource, int packedLight) {
 		VertexConsumer vertexConsumer = multiBufferSource.getBuffer(AvaritiaRenderTypes.VOID);
-		Color color = this.getColor(livingEntity.getAge());
-		float scale = (float) EntityGapingVoid.getVoidScale(livingEntity.getAge());
+		double age = livingEntity.getAge();
+		Color color = this.getColor(age);
 		float r = color.getRed() / 255.0F;
 		float g = color.getGreen() / 255.0F;
 		float b = color.getBlue() / 255.0F;
 		float a = color.getAlpha() / 255.0F;
+		double scale = EntityGapingVoid.getVoidScale(age);
+		double fullfadedist = 0.6D * scale;
+		double fadedist = fullfadedist + 1.5D;
 		double halocoord = 0.58D * scale;
 		double haloscaledist = 2.2D * scale;
 		Vec3 camera = this.entityRenderDispatcher.camera.getPosition();
@@ -139,8 +142,8 @@ public class RenderGapingVoid<T extends EntityGapingVoid> extends EntityRenderer
 			halocoord *= 1.0D + close * close * close * close * 1.5D;
 		}
 
-		double yang = Math.atan2(xzlen, dy) * 57.29577951308232D;
-		double xang = Math.atan2(dx, dz) * 57.29577951308232D;
+		double yang = Math.atan2(xzlen, dy) * 180.0D / Math.PI;
+		double xang = Math.atan2(dx, dz) * 180.0D / Math.PI;
 
 		poseStack.pushPose();
 
@@ -171,15 +174,15 @@ public class RenderGapingVoid<T extends EntityGapingVoid> extends EntityRenderer
 		poseStack.popPose();
 
 		poseStack.pushPose();
-		
+
 		PoseStack.Pose poseStack$pose = poseStack.last();
 
 		poseStack.translate(0.5F, 0.25F, 0.5F);
-		poseStack.scale(scale - 0.1F, scale - 0.1F, scale - 0.1F);
+		poseStack.scale((float) scale - 0.1F, (float) scale - 0.1F, (float) scale - 0.1F);
 
 		if (this.objModel != null) {
 			BakedModel bakedModel = this.objModel.bake(this.objModelContext, null, material -> material.sprite(), new SimpleModelState(Transformation.identity()), ItemOverrides.EMPTY);
-			
+
 			RandomSource randomSource = RandomSource.create();
 			randomSource.setSeed(42L);
 
@@ -191,9 +194,22 @@ public class RenderGapingVoid<T extends EntityGapingVoid> extends EntityRenderer
 		}
 
 		poseStack.popPose();
+
+		if (len <= fadedist) {
+			double alpha = 1.0D;
+			if (len >= fullfadedist) {
+				alpha = 1.0D - ((len - fullfadedist) / (fadedist - fullfadedist));
+				alpha = alpha * alpha * (3.0D - 2.0D * alpha);
+			}
+			double life = (age / (double) EntityGapingVoid.MAX_LIFETIME);
+			double f = Math.max(0.0D, (life - EntityGapingVoid.COLLAPSE) / (1.0D - EntityGapingVoid.COLLAPSE));
+			f = Math.max(f, 1 - (life * 30));
+			RenderSystem.setShaderColor((float) f, (float) f, (float) f, (float) alpha);
+		}
 	}
 
 	@Override
 	public ResourceLocation getTextureLocation(EntityGapingVoid entity) {
 		return VOID;
-	}}
+	}
+}

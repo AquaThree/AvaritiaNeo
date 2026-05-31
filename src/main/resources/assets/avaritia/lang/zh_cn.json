@@ -17,6 +17,7 @@
   "avaritia.configuration.flySpeedValue": "飞行速度数值",
   "avaritia.configuration.clearBadEffect": "清除负面效果",
   "avaritia.configuration.clearFire": "清除火焰",
+  "avaritia.configuration.clearFrozen": "清除冰冻",
   "avaritia.configuration.highJump": "跳跃高度提升",
   "avaritia.configuration.stepHeight": "行走高度提升",
   "avaritia.configuration.speed": "速度提升",

@@ -53,7 +53,7 @@ public class AvaritiaClientEvent {
 	}
 
 	@SubscribeEvent
-	public void onTooltip(ItemTooltipEvent event) {
+	public void onItemTooltip(ItemTooltipEvent event) {
 		ItemStack itemStack = event.getItemStack();
 		Item item = itemStack.getItem();
 		if (item instanceof ItemInfinitySword) {

@@ -17,6 +17,7 @@
   "avaritia.configuration.flySpeedValue": "Значение скорости полёта",
   "avaritia.configuration.clearBadEffect": "Удаление негативных эффектов",
   "avaritia.configuration.clearFire": "Погашение огня",
+  "avaritia.configuration.clearFrozen": "Устранение заморозки",
   "avaritia.configuration.highJump": "Высокий прыжок",
   "avaritia.configuration.stepHeight": "Высота шага",
   "avaritia.configuration.speed": "Скорость",

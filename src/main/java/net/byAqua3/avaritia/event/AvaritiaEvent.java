@@ -5,6 +5,7 @@ import java.util.List;
 
 import net.byAqua3.avaritia.damage.DamageSourceInfinity;
 import net.byAqua3.avaritia.item.ItemInfinityAxe;
+import net.byAqua3.avaritia.item.ItemInfinityAxe.BlockSwapper;
 import net.byAqua3.avaritia.item.ItemInfinityHoe;
 import net.byAqua3.avaritia.item.ItemInfinityPickaxe;
 import net.byAqua3.avaritia.item.ItemInfinityShovel;
@@ -90,6 +91,12 @@ public class AvaritiaEvent {
 		PlayerList playerList = server.getPlayerList();
 		List<ServerPlayer> players = playerList.getPlayers();
 
+		List<BlockSwapper> blockSwappers = List.copyOf(ItemInfinityAxe.BlockSwappers);
+		ItemInfinityAxe.BlockSwappers.clear();
+		for (BlockSwapper blockSwapper : blockSwappers) {
+			blockSwapper.tick();
+		}
+
 		for (ServerPlayer player : players) {
 			String playerName = player.getDisplayName().getString();
 			ServerLevel serverLevel = (ServerLevel) player.level();
@@ -154,7 +161,7 @@ public class AvaritiaEvent {
 
 				if (!itemStack.isEmpty() && itemStack.getItem() instanceof ItemSkullFireSword) {
 					event.getDrops().removeIf(itemEntity -> itemEntity.getItem().getItem() == Items.WITHER_SKELETON_SKULL);
-					
+
 					int randomInt = player.getRandom().nextInt(100);
 					if (randomInt < AvaritiaConfigs.dropChange.get()) {
 						ItemEntity itemEntity = new ItemEntity(event.getEntity().level(), event.getEntity().getX(), event.getEntity().getY(), event.getEntity().getZ(), new ItemStack(Items.WITHER_SKELETON_SKULL));
@@ -288,8 +295,9 @@ public class AvaritiaEvent {
 				ItemStack matterStack = player.getInventory().items.get(i);
 				if (!matterStack.isEmpty() && matterStack.getItem() instanceof ItemMatterCluster) {
 					List<ItemStack> matterItems = ItemMatterCluster.getClusterItems(matterStack);
-					if (ItemMatterCluster.getClusterCount(matterItems) < ItemMatterCluster.CAPACITY) {
-						int count = ItemMatterCluster.CAPACITY - ItemMatterCluster.getClusterCount(matterItems);
+					int matterClusterCount = ItemMatterCluster.getClusterCount(matterItems);
+					if (matterClusterCount < ItemMatterCluster.CAPACITY) {
+						int count = ItemMatterCluster.CAPACITY - matterClusterCount;
 						if (count >= ItemMatterCluster.getClusterCount(stackItems)) {
 							List<ItemStack> newMatterItems = new ArrayList<>();
 							newMatterItems.addAll(matterItems);

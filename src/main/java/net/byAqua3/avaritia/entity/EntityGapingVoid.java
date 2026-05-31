@@ -170,11 +170,11 @@ public class EntityGapingVoid extends Entity {
 				double posX = pos.x - entity.getX();
 				double posY = pos.y - entity.getY();
 				double posZ = pos.z - entity.getZ();
-				double len = Math.sqrt(posX * posX + posY * posY + posZ * posZ);
-				double lenn = len / SUCK_RANGE;
-				if (len <= SUCK_RANGE) {
-					double strength = (1 - lenn) * (1 - lenn);
-					double power = 0.075 * radius;
+				double distance = Math.sqrt(posX * posX + posY * posY + posZ * posZ);
+				double normalizedDistance = distance / SUCK_RANGE;
+				if (distance <= SUCK_RANGE) {
+					double strength = (1 - normalizedDistance) * (1 - normalizedDistance);
+					double power = 0.075D * radius;
 
 					if (entity instanceof WitherBoss) {
 						power *= 100;
@@ -182,9 +182,9 @@ public class EntityGapingVoid extends Entity {
 
 					Vec3 motion = entity.getDeltaMovement();
 
-					double motionX = motion.x() + (posX / len) * strength * power;
-					double motionY = motion.y() + (posY / len) * strength * power;
-					double motionZ = motion.z() + (posZ / len) * strength * power;
+					double motionX = motion.x() + (posX / normalizedDistance) * strength * power;
+					double motionY = motion.y() + (posY / normalizedDistance) * strength * power;
+					double motionZ = motion.z() + (posZ / normalizedDistance) * strength * power;
 
 					entity.setDeltaMovement(motionX, motionY, motionZ);
 				}

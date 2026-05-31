@@ -68,7 +68,7 @@ public class CategoryExtremeRecipe implements IRecipeCategory<RecipeExtremeCraft
 
 			for (int y = 0; y < 9; y++) {
 				for (int x = 0; x < 9; x++) {
-					int slotIndex = x + y * 9;
+					int slotIndex = ((9 - shapedRecipe.getWidth()) / 2 + x) + ((9 - shapedRecipe.getHeight()) / 2 + y) * 9;
 					int inputIndex = x + y * shapedRecipe.getWidth();
 					if (inputIndex >= inputs.size() || x >= shapedRecipe.getWidth()) {
 						continue;

@@ -15,6 +15,7 @@ public class AvaritiaConfigs {
 	public static ModConfigSpec.DoubleValue flySpeedValue;
 	public static ModConfigSpec.BooleanValue clearBadEffect;
 	public static ModConfigSpec.BooleanValue clearFire;
+	public static ModConfigSpec.BooleanValue clearFrozen;
 	public static ModConfigSpec.BooleanValue highJump;
 	public static ModConfigSpec.BooleanValue stepHeight;
 	public static ModConfigSpec.BooleanValue speed;
@@ -33,6 +34,7 @@ public class AvaritiaConfigs {
 		flySpeedValue = builder.comment("FlySpeedValue").defineInRange("flySpeedValue", 1.0D, 0.1D, 2.0D);
 		clearBadEffect = builder.comment("ClearBadEffect").define("clearBadEffect", true);
 		clearFire = builder.comment("ClearFire").define("clearFire", true);
+		clearFrozen = builder.comment("ClearFrozen").define("clearFrozen", true);
 		highJump = builder.comment("HighJump").define("highJump", true);
 		stepHeight = builder.comment("StepHeight").define("stepHeight", true);
 		speed = builder.comment("Speed").define("speed", true);

@@ -17,6 +17,7 @@
   "avaritia.configuration.flySpeedValue": "Valor da Velocidade de Voo",
   "avaritia.configuration.clearBadEffect": "Limpar Efeitos Ruins",
   "avaritia.configuration.clearFire": "Apagar Fogo",
+  "avaritia.configuration.clearFrozen": "Descongelar",
   "avaritia.configuration.highJump": "Pulo Alto",
   "avaritia.configuration.stepHeight": "Altura do Passo",
   "avaritia.configuration.speed": "Velocidade",

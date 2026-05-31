@@ -84,10 +84,8 @@ public class ItemInfinityHoe extends HoeItem {
 				}
 			}
 		} else {
-			int blockRange = 4;
-
-			for (int x = -blockRange; x <= blockRange; x++) {
-				for (int z = -blockRange; z <= blockRange; z++) {
+			for (int x = -4; x <= 4; x++) {
+				for (int z = -4; z <= 4; z++) {
 					BlockPos rangePos = new BlockPos(Mth.floor(blockPos.getX() + x), Mth.floor(blockPos.getY()), Mth.floor(blockPos.getZ() + z));
 					BlockState rangeState = level.getBlockState(rangePos);
 					Block rangeBlock = rangeState.getBlock();
