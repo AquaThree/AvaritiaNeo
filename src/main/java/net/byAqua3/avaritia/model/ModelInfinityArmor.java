@@ -204,6 +204,7 @@ public class ModelInfinityArmor extends HumanoidModel<LivingEntity> {
 
 			if (chestItem == AvaritiaItems.INFINITY_CHESTPLATE.get() && (player.getAbilities().flying || (itemStack.has(AvaritiaDataComponents.FLY.get()) && itemStack.getOrDefault(AvaritiaDataComponents.FLY.get(), false)))) {
 				poseStack.pushPose();
+				
 				ModelPart leftWing = root.getChild("left_wing");
 				ModelPart rightWing = root.getChild("right_wing");
 				leftWing.render(poseStack, vertexConsumer, packedLight, packedOverlay);
@@ -214,6 +215,7 @@ public class ModelInfinityArmor extends HumanoidModel<LivingEntity> {
 				
 				leftWing.render(poseStack, WING_MASK.wrap(multiBufferSource.getBuffer(COSMIC_ARMOR_RENDER_TYPE)), packedLight, packedOverlay, new Color(red, green, blue, alpha).getRGB());
 				rightWing.render(poseStack, WING_MASK.wrap(multiBufferSource.getBuffer(COSMIC_ARMOR_RENDER_TYPE)), packedLight, packedOverlay, new Color(red, green, blue, alpha).getRGB());
+				
 				poseStack.popPose();
 			}
 		}

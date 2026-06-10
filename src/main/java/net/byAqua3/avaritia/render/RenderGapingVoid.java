@@ -127,8 +127,6 @@ public class RenderGapingVoid<T extends EntityGapingVoid> extends EntityRenderer
 		float b = color.getBlue() / 255.0F;
 		float a = color.getAlpha() / 255.0F;
 		double scale = EntityGapingVoid.getVoidScale(age);
-		double fullfadedist = 0.6D * scale;
-		double fadedist = fullfadedist + 1.5D;
 		double halocoord = 0.58D * scale;
 		double haloscaledist = 2.2D * scale;
 		Vec3 camera = this.entityRenderDispatcher.camera.getPosition();
@@ -194,18 +192,6 @@ public class RenderGapingVoid<T extends EntityGapingVoid> extends EntityRenderer
 		}
 
 		poseStack.popPose();
-
-		if (len <= fadedist) {
-			double alpha = 1.0D;
-			if (len >= fullfadedist) {
-				alpha = 1.0D - ((len - fullfadedist) / (fadedist - fullfadedist));
-				alpha = alpha * alpha * (3.0D - 2.0D * alpha);
-			}
-			double life = (age / (double) EntityGapingVoid.MAX_LIFETIME);
-			double f = Math.max(0.0D, (life - EntityGapingVoid.COLLAPSE) / (1.0D - EntityGapingVoid.COLLAPSE));
-			f = Math.max(f, 1 - (life * 30));
-			RenderSystem.setShaderColor((float) f, (float) f, (float) f, (float) alpha);
-		}
 	}
 
 	@Override

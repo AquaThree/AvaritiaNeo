@@ -200,8 +200,8 @@ public class EntityGapingVoid extends Entity {
 				double posX = pos.x - toAttack.getX();
 				double posY = pos.y - toAttack.getY();
 				double posZ = pos.z - toAttack.getZ();
-				double len = Math.sqrt(posX * posX + posY * posY + posZ * posZ);
-				if (len <= attackRange) {
+				double distance = Math.sqrt(posX * posX + posY * posY + posZ * posZ);
+				if (distance <= attackRange) {
 					if (toAttack instanceof EnderMan || toAttack instanceof EnderDragon) {
 						toAttack.hurt(this.damageSources().playerAttack(this.player), 10.0F);
 					} else if (toAttack instanceof WitherBoss) {
@@ -230,12 +230,6 @@ public class EntityGapingVoid extends Entity {
 						if (dist <= attackRange && !blockState.isAir()) {
 							float resist = block.getExplosionResistance();
 							if (resist <= 10.0F) {
-								if (!(block instanceof BaseFireBlock)) {
-									this.level().levelEvent(2001, blockPos, Block.getId(blockState));
-								}
-								this.level().setBlockAndUpdate(blockPos, Blocks.AIR.defaultBlockState());
-								this.level().gameEvent(GameEvent.BLOCK_DESTROY, blockPos, GameEvent.Context.of(player, blockState));
-
 								if (!this.level().isClientSide()) {
 									List<ItemStack> drops = new ArrayList<>();
 									List<ItemStack> blockDrops = Block.getDrops(blockState, (ServerLevel) this.level(), blockPos, null);
@@ -246,6 +240,12 @@ public class EntityGapingVoid extends Entity {
 										Item blockItem = BuiltInRegistries.ITEM.get(blockKey);
 										drops.add(new ItemStack(blockItem));
 									}
+
+									if (!(block instanceof BaseFireBlock)) {
+										this.level().levelEvent(2001, blockPos, Block.getId(blockState));
+									}
+									this.level().setBlockAndUpdate(blockPos, Blocks.AIR.defaultBlockState());
+									this.level().gameEvent(GameEvent.BLOCK_DESTROY, blockPos, GameEvent.Context.of(null, blockState));
 
 									if (!drops.isEmpty()) {
 										for (ItemStack itemStack : drops) {
@@ -263,8 +263,11 @@ public class EntityGapingVoid extends Entity {
 		}
 
 		if (age >= MAX_LIFETIME) {
-			this.level().explode(this, this.getX(), this.getY(), this.getZ(), 6.0F, false, Level.ExplosionInteraction.BLOCK);
-			this.setAge(0);
-			this.remove(RemovalReason.KILLED);
+			if (!this.level().isClientSide()) {
+				this.level().explode(this, this.getX(), this.getY(), this.getZ(), 6.0F, false, Level.ExplosionInteraction.BLOCK);
+				this.setAge(0);
+				this.remove(RemovalReason.KILLED);
+			}
 		}
-	}}
+	}
+}
